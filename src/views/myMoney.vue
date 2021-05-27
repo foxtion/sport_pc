@@ -9,36 +9,35 @@
               <el-row :gutter="5" class="input-box">
                 <el-form :inline="true" :model="queryInfo" ref="queryInfoRef"  size="mini">
                   <el-form-item label="消费类型:" prop="type">
-                    <el-select v-model="queryInfo.orderStatus" size="mini" clearable>
+                    <!-- <el-select v-model="queryInfo.orderStatus" size="mini" clearable>
                       <el-option
                       v-for="item in orderStatusList"
                       :key="item.listvalue"
                       :value="item.listkey"
                       :label="item.listvalue"
                         />
-                    </el-select>
+                    </el-select> -->
+                    <el-input v-model="queryInfo.type" />
                   </el-form-item>
                   <el-form-item label="消费时间:" prop="time">
                     <el-date-picker v-model="queryInfo.time" type="datetime" placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
                   </el-form-item>
                 </el-form>
               </el-row>
-              <div class="search">查询</div>
+              <div class="search" @click="serchData">查询</div>
             </div>
-            <el-table :data="msglist" style="width: 100%">
-              <el-table-column prop="date" label="消息时间" width="300" align="center"> </el-table-column>
-              <el-table-column prop="date" label="房间号" align="center"> </el-table-column>
-              <el-table-column prop="date" label="主播" width="300" align="center"> </el-table-column>
-              <el-table-column prop="date" label="消费内容" width="300" align="center"> </el-table-column>
-              <el-table-column prop="date" label="消费类型" width="300" align="center"> </el-table-column>
-              <el-table-column prop="date" label="消费龙钻" width="300" align="center"> </el-table-column>
+            <el-table :data="tableData" style="width: 100%">
+              <el-table-column prop="date" label="消息时间" width="200" align="center"> </el-table-column>
+              <el-table-column prop="date" label="房间号" width="200" align="center"> </el-table-column>
+              <el-table-column prop="date" label="主播" width="100" align="center"> </el-table-column>
+              <el-table-column prop="date" label="消费内容" width="100" align="center"> </el-table-column>
+              <el-table-column prop="date" label="消费类型" width="200" align="center"> </el-table-column>
+              <el-table-column prop="date" label="消费龙钻" width="100" align="center"> </el-table-column>
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="收支明细" name="spending">收支明细</el-tab-pane>
           <el-tab-pane label="提现记录" name="withdrawal">提现记录</el-tab-pane>
         </el-tabs>
-
-
       </div>
     </div>
   </div>
@@ -54,9 +53,11 @@ export default {
   },
   data() {
     return {
-      msglist: [],
+      tableData: [],
       queryInfo: {},
-      activeName: 'consumption'
+      activeName: 'consumption',
+      user: {},
+      token: ''
     };
   },
   mounted() {
@@ -64,21 +65,53 @@ export default {
     this.token = window.localStorage.getItem("token")
   },
   created() {
-    this.getMessageNoticeList()
   },
   methods: {
-    getMessageNoticeList() {
-      const user = JSON.parse(window.localStorage.getItem("user"))
+    handleClick() {
       const params = {
-        uid: user.id,
-        token: window.localStorage.getItem("token"),
+        uid: this.user.id,
+        token: this.token,
         p: 1,
         source: 'pc'
       }
-      MessageNoticeList(params).then(res => {
-        this.msglist = res.data.info
-        console.log(res, 'res')
-      })
+      if (this.activeName == 'consumption') { // 消费记录
+        rewardRecord(params).then(res => {
+          this.tableData = res.data
+        })
+      }
+      if (this.activeName == 'spending') { // 收支明细
+        incomeDetails(params).then(res => {
+          this.tableData = res.data
+        })
+      }
+      if (this.activeName == 'withdrawal') { // 提现记录 
+        extracCashList(params).then(res => {
+          this.tableData = res.data
+        })
+      }
+    },
+    serchData() {
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        p: 1,
+        source: 'pc'
+      }
+      if (this.activeName == 'consumption') { // 消费记录
+        rewardRecord(params).then(res => {
+          this.tableData = res.data
+        })
+      }
+      if (this.activeName == 'spending') { // 收支明细
+        incomeDetails(params).then(res => {
+          this.tableData = res.data
+        })
+      }
+      if (this.activeName == 'withdrawal') { // 提现记录 
+        extracCashList(params).then(res => {
+          this.tableData = res.data
+        })
+      }
     }
   },
 };
