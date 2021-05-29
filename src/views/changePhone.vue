@@ -3,18 +3,22 @@
         title="更换手机"
         :center="true"
         :visible.sync="dialogVisible"
-        width="850px"
+        width="668px"
         :close-on-click-modal=false
         :before-close="handleClose">
     <div id="changePhone">
         <el-form :model="loginForm" :rules="loginRule" ref="loginForm" style="width: 668px; margin: 30px auto" v-show="active == 0">
             <el-form-item prop="mobile">
+                <a class="xing">*</a>当前手机号:
+                <div style="width: 330px ;padding-left: 12px;margin-left: 8px;">{{ loginForm.mobile }}</div>
+            </el-form-item>
+            <el-form-item prop="mobile">
                 <a class="xing">*</a>输入手机号:
-                <el-input v-model="loginForm.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
+                <el-input v-model="loginForm2.mobile" placeholder="输入新手机号码" style="width: 330px"></el-input>
             </el-form-item>
             <el-form-item prop="code">
                 <a class="xing">*</a>输入验证码:
-                <el-input v-model="loginForm.code" placeholder="获取并输入验证码" style="width: 330px">
+                <el-input v-model="loginForm.code" placeholder="输入验证码" style="width: 330px" class="code">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum" :disabled="checkNumDisabled">
                             <span v-if="checkNumDisabled">{{ countDown }}秒后重试</span>
@@ -23,26 +27,9 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <el-form-item prop="mobile">
-                <a class="xing">*</a>输入手机号:
-                <el-input v-model="loginForm2.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
-            </el-form-item>
-
-            <el-form-item prop="code">
-                <a class="xing">*</a>输入验证码:
-                <el-input v-model="loginForm2.code" placeholder="获取并输入验证码" style="width: 330px">
-                    <template slot="append">
-                        <el-button type="info" @click="sendchecknum2" :disabled="checkNumDisabled2">
-                            <span v-if="checkNumDisabled2">{{ countDown2 }}秒后重试</span>
-                            <span v-else>获取验证码</span>
-                        </el-button>
-                    </template>
-                </el-input>
-            </el-form-item>
-
             <el-form-item>
                 <div>
-                    <el-button type="primary" style="width: 100%; background: #f8c21b; border-color: #f8c21b" @click="bangding('loginForm2')">
+                    <el-button type="primary" style="width: 100%; background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400" @click="xiayibu('loginForm')">
                         绑    定
                     </el-button>
                 </div>
@@ -84,6 +71,9 @@ export default {
             dialogVisible: true,
             user:{}
         }
+    },
+    created() {
+        this.token = window.localStorage.getItem("token")
     },
     mounted() {
         this.user = JSON.parse(window.localStorage.getItem("user"))
@@ -141,38 +131,6 @@ export default {
             }
         },
 
-        xiayibu(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    let data = {
-                        "uid" : this.user.id,
-                        "mobile" : this.loginForm.mobile,
-                        "code": this.loginForm.code,
-                        "type":0
-                    }
-
-                    if(this.loginForm.mobile == ""){
-                        this.$message({
-                            message: "请输入手机号码",
-                            type: "warning",
-                        });
-                        return;
-                    }
-
-                    if(this.loginForm.code.length < 6){
-                        this.$message({
-                            message: "请输入有效验证码",
-                            type: "warning",
-                        });
-
-                        return
-                    }
-
-                    this.change_mobile(data,0)
-                }
-            });
-        },
-
         async sendchecknum2() {
             if (this.$REGEXUTIL.isPhone(this.loginForm2.mobile)) {
                 const timer_COUNT = 60;
@@ -216,18 +174,18 @@ export default {
                 this.$message.error("请输入有效手机号");
             }
         },
-
-        bangding(formName) {
+        xiayibu(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let data = {
                         "uid" : this.user.id,
                         "mobile" : this.loginForm2.mobile,
-                        "code": this.loginForm2.code,
+                        "code": this.loginForm.code,
+                        "token": this.token,
                         "type":1
                     }
 
-                    if(this.loginForm2.mobile == ""){
+                    if(this.loginForm.mobile == ""){
                         this.$message({
                             message: "请输入手机号码",
                             type: "warning",
@@ -235,7 +193,7 @@ export default {
                         return;
                     }
 
-                    if(this.loginForm2.code.length < 6){
+                    if(this.loginForm.code.length < 6){
                         this.$message({
                             message: "请输入有效验证码",
                             type: "warning",
@@ -243,17 +201,53 @@ export default {
 
                         return
                     }
-
-                    this.change_mobile(data,1)
+                    this.change_mobile(data,0)
                 }
+
             });
         },
+        // bangding(formName) {
+        //     this.$refs[formName].validate((valid) => {
+        //         if (valid) {
+        //             let data = {
+        //                 "uid" : this.user.id,
+        //                 "mobile" : this.loginForm2.mobile,
+        //                 // "code": this.loginForm2.code,
+        //                 "type":1
+        //             }
+
+        //             if(this.loginForm2.mobile == ""){
+        //                 this.$message({
+        //                     message: "请输入手机号码",
+        //                     type: "warning",
+        //                 });
+        //                 return;
+        //             }
+
+        //             // if(this.loginForm2.code.length < 6){
+        //             //     this.$message({
+        //             //         message: "请输入有效验证码",
+        //             //         type: "warning",
+        //             //     });
+
+        //             //     return
+        //             // }
+
+        //             this.change_mobile(data,1)
+        //         }
+        //     });
+        // },
 
         async change_mobile(data,type){
             let res = await ChangeMobile(data)
             if(type == 0){
                 if(res.code == 0){
                     this.active = 1
+                    this.$message({
+                        message: res.msg,
+                        type: "success",
+                    });
+                    this.goBack()
                 }else{
                     this.$message.error(res.msg);
                 }
@@ -280,6 +274,9 @@ export default {
 
 <style lang="stylus">
 #changePhone {
+    .el-dialog--center .el-dialog__body {
+        padding: 0px 25px 4px;
+    }
     h4 {
         cursor: pointer;
         margin-bottom: 40px;
@@ -292,6 +289,7 @@ export default {
         display: flex;
         justify-content: center;
         color:#434A66;
+        font-weight: 400;
         .xing{
             color:#FF5D5D;
             padding-right: 1px;
@@ -300,5 +298,44 @@ export default {
 }
 .el-dialog .el-dialog__header {
     background: #E6EAF3 !important;
+    border-radius: 9px 9px 0 0;
+    font-weight: 800;
+    padding: 12px 10px;
+}
+.el-dialog--center {
+    text-align: center;
+    border-radius: 9px;
+}
+.el-dialog__headerbtn .el-dialog__close {
+    color: #909399;
+    font-size: 24px;
+}
+.el-form-item__content {
+    display: flex;
+    .el-input{
+        margin-left: 8px;
+    }
+}
+.code{
+    .el-input__inner{
+        height: 36px;
+        line-height: 36px;
+        width: 180px;
+    }
+}
+.el-form-item {
+    margin-bottom: 16px;
+}
+.el-button--info{
+    border:0;
+    height: 32px;
+}
+.el-input-group__append {
+    border: 0;
+    width: 94px;
+    height: 32px;
+    opacity: 1;
+    background: #e6eaf3;
+    border-radius: 4px;
 }
 </style>

@@ -17,13 +17,14 @@ import vueSwiper from 'vue-awesome-swiper'
 import Clipboard from 'clipboard';
 import {vueBaberrage} from 'vue-baberrage'
 import VueRouter from 'vue-router'
+import swiper from './components/swiper.vue'
 //import 'vue-video-player/src/custom-theme.css' 
 //import VueSocketIO from 'vue-socket.io'
 
 
 
 
-
+Vue.component('public-swiper',swiper)
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
    VueRouter.prototype.push = function push(location) {

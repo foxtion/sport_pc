@@ -1,6 +1,6 @@
 <template>
 <el-dialog
-    title="修改密码"
+    title="实名认证"
     :center="true"
     :visible.sync="dialogVisible"
     width="850px"
@@ -20,10 +20,9 @@
                 输入手机号:
                 <el-input v-model="registerForm.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
             </el-form-item>
-
             <el-form-item prop="code">
                 输入验证码:
-                <el-input v-model="registerForm.code" placeholder="请输入天宸网络验证码" style="width: 330px">
+                <el-input v-model="registerForm.code" placeholder="请输入天宸网络验证码" style="width: 330px" class="code">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum" :disabled="checkNumDisabled">
                             <span v-if="checkNumDisabled">{{ countDown }}秒后重试</span>
@@ -35,11 +34,8 @@
             <el-form-item>
                 <div style="display: flex; justify-content: space-between">
 
-                    <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="registerSub('registerForm')">
+                    <el-button type="primary" style="background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400" @click="registerSub('registerForm')">
                         确定
-                    </el-button>
-                    <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="cancel()">
-                        取消
                     </el-button>
                 </div>
             </el-form-item>
@@ -209,23 +205,15 @@
 
 <style lang="stylus">
     #myProfile {
-        padding: 32px 0 0 47px;
-
+        .el-dialog--center .el-dialog__body {
+            padding: 0px 25px 4px;
+        }
     h4 {
         font-size: 18px;
         font-weight: 600;
         border-left: 3px solid #ffc71c;
         padding-left: 10px;
         margin-bottom: 40px;
-    }
-    .el-form-item {
-        display: flex;
-        justify-content: center;
-        color:#434A66;
-        .xing{
-            color:#FF5D5D;
-            padding-right: 1px;
-        }
     }
     .baseInput {
         margin-bottom: 30px;
@@ -236,5 +224,46 @@
         color: #777;
     }
     }
+        .el-form-item__content {
+            display: flex;
+            .el-input{
+                margin-left: 8px;
+            }
+        }
+        .el-form-item {
+            display: flex;
+            justify-content: center;
+            color:#434A66;
+            .xing{
+                color:#FF5D5D;
+                padding-right: 1px;
+            }
+        }
+    }
+    .el-dialog--center {
+        text-align: center;
+        border: 1px solid #e6eaf3;
+        border-radius: 9px;
+    }
+    .el-dialog .el-dialog__header {
+        background: #E6EAF3 !important;
+        border-radius: 9px 9px 0 0;
+        font-weight: 800;
+        padding: 12px 10px;
+    }
+    .el-input-group__append {
+        border: 0;
+        width: 94px;
+        height: 32px;
+        opacity: 1;
+        background: #e6eaf3;
+        border-radius: 4px;
+    }
+    .code{
+        .el-input__inner{
+            height: 36px;
+            line-height: 36px;
+            width: 180px;
+        }
     }
 </style>

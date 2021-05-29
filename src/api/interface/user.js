@@ -37,3 +37,10 @@ export const UserBindAccount = (params) => post({ url: 'User.userBindAccount', p
 
 //设置安全密码
 export const SecurityPass = (params) => post({ url: 'User.securityPass', params})
+
+//用户预约列表
+export const AppointmentList = (params) => post({ url: 'Make.appointmentList', params})
+
+
+
+

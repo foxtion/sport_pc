@@ -23,13 +23,49 @@
       <div class="liveTvbottom">
         <div class="liveTvbottomt"><span>分类</span></div>
         <ul>
-          <!-- <li><span :class="{'classactive':classactive == 1}" @click="liveTvclassChange(1)">全部</span></li>
-          <li><span :class="{'classactive':classactive == 2}" @click="liveTvclassChange(2)">足球</span></li>
-          <li><span :class="{'classactive':classactive == 3}" @click="liveTvclassChange(3)">篮球</span></li>
-          <li><span :class="{'classactive':classactive == 4}" @click="liveTvclassChange(4)">网球</span></li>
-          <li><span :class="{'classactive':classactive == 5}" @click="liveTvclassChange(5)">电竞</span></li>
-          <li><span :class="{'classactive':classactive == 6}" @click="liveTvclassChange(6)">其它</span></li> -->
-          <li
+          <li>
+            <span
+              :class="{ classactive: classactive == 0 }"
+              @click="liveTvclassChange(0)"
+              >全部</span
+            >
+          </li>
+          <li>
+            <span
+              :class="{ classactive: classactive == 1 }"
+              @click="liveTvclassChange(1)"
+              >足球</span
+            >
+          </li>
+          <li>
+            <span
+              :class="{ classactive: classactive == 2 }"
+              @click="liveTvclassChange(2)"
+              >篮球</span
+            >
+          </li>
+          <li>
+            <span
+              :class="{ classactive: classactive == 3 }"
+              @click="liveTvclassChange(3)"
+              >网球</span
+            >
+          </li>
+          <li>
+            <span
+              :class="{ classactive: classactive == 4 }"
+              @click="liveTvclassChange(4)"
+              >电竞</span
+            >
+          </li>
+          <li>
+            <span
+              :class="{ classactive: classactive == 5 }"
+              @click="liveTvclassChange(5)"
+              >其它</span
+            >
+          </li>
+          <!-- <li
             v-for="(item, index) in LiveClasslist"
             :key="item.id"
             @click="tabtype(item, index)"
@@ -37,7 +73,7 @@
             <span :class="{ classactive: classactive === index }">
               {{ item.name }}
             </span>
-          </li>
+          </li> -->
         </ul>
       </div>
       <!--      <span-->
@@ -221,6 +257,8 @@ export default {
     },
     liveTvclassChange(index) {
       this.classactive = index;
+      this.$store.commit("tabindex", index);
+      console.log(this.$store.state.user.tabnav);
     },
   },
 };
@@ -230,16 +268,19 @@ export default {
 .liveTypewrapperinner {
   width: 1750px;
   margin: 0 auto;
-  position: relative;
-  height: 474px;
+  display: flex;
+  justify-content: space-between;
+  padding: 60px 0 0 0;
 
+  // position: relative;
+  // height: 474px;
   .liveTypenav {
     border-width: 0px;
-    position: absolute;
+    // position: absolute;
     left: 0px;
     top: 60px;
     width: 100px;
-    height: 984px;
+    height: 1000px;
     // background: -webkit-linear-gradient(90.1269007437983deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
     // background: -moz-linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
     // background: linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
@@ -265,7 +306,7 @@ export default {
         background-size: 100% 100%;
       }
 
-     >ul li:first-child:hover >i {
+      >ul li:first-child:hover >i {
         background: url('../assets/img/icontvleft1.png');
         background-size: 100% 100%;
       }
@@ -470,7 +511,8 @@ export default {
 
   .liveTvright {
     border-width: 0px;
-    position: absolute;
+    // position: absolute;
+    padding: 30px 0 0 0;
     left: 120px;
     top: 80px;
     width: 1600px;

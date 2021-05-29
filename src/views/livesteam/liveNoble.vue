@@ -6,6 +6,7 @@
       width="400px">
       <div class="LiveNoble-main">
         <div class="LiveNoble-box">
+          <img src="@/assets/liveNoble/close.png"  class="close-img" @click="dialogVisible = false"/>
           <div style="display: flex">
             <div class="my-level">
               <p style="margin-bottom: 8px">您的贵族身份为: 子爵</p>
@@ -276,6 +277,41 @@
               </div>
             </div>
           </div>
+          <div class="LiveNoble-bottom" v-if="currentNav == 'emperor'">
+            <div class="bottom-left">
+              <p>开通骑士：<span style="color: #DBB16F">368</span>龙钻/月续费皇帝：<span style="color: #DBB16F">199</span>龙钻/月</p>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+            </div>
+            <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('皇帝')" />
+          </div>
+          <div class="LiveNoble-bottom" v-if="currentNav == 'duke'">
+            <div class="bottom-left">
+              <p>开通骑士：<span style="color: #DBB16F">99</span>龙钻/月续费公爵：<span style="color: #DBB16F">69</span>龙钻/月</p>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+            </div>
+            <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('公爵')" />
+          </div>
+          <div class="LiveNoble-bottom" v-if="currentNav == 'marquis'">
+            <div class="bottom-left">
+              <p>开通骑士：<span style="color: #DBB16F">59</span>龙钻/月 续费侯爵：<span style="color: #DBB16F">39</span>龙钻/月</p>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+            </div>
+            <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('侯爵')" />
+          </div>
+          <div class="LiveNoble-bottom" v-if="currentNav == 'viscount'">
+            <div class="bottom-left">
+              <p>开通骑士：<span style="color: #DBB16F">29</span>龙钻/月 续费子爵：<span style="color: #DBB16F">13</span>龙钻/月</p>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+            </div>
+            <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('子爵')" />
+          </div>
+          <div class="LiveNoble-bottom" v-if="currentNav == 'knight'">
+            <div class="bottom-left">
+              <p>开通骑士：<span style="color: #DBB16F">12</span>龙钻/月续费 子爵：<span style="color: #DBB16F">6</span>龙钻/月</p>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+            </div>
+            <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('骑士')"/>
+          </div>
         </div>
       </div>
     </el-dialog>
@@ -283,17 +319,24 @@
 </template>
 
 <script>
+import { nobleList, openNoble } from "@/api";
 export default {
     name: "LiveNoble",
     data() {
-        return {
-            dialogVisible: false,
-            user:{},
-            currentNav: 'emperor'
-        }
+      return {
+        dialogVisible: false,
+        user:{},
+        token: '',
+        currentNav: 'emperor',
+        nobleListData: []
+      }
     },
     mounted() {
-        this.user = JSON.parse(window.localStorage.getItem("user"))
+      this.user = JSON.parse(window.localStorage.getItem("user"))
+      this.token = window.localStorage.getItem("token")
+    },
+    created() {
+      this.getnobleListData()
     },
     methods: {
       showDialog() {
@@ -301,8 +344,36 @@ export default {
       },
       changeCurrentNav(type) {
         this.currentNav = type
+        },
+      // 获取贵族列表
+      getnobleListData() {
+        const params = {
+          source: "pc",
+        };
+        nobleList(params).then((res) => {
+          this.nobleListData = res.info
+        });
+      },
+      openNobleBtn(type) {
+        const nobleInfo = this.nobleListData.filter(item => item.name == type)
+        const params = {
+          uid: this.user.id,
+          token: this.token,
+          live_uid: 4,
+          source: "pc",
+          noble_id: nobleInfo[0].id
+        };
+        openNoble(params).then((res) => {
+          if(res.code == 0) {
+            this.$message({
+              message: res.msg,
+              type: 'success'
+            });
+            this.dialogVisible = false
+          }
+        });
       }
-    }
+    } 
 };
 </script>
 
@@ -327,6 +398,12 @@ export default {
       .LiveNoble-box {
         margin-top: 77px;
         margin-left: 44px;
+        .close-img {
+          cursor: pointer;
+          position: absolute;
+          top: 63px;
+          right: 35px
+        }
         .my-level {
           font-size: 14px;
         }
@@ -365,6 +442,22 @@ export default {
             div {
               color: rgba(255,255,255,0.60);
               font-size: 11px !important;
+            }
+          }
+        }
+        .LiveNoble-bottom {
+          color: rgba(255,255,255,0.60);
+          font-size: 14px;
+          display: flex;
+          margin-top: 13px;
+          div {
+            margin-right: 136px;
+            p {
+              height: 14px;
+              line-height: 14px;
+              img {
+                margin-top: 3px;
+              }
             }
           }
         }

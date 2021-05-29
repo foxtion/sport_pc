@@ -3,33 +3,36 @@
     title="修改密码"
     :center="true"
     :visible.sync="dialogVisible"
-    width="850px"
+    width="668px"
     :close-on-click-modal=false
     :before-close="handleClose">
     <div id="changePassword">
         <!-- <h4 @click="goBack"><i class="el-icon-arrow-left"></i>修改密码</h4> -->
 
-        <el-form :model="loginForm" :rules="loginRule" ref="loginForm" style="width: 668px; margin: 30px auto" v-show="active == 0">
-            <el-form-item>
+        <el-form :model="loginForm2" :rules="loginRule" ref="loginForm2" style="width: 668px; margin: 30px auto" v-show="active == 0">
+            <!-- <el-form-item>
                 <a class="xing">*</a>输入旧密码:
                 <el-input v-model="loginForm2.past_pass" placeholder="请输入旧密码" show-password style="width: 330px"></el-input>
-            </el-form-item>
+            </el-form-item> -->
 
             <el-form-item prop="pass">
                 <a class="xing">*</a>设置新密码:
-                <el-input v-model="loginForm2.pass" placeholder="请输入6-16位登录密码" show-password style="width: 330px"></el-input>
+                <el-input v-model="loginForm2.pass" placeholder="输入新密码" show-password style="width: 330px"></el-input>
             </el-form-item>
             <el-form-item prop="password2">
-                 <a class="xing">*</a>输入新密码:
-                <el-input v-model="loginForm2.confim_pass" placeholder="请再次输入密码" show-password style="width: 330px"></el-input>
+                 <a class="xing">*</a>确认新密码:
+                <el-input v-model="loginForm2.confim_pass" placeholder="重复输入新密码" show-password style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <div class="line"></div>
             </el-form-item>
             <el-form-item prop="mobile">
-                <a class="xing">*</a>输入手机号:
-                <el-input v-model="loginForm.mobile" placeholder="请输入手机号码" readonly style="width: 330px"></el-input>
+                <a class="xing">*</a>当前手机号:
+                <div style="width: 330px ;padding-left: 12px;margin-left: 8px;">{{ loginForm2.mobile }}</div>
             </el-form-item>
             <el-form-item prop="code">
                 <a class="xing">*</a>短信验证码:
-                <el-input v-model="loginForm.code" placeholder="获取并输入验证码" style="width: 330px">
+                <el-input v-model="loginForm2.code" placeholder="请输入验证码" style="width: 330px" class="code">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum" :disabled="checkNumDisabled">
                             <span v-if="checkNumDisabled">{{ countDown }}秒后重试</span>
@@ -40,7 +43,7 @@
             </el-form-item>
             <el-form-item>
                 <div style="width: 108px">
-                    <el-button type="primary" style="width: 100%; background: #f8c21b; border-color: #f8c21b" @click="bangding()">
+                    <el-button type="primary" style="width: 100%; background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400" @click="xiayibu('loginForm2')">
                         确    定
                     </el-button>
                 </div>
@@ -67,7 +70,9 @@ export default {
                 code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
             },
             loginForm2: {
-                past_pass: "",
+                mobile: "",
+                code: "",
+                // past_pass: "",
                 pass: "",
                 confim_pass: "",
             },
@@ -80,9 +85,12 @@ export default {
             user:{}
         };
     },
+    created() {
+        this.token = window.localStorage.getItem("token")
+    },
     mounted() {
         this.user = JSON.parse(window.localStorage.getItem("user"))
-        this.loginForm.mobile = this.user.mobile;
+        this.loginForm2.mobile = this.user.mobile;
     },
     methods: {
         goBack() {
@@ -92,7 +100,7 @@ export default {
             this.$router.go(-1);
             },
         async sendchecknum() {
-            if (this.$REGEXUTIL.isPhone(this.loginForm.mobile)) {
+            if (this.$REGEXUTIL.isPhone(this.loginForm2.mobile)) {
                 const timer_COUNT = 60;
                 if (!this.timer) {
                     this.countDown = timer_COUNT;
@@ -109,12 +117,13 @@ export default {
                 }
 
                 let sign = this.$md5(
-                    "mobile=" + this.loginForm.mobile + "&" + envconfig.CODE_SALT
+                    "mobile=" + this.loginForm2.mobile + "&" + envconfig.CODE_SALT
                 );
 
                 let data = {
-                    'mobile':this.loginForm.mobile,
+                    'mobile':this.loginForm2.mobile,
                     'sign':sign,
+                    "token": this.token,
                     "type" : 1
                 }
 
@@ -140,12 +149,13 @@ export default {
                 if (valid) {
                     let data = {
                         "uid" : this.user.id,
-                        "mobile" : this.loginForm.mobile,
-                        "code": this.loginForm.code,
+                        "mobile" : this.loginForm2.mobile,
+                        "code": this.loginForm2.code,
+                        "token": this.token,
                         "type":0
                     }
 
-                    if(this.loginForm.mobile == ""){
+                    if(this.loginForm2.mobile == ""){
                         this.$message({
                             message: "请输入手机号码",
                             type: "warning",
@@ -153,7 +163,7 @@ export default {
                         return;
                     }
 
-                    if(this.loginForm.code.length < 6){
+                    if(this.loginForm2.code.length < 6){
                         this.$message({
                             message: "请输入有效验证码",
                             type: "warning",
@@ -161,8 +171,7 @@ export default {
 
                         return
                     }
-
-                    this.change_mobile(data)
+                    this.bangding()
                 }
             });
         },
@@ -170,7 +179,7 @@ export default {
         async change_mobile(data){
             let res = await ChangeMobile(data)
             if(res.code == 0){
-                this.active = 1
+
             }else{
                 this.$message.error(res.msg);
             }
@@ -202,6 +211,9 @@ export default {
                 "uid":this.user.id,
                 'past_pass':this.loginForm2.past_pass,
                 'pass':this.loginForm2.pass,
+                "mobile" : this.loginForm2.mobile,
+                "code": this.loginForm2.code,
+                "token": this.token,
                 'confim_pass':this.loginForm2.confim_pass
             }
             this.change_pass(data)
@@ -227,12 +239,21 @@ export default {
 
 <style lang="stylus">
 #changePassword {
+    .el-dialog--center .el-dialog__body {
+        padding: 0px 25px 4px;
+    }
     h4 {
         cursor: pointer;
         margin-bottom: 40px;
     }
     .el-steps {
         width: 90%;
+    }
+    .el-form-item__content {
+        display: flex;
+        .el-input{
+            margin-left: 8px;
+        }
     }
     .el-form-item {
         display: flex;
@@ -244,7 +265,36 @@ export default {
         }
     }
 }
+.el-dialog--center {
+    text-align: center;
+    border: 1px solid #e6eaf3;
+    border-radius: 9px;
+}
 .el-dialog .el-dialog__header {
     background: #E6EAF3 !important;
+    border-radius: 9px 9px 0 0;
+    font-weight: 800;
+    padding: 12px 10px;
+}
+.el-input-group__append {
+    border: 0;
+    width: 94px;
+    height: 32px;
+    opacity: 1;
+    background: #e6eaf3;
+    border-radius: 4px;
+}
+.line{
+    border: 1px solid #e6eaf3;
+    border-radius: 9px;
+    width: 588px;
+    margin: 10px 0 5px -54px;
+}
+.code{
+    .el-input__inner{
+        height: 36px;
+        line-height: 36px;
+        width: 180px;
+    }
 }
 </style>

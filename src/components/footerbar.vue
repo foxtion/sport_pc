@@ -59,7 +59,7 @@ export default {
 
 <style lang="stylus">
 footer {
-    margin-top: 570px;
+    // margin-top: 570px;
     width: 100%;
     background: #10263b;
     display: block;

@@ -62,3 +62,14 @@ export const userFollowAnchor = (params) => post({ url: 'Follow.userFollowAnchor
 
 // 礼物列表
 export const getGiftList = (params) => post({ url: 'Live.getGiftList', params})
+
+// 贵族列表 
+export const nobleList = (params) => post({ url: 'noble.nobleList', params})
+
+// 开通贵族
+export const openNoble = (params) => post({ url: 'noble.openNoble', params})
+
+// 进入直播间
+export const enterRoom = (params) => post({ url: 'Live.enterRoom', params})
+// 礼物列表
+export const FollowLiveList = (params) => post({ url: 'Follow.followLiveList', params})

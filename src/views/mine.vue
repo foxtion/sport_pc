@@ -169,7 +169,8 @@ export default {
   padding-top: 80px;
   display: flex;
   justify-content: space-between;
-  position: relative;
+  // position: relative;
+  padding-bottom 168px
 
   /* height :700px; */
   .content-mine {

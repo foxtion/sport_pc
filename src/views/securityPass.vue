@@ -1,28 +1,28 @@
 <template>
 <el-dialog
-        title="更换手机"
+        title="设置支付密码"
         :center="true"
         :visible.sync="dialogVisible"
-        width="850px"
+        width="668px"
         :close-on-click-modal=false
         :before-close="handleClose">
     <div id="myProfile">
         <el-form :model="registerForm" :rules="registerRule" ref="registerForm" style="width: 668px; margin: 30px auto">
             <el-form-item prop="password">
-                <a class="xing">*</a>输入新密码:
-                <el-input v-model="registerForm.password" show-password placeholder="请输入密码不少于6位" style="width: 330px"></el-input>
+                <a class="xing">*</a>设置新密码:
+                <el-input v-model="registerForm.password" show-password placeholder="输入新密码" style="width: 330px"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <a class="xing">*</a>确认新密码:
-                <el-input v-model="registerForm.confirm_pass" show-password placeholder="请输入相同的密码" style="width: 330px"></el-input>
+                <el-input v-model="registerForm.confirm_pass" show-password placeholder="重复输入新密码" style="width: 330px"></el-input>
             </el-form-item>
             <el-form-item prop="mobile">
-                <a class="xing">*</a>输入手机号:
-                <el-input v-model="registerForm.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
+                <a class="xing">*</a>当前手机号:
+                <div style="width: 330px ;padding-left: 12px;margin-left: 8px;">{{ registerForm.mobile }}</div>
             </el-form-item>
             <el-form-item prop="code">
                 <a class="xing">*</a>输入验证码:
-                <el-input v-model="registerForm.code" placeholder="请输入天宸网络验证码" style="width: 330px">
+                <el-input v-model="registerForm.code" placeholder="请输入天宸网络验证码" style="width: 330px" class="code">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum" :disabled="checkNumDisabled">
                             <span v-if="checkNumDisabled">{{ countDown }}秒后重试</span>
@@ -34,11 +34,8 @@
             <el-form-item>
                 <div style="display: flex; justify-content: space-between">
 
-                    <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="registerSub('registerForm')">
+                    <el-button type="primary" style="background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400" @click="registerSub('registerForm')">
                         确定
-                    </el-button>
-                    <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="cancel()">
-                        取消
                     </el-button>
                 </div>
             </el-form-item>
@@ -59,6 +56,7 @@
                     code: "",
                     username: "",
                     password: "",
+                    mobile:"",
                     checked: false,
                 },
                 registerRule: {
@@ -76,7 +74,7 @@
         mounted() {
             this.user = JSON.parse(window.localStorage.getItem("user"))
             this.token = window.localStorage.getItem("token")
-            console.log(this.token)
+            this.registerForm.mobile = this.user.mobile;
             if(this.user){
                 this.iszb = this.user.iszb;
                 this.user_nicename = this.user.user_nicename;
@@ -93,7 +91,6 @@
             registerSub(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // if (this.registerForm.checked) {
                             if(this.registerForm.password != this.registerForm.confirm_pass){
                                 this.$message({
                                     message: "两次输入的密码不一致",
@@ -107,21 +104,11 @@
                                 "token":this.token,
                                 "pass":this.registerForm.password,
                                 "mobile":this.registerForm.mobile,
-                                 "code":this.registerForm.code,
-                                // "username":this.registerForm.username,
-                                // "user_pass":this.registerForm.password,
-                                // "user_login":this.registerForm.username,
-                                // "confirm_pass":this.registerForm.confirm_pass,
-                                 "type":1
+                                "code":this.registerForm.code,
+                                "type":1
                             }
 
                             this.user_register(data)
-                        // } else {
-                        //     this.$message({
-                        //         message: "请仔细阅读并勾选协议",
-                        //         type: "warning",
-                        //     });
-                        // }
                     }
                 });
             },
@@ -129,23 +116,14 @@
             async user_register(data){
                 let res = await SecurityPass(data)
                 console.log(res.code + res.msg)
-                if(res.code == 0){
-                    // this.$message({
-                    //     message: res.msg,
-                    //     type: "success",
-                    // });
-                    // window.localStorage.setItem("isLogin", true);
-                    // window.localStorage.setItem("token", res.info.token);
-                    // window.localStorage.setItem("user",JSON.stringify(res.info));
-                    // setTimeout(() => {
-                    this.$router.push({ name: "myHome" });
-                        // this.showRegister = false;
-                        // this.$router.push("/");
-                        // this.showLogin = false;
-                        // this.initLogin();
-                    // }, 1000);
-                    alert(1111111)
-
+                if(res.code == 200){
+                    this.$message({
+                        message: "修改成功",
+                        type: "success",
+                    });
+                    setTimeout(() => {
+                        this.$router.push({ name: "myHome" });
+                    }, 1000)
                 }else{
                     this.$message({
                         message: res.msg,
@@ -208,14 +186,21 @@
 
 <style lang="stylus">
     #myProfile {
-        padding: 32px 0 0 47px;
-
+    .el-dialog--center .el-dialog__body {
+        padding: 0px 25px 4px;
+    }
     h4 {
         font-size: 18px;
         font-weight: 600;
         border-left: 3px solid #ffc71c;
         padding-left: 10px;
         margin-bottom: 40px;
+    }
+    .el-form-item__content {
+        display: flex;
+        .el-input{
+            margin-left: 8px;
+        }
     }
     .el-form-item {
         display: flex;
@@ -226,14 +211,37 @@
             padding-right: 1px;
         }
     }
-    .baseInput {
-        margin-bottom: 30px;
-
-    >p {
-        margin-bottom: 4px;
-        font-size: 14px;
-        color: #777;
     }
+    .el-dialog--center {
+        text-align: center;
+        border: 1px solid #e6eaf3;
+        border-radius: 9px;
     }
+    .el-dialog .el-dialog__header {
+        background: #E6EAF3 !important;
+        border-radius: 9px 9px 0 0;
+        font-weight: 800;
+        padding: 12px 10px;
+    }
+    .el-input-group__append {
+        border: 0;
+        width: 94px;
+        height: 32px;
+        opacity: 1;
+        background: #e6eaf3;
+        border-radius: 4px;
+    }
+    .line{
+        border: 1px solid #e6eaf3;
+        border-radius: 9px;
+        width: 588px;
+        margin: 10px 0 5px -54px;
+    }
+    .code{
+        .el-input__inner{
+            height: 36px;
+            line-height: 36px;
+            width: 180px;
+        }
     }
 </style>
