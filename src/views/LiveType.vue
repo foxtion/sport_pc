@@ -230,8 +230,9 @@ export default {
 .liveTypewrapperinner {
   width: 1750px;
   margin: 0 auto;
-  position relative;
-  height 474px
+  position: relative;
+  height: 474px;
+
   .liveTypenav {
     border-width: 0px;
     position: absolute;
@@ -239,9 +240,10 @@ export default {
     top: 60px;
     width: 100px;
     height: 984px;
-    background: -webkit-linear-gradient(90.1269007437983deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
-    background: -moz-linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
-    background: linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    // background: -webkit-linear-gradient(90.1269007437983deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    // background: -moz-linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    // background: linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    background: #1b1d2e;
     border: none;
     border-radius: 0px;
     -moz-box-shadow: none;
@@ -252,38 +254,39 @@ export default {
       height: 45%;
 
       >ul li.tvactive {
-        background: url('../assets/img/ionilleft.svg');
+        // background: url('../assets/img/ionilleft.svg');
+        background: linear-gradient(180deg, #0f1121, #202342 100%);
         color: rgb(240, 198, 130);
       }
 
       >ul li:hover {
-        background: url('../assets/img/ionilleft.svg');
+        background: linear-gradient(180deg, #0f1121, #202342 100%);
         color: rgb(240, 198, 130);
         background-size: 100% 100%;
       }
 
-      >ul li:first-child:hover >i {
+     >ul li:first-child:hover >i {
         background: url('../assets/img/icontvleft1.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(2):hover >i {
-        background: url('../assets/img/icontvleft3.png');
+        background: url('../assets/img/icontvleft2.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(3):hover >i {
-        background: url('../assets/img/icontvleft4.png');
+        background: url('../assets/img/icontvleft3.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(4):hover >i {
-        background: url('../assets/img/icontvleft2.png');
+        background: url('../assets/img/icontvleft4.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(5):hover >i {
-        background: url('../assets/img/icontvleft2.png');
+        background: url('../assets/img/icontvleft5.png');
         background-size: 100% 100%;
       }
 
@@ -293,22 +296,22 @@ export default {
       }
 
       >ul li:nth-child(2) >i.activebgimg {
-        background: url('../assets/img/icontvleft3.png');
+        background: url('../assets/img/icontvleft2.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(3) >i.activebgimg {
-        background: url('../assets/img/icontvleft4.png');
+        background: url('../assets/img/icontvleft3.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(4) >i.activebgimg {
-        background: url('../assets/img/icontvleft2.png');
+        background: url('../assets/img/icontvleft4.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(5) >i.activebgimg {
-        background: url('../assets/img/icontvleft2.png');
+        background: url('../assets/img/icontvleft5.png');
         background-size: 100% 100%;
       }
 
@@ -316,8 +319,8 @@ export default {
         position: relative;
         border-width: 0;
         width: 100px;
-        height: 45px;
-        line-height: 32px;
+        height: 72px;
+        // line-height: 32px;
         display: flex;
         font-family: 'Arial Negreta', 'Arial Normal', 'Arial', sans-serif;
         font-weight: 700;
@@ -325,7 +328,10 @@ export default {
         font-size: 14px;
         color: #AAAAAA;
         padding: 10px;
-        margin: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
 
         /* >img{ */
         /* border-width: 0px; */
@@ -343,6 +349,7 @@ export default {
           height: 25px;
           margin-right: 7px;
           margin-left: 5px;
+          margin-bottom: 5px;
         }
       }
 
@@ -367,7 +374,7 @@ export default {
       }
 
       >ul li:nth-child(5) >i {
-        background: url('../assets/img/icondataleft.png');
+        background: url('../assets/img/icondataleft1.png');
         background-size: 100% 100%;
       }
     }
@@ -411,23 +418,23 @@ export default {
 
         >span {
           display: inline-block;
-          width: 60px;
-          height: 26px;
-          border-radius: 4px;
-          background-color: #7B7998;
+          width: 64px;
+          height: 28px;
+          border: 1px solid #9193b4;
+          border-radius: 5px;
           /* opacity: 0.9; */
-          line-height: 26px;
+          line-height: 28px;
         }
       }
 
       >ul li >span.classactive {
         color: #FACD91;
-        border: 1px solid #FACD91;
+        border: 1px solid #dbb16f;
       }
 
       >ul li >span:hover {
         color: #FACD91;
-        border: 1px solid #FACD91;
+        border: 1px solid #dbb16f;
       }
     }
 
@@ -460,6 +467,7 @@ export default {
     /* } */
     /* } */
   }
+
   .liveTvright {
     border-width: 0px;
     position: absolute;
@@ -468,6 +476,7 @@ export default {
     width: 1600px;
     height: 960px;
     overflow-y: auto;
+
     .categoryinnercontent {
       li {
         width: 272px;
@@ -602,24 +611,29 @@ export default {
     }
   }
 }
-.liveTvright::-webkit-scrollbar{
-  width:5px;
-  height:5px;
-  display none;
-  /**/
+
+.liveTvright::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  display: none;
+  /*  */
 }
-.liveTvright::-webkit-scrollbar-track{
+
+.liveTvright::-webkit-scrollbar-track {
   background: rgb(239, 239, 239);
-  border-radius:2px;
+  border-radius: 2px;
 }
-.liveTvright::-webkit-scrollbar-thumb{
+
+.liveTvright::-webkit-scrollbar-thumb {
   background: #bfbfbf;
-  border-radius:10px;
+  border-radius: 10px;
 }
-.liveTvright::-webkit-scrollbar-thumb:hover{
+
+.liveTvright::-webkit-scrollbar-thumb:hover {
   background: #bfbfbf;
 }
-.liveTvright::-webkit-scrollbar-corner{
+
+.liveTvright::-webkit-scrollbar-corner {
   background: #179a16;
 }
 </style>

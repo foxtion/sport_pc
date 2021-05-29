@@ -60,7 +60,7 @@
                 <img src="../../assets/img/tv.png" alt="" />
               </div>
               <div class="oldsj">
-                <p class="oldname">老司机</p>
+                <p class="oldname">老司机<i></i></p>
                 <p class="renqinum">人气值<span>12.5w</span></p>
               </div>
             </div>
@@ -129,7 +129,7 @@
                 <img src="../../assets/img/tv.png" alt="" />
               </div>
               <div class="oldsj">
-                <p class="oldname">老司机</p>
+                <p class="oldname">老司机 <i></i></p>
                 <p class="renqinum">人气值<span>12.5w</span></p>
               </div>
             </div>
@@ -174,7 +174,7 @@ export default {
   display: flex;
   justify-content: center;
   cursor: pointer;
-  padding-top: 57px;
+  padding-top: 70px;
 }
 
 .renqi {
@@ -198,7 +198,6 @@ export default {
 
 .bang {
   position: relative;
-  top: -61px;
 
   .bangbg {
     width: 100%;
@@ -207,6 +206,7 @@ export default {
     position: absolute;
     flex-direction: column;
     align-items: center;
+    top: -61px;
 
     img {
       width: 323px;
@@ -224,7 +224,7 @@ export default {
 
   .toplist {
     display: flex;
-    margin-top: 117px;
+    margin-top: 60px;
     justify-content: space-around;
     width: 100%;
     padding: 0 70px;
@@ -478,6 +478,15 @@ export default {
               font-weight: 400;
               text-align: LEFT;
               color: #434a66;
+
+              i {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                background: url('../../assets/img/di.png');
+                background-size: 100% 100%;
+                margin-left: 2px;
+              }
             }
 
             .renqinum {

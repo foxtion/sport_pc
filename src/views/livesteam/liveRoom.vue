@@ -97,8 +97,58 @@
                         </div>
 <!--                        <v-barrage :arr="arr" :isPause="isPause" v-if="dmisShow" :percent="50"></v-barrage>-->
                     </div>
+                    <!-- justify-content: space-between; -->
                     <div class="mediabtm">
-                        <div><p>{{ coin }}</p><p>我的金币</p></div>
+                        <div style="display: flex; width: 100%;">
+                            <img src="@/assets/chat-3.png" />
+                            <div style="display: flex;">
+                                <img src="@/assets/left-arrow.png" style="height: 48px; margin-right: 10px" @click="leftArrow"/>
+                                <div class="time-week-main" style="display: flex;" >
+                                <div v-for="(item, index) in giftData" class="gift-main" :key="index" @click="getCurrentDate(item)">
+                                    <!-- {{}} -->
+                                    <el-popover placement="top" trigger="hover">
+                                        <div class="gift-main-popover">
+                                            <div style="display: flex;">
+                                                <img :src="item.icon" style="width: 111px" />
+                                                <div>
+                                                    <p style="font-size: 16px">{{ item.name }} <span style="color: #DBB16F; font-size: 13px">({{ item.price }} 钻石)</span></p>
+                                                    <p style="color: #9193B4;font-size: 13px">{{ item.description }}</p>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex;margin: 2px 20px 10px 20px">
+                                                <div style="color: #9193B4;font-size: 13px;width: 44px; height: 22px; line-height: 22px;text-align: center; border: 1px solid #e6eaf3;margin-right:10px">88</div>
+                                                <div style="color: #9193B4;font-size: 13px;width: 44px; height: 22px; line-height: 22px;text-align: center; border: 1px solid #e6eaf3;margin-right:10px">100</div>
+                                                <div style="color: #9193B4;font-size: 13px;width: 44px; height: 22px; line-height: 22px;text-align: center; border: 1px solid #e6eaf3;margin-right:10px">520</div>
+                                                <div style="color: #9193B4;font-size: 13px;width: 44px; height: 22px; line-height: 22px;text-align: center; border: 1px solid #e6eaf3;margin-right:10px">666</div>
+                                                <div style="color: #9193B4;font-size: 13px;width: 44px; height: 22px; line-height: 22px;text-align: center; border: 1px solid #e6eaf3;margin-right:10px">1314</div>
+                                            </div>
+                                            <div style="background: #ebf0fb;height: 44px; display: flex;line-height: 44px">
+                                                <img src="@/assets/chat-3.png" width="19px" height="22px" style="margin: 9px 6px 0 16px"/>
+                                                <p>共需要88钻石</p>
+                                                <el-input style="width: 66px;margin: 0 10px 0 44px" size="mini"></el-input>
+                                                <div style="width: 50px;height: 26px;line-height: 26px;border-radius: 4px;margin-top: 9px;text-align: center;font-size: 13px;background: linear-gradient(90deg,#eccbab, #dbb16f 100%);">赠送</div>
+                                            </div>
+                                            
+                                            <!-- <ul style="display: flex; justify-content: space-between;width: 330px; flex-wrap: wrap">
+                                                <li data-id="grinning" v-for="item in levellist" :key="item" @click="addemoji(item)">
+                                                    <div :style="{ background: `${item.color}`}" style="width: 30px; height: 30px;line-height: 30px;text-align: center; border-radius: 50%;font-size: 11px;color: #fff;">{{ item.name }} </div>
+                                                </li>
+                                            </ul> -->
+                                        </div>
+                                        <img :src="item.icon" slot="reference" class="gift-main-item"/>
+                                    </el-popover>
+                                    <!-- <img :src="item.icon" /> -->
+                                    <!-- <div :class="currentDate.time === item.time ? 'current-date' : ''">
+
+                                    <div class="time">{{ item.time }}</div>
+                                    <div class="lable">{{ item.label}}</div>
+                                    </div> -->
+                                </div>
+                                </div>
+                                <img src="@/assets/right-arrow.png" style="height: 48px" @click="rightArrow"/>
+                            </div>
+                        </div>
+                        <!-- <div><p>{{ coin }}</p><p>我的金币</p></div>
                         <div>
                             <div class="gift">
                                 <el-popover placement="top" trigger="hover" v-for="item in giftlist" :key="item.id">
@@ -139,20 +189,54 @@
                                     </div>
                                 </el-popover>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="chat">
                     <div class="notice">
-                        <i class="el-icon-bell"></i>
-                        <span style="font-size: 14px; font-weight: bold; margin: 0 2px">公告:</span>
-                        <div class="van-multi-ellipsis--l2">
-                            中新网北京1月22日电 (记者 张素) 针对中方宣布对蓬佩奥等人实施制裁
+                        <div>公告:</div>
+                        <marquee scrollamount="5">
+                            <a href="#">我是公告11111</a>
+                            <a href="#">我是公告22222</a>
+                        </marquee>
+                    </div>
+                    <div class="contribution">
+                        <div class="contribution-tab">
+                            <div class="contribution-tab-item" @click="changeContribution('day')"><span :class="currentContribution == 'day' ? 'currentContribution' : '' ">贡献日榜</span></div>
+                            <div class="contribution-tab-item" @click="changeContribution('week')"><span :class="currentContribution == 'week' ? 'currentContribution' : '' ">贡献周榜</span></div>
                         </div>
                     </div>
-                    <el-tabs v-model="activeName">
-                        <el-tab-pane label="聊天室" name="0">
+                    <div class="contribution-info">
+                        <div class="contribution-2">
+                            <div class="contribution-bg-2">
+                                <img src="@/assets/ranking-2.png" class="ranking-2" />
+                                <img src="@/assets/level-20.png" class="ranking-2-header">
+                            </div>
+                            <p class="contribution-name">石榴姐<p>
+                            <p class="contribution-text"><span style="color: #DBB16F">1508</span>贡献值</p>
+                        </div>
+                        <div class="contribution-1">
+                            <div class="contribution-bg-1">
+                                <img src="@/assets/ranking-1.png" class="ranking-1" />
+                                <img src="@/assets/level-40.png" class="ranking-1-header">
+                            </div>
+                            <p class="contribution-name">石榴姐<p>
+                            <p class="contribution-text"><span style="color: #DBB16F">1508</span>贡献值</p>
+                        </div>
+                        <div class="contribution-3">
+                            <div class="contribution-bg-3">
+                                <img src="@/assets/ranking-3.png" class="ranking-3" />
+                                <img src="@/assets/level-40.png" class="ranking-3-header">
+                            </div>
+                            <p class="contribution-name">石榴姐<p>
+                            <p class="contribution-text"><span style="color: #DBB16F">1508</span>贡献值</p>
+                        </div>
+                    </div>
+                    <!-- <el-tabs v-model="activeName">
+                        <el-tab-pane label="聊天室" name="0"> -->
                             <div class="scoller chatroom">
+                                
+                                <img src="@/assets/chat-new.png" class="chat-new"/>
                                 <div style="margin-bottom: 8px; font-size: 14px" v-for="(item, i) in xiaoxilist" :key="i">
                                     <van-image width="18px" height="18px" fit="contain" :src="sysnotic2" v-if="item._method_ == 'SystemNot'"/>
                                     <van-image width="18px" height="18px" fit="contain" :src="hi" v-if="item.msgtype == '0' && item._method_ == 'SendMsg'"/>
@@ -173,7 +257,7 @@
                                     </span>
                                     <span v-if="item._method_ == 'SendGift'" style="margin-left: 5px">赠送给主播</span>
                                     <span v-if="item._method_ == 'SendGift'" style="margin-left: 5px; color: red" >
-                                        {{ item.ct.giftname }} X {{ item.ct. giftcount }}
+                                        {{ item.ct.giftname }} X {{ item.ct.giftcount }}
                                     </span>
                                     <span v-if="item._method_ == 'SystemNot'" style="line-height: 26px; margin-left: 5px">{{ item.ct }}</span>
                                     <span v-if="item.msgtype == '0' && item._method_ == 'SendMsg'" style="margin-left: 5px" >进入直播间</span>
@@ -185,8 +269,8 @@
                                 <p>赠送主播礼物</p>
                                 <van-image width="80px" height="80px" style="position: absolute; top: -30%; right: -30px" fit="cover":src="giftdonghuainfo.url"/>
                             </div>
-                        </el-tab-pane>
-                        <el-tab-pane label="排行榜" name="1">
+                        <!-- </el-tab-pane> -->
+                        <!-- <el-tab-pane label="排行榜" name="1">
                             <ul class="rankinglist scoller">
                                 <li v-for="(item, i) in phblist" :key="item.fromid">
                                     <div>
@@ -198,11 +282,11 @@
                                     <span style="font-size: 12px; color: #8f8f8f">贡献 {{ item.total }}</span>
                                 </li>
                             </ul>
-                        </el-tab-pane>                   
-                    </el-tabs>
+                        </el-tab-pane>                    -->
+                    <!-- </el-tabs> -->
                     <div style="padding: 5px 0">
                         <div style="padding: 0 10px; display: flex; align-items: center">
-                            <el-popover placement="top" trigger="click">
+                            <el-popover placement="top" trigger="hover">
                                 <div>
                                     <ul style="display: flex; width: 330px; flex-wrap: wrap">
                                         <li data-id="grinning" style="font-size: 24px" v-for="item in emojilist" :key="item" @click="addemoji(item)">
@@ -210,10 +294,32 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <img slot="reference"  src="@/assets/img/xiao.png" alt style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;" />
+                                <img slot="reference" src="@/assets/chat-1.png" style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;"/>
+                                <!-- <img slot="reference"  src="@/assets/img/xiao.png" alt style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;" /> -->
                             </el-popover>
-
+                            <!-- <img src="@/assets/chat-1.png" style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;"/> -->
                             <el-popover placement="top" trigger="hover">
+                                <div>
+                                    <ul style="display: flex; justify-content: space-between;width: 330px; flex-wrap: wrap">
+                                        <li data-id="grinning" v-for="item in levellist" :key="item" @click="addemoji(item)">
+                                            <div :style="{ background: `${item.color}`}" style="width: 30px; height: 30px;line-height: 30px;text-align: center; border-radius: 50%;font-size: 11px;color: #fff;">{{ item.name }} </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <img src="@/assets/chat-2.png" slot="reference" style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;"/>
+                            </el-popover>
+                             <el-popover placement="top" trigger="hover" width="50px">
+                                <p style="font-size: 12px">贵族</p>
+                                <img src="@/assets/chat-3.png" @click="showLiveNoble" slot="reference" style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;"/>
+                            </el-popover>
+                            
+                            <img src="@/assets/chat-4.png" style="width: 20px; width: 20px; margin-right: 14px; cursor: pointer;"/>
+                            <el-popover placement="top" :popper-class="popper-main" trigger="hover">
+                                <p style="font-size: 12px"> 清空聊天</p>
+                                <img src="@/assets/chat-5.png" slot="reference" style="width: 20px; width: 20px; margin-right: 100px; cursor: pointer;"/>
+                            </el-popover>
+                            <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer;">屏蔽消息</el-checkbox>
+                            <!-- <el-popover placement="top" trigger="hover">
                                 <div class="pingbigift">
                                     <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"  @change="handleCheckAllChange">
                                         全部屏蔽
@@ -223,7 +329,7 @@
                                     </el-checkbox-group>
                                 </div>
                                 <i slot="reference" class="el-icon-view" style="font-size: 22px"></i>
-                            </el-popover>
+                            </el-popover> -->
                         </div>
                         <div style="display: flex; align-items: center; padding: 0 10px; height: 60px;">
                             <el-input placeholder="请输入内容" type="textarea" rows="2" resize="none"  v-model="sendContent"></el-input>
@@ -303,15 +409,18 @@
                 </li>
             </ul>
         </div>
+        <liveNoble ref="livenoble" />
     </div>
 </template>
 
 <script>
 import VBarrage from "@/components/VBarrage/index.vue";//弹幕
-const cityOptions = ["屏蔽礼物动画", "屏蔽进场欢迎"];
+import liveNoble from "./liveNoble"
+import { getGiftList } from '@/api'
+const cityOptions = ["屏蔽礼物动画", "屏蔽进场欢迎"]; 
 export default {
     name: "zbj",
-    components: { VBarrage },
+    components: { VBarrage, liveNoble },
     data() {
         return {
             uid: "",
@@ -423,7 +532,16 @@ export default {
             coin: 0,
             showgiftdonghua: false,
             giftdonghuainfo: {},
-            xiaoxilist: [],
+            xiaoxilist: [{
+                _method_: 'SendMsg',
+                uname: '李四',
+                level: 2,
+                ct: {
+                    user_nicename: '说的',
+                    giftname: 'hjkfdg'
+                },
+                msgtype: 1
+            }],
             anchorSchedulelist: [],
             yinliang: 60,
             fulldanmu: "",
@@ -435,6 +553,31 @@ export default {
             isFull: false,
             timer: "",
             notHome: false,
+            currentContribution: 'day',
+            levellist: [
+                {
+                    name: '免费',
+                    color: '#DBB16F'
+                }, {
+                    name: '骑士',
+                    color: '#9193B4'
+                }, {
+                    name: '子爵',
+                    color: '#47CC6C'
+                },{
+                    name: '侯爵',
+                    color: '#5C8DFF'
+                }, {
+                    name: '公爵',
+                    color: '#A051EB'
+                }, {
+                    name: '皇帝',
+                    color: '#FFB71C'
+                },
+            ],
+            getGiftListData: [],
+            giftData: [],
+            clickNum: 0
         };
     },
     
@@ -561,10 +704,11 @@ export default {
                         }
                     },
                 });
-
-        
     },
-  
+    
+    created() {
+        this.getGiftListParams()
+    },
     methods: {
         toLive(val) {
             let routeData = this.$router.resolve({
@@ -918,6 +1062,48 @@ export default {
                 }
             });
         },
+        changeContribution(val) {
+            this.currentContribution = val
+        },
+        getGiftListParams() {
+            const params = {
+                source: 'pc'
+            }
+            getGiftList(params).then(res => {
+                this.getGiftListData = res.info
+                for (var i = 0; i < 8; i++) {
+                    this.giftData.push(this.getGiftListData[i])
+                }
+            })
+        },
+        leftArrow() {
+            if (this.clickNum == 0) {
+                return
+            }
+            this.giftData = []
+            this.clickNum = this.clickNum - 1
+            const val = this.clickNum* 8
+            const end = val + 8
+            for (var i = val; i < end; i++) {
+                this.giftData.push(this.getGiftListData[i])
+            }
+        },
+        rightArrow() {
+           if (this.clickNum >= Number(this.getGiftListData.length/8) - 1) {
+                return
+            }
+            this.giftData = []
+            this.clickNum = this.clickNum + 1
+            const val = this.clickNum * 8
+            const end = val + 8 > this.getGiftListData.length ? this.getGiftListData.length : val + 8
+            for (var i = val; i < end; i++) {
+                this.giftData.push(this.getGiftListData[i])
+            }
+        },
+        // 显示贵族弹框
+        showLiveNoble() {
+            this.$refs.livenoble.showDialog()
+        }
     },
     destroyed() {
         document.removeEventListener("scroll", this.handleScroll);
@@ -1552,7 +1738,7 @@ export default {
                 .mediabtm {
                     display: flex;
                     height: 88px;
-
+                    
                     >div:first-child {
                         width: 200px;
                         padding: 20px 20px;
@@ -1599,14 +1785,159 @@ export default {
                             color: #f8c21b;
                         }
                     }
+                    
+                    .gift-main {
+                        .gift-main-item {
+                            border: 1px solid #E6EAF3;
+                            width: 48px;
+                            cursor: pointer;
+                            margin-right: 10px;
+                        }
+                    }
+                    .gift-main-popover {
+
+                    }
+                    .el-popover {
+                        padding: 0;
+                    }
                 }
             }
 
             .chat {
+                .popper-main {
+                    min-width: 50px !important;
+                }
                 width: 350px;
                 margin-left:20px
                 .notice {
                     padding: 14px;
+                    color: #FF5D5D;
+                    display: flex;
+                    div {
+                        width: 50px;
+                    }
+                    a {
+                        color: #FF5D5D;
+                        margin-right: 40px;
+                    }
+                }
+                .contribution {
+                    height: 46px;
+                    line-height: 46px;
+                    background: #EBF0FB;
+                    color: #8D94AF;
+                    .contribution-tab {
+                        display: flex;
+                        justify-content: space-around;
+                        .contribution-tab-item {
+                            .currentContribution {
+                                color: #333333;
+                                font-weight: 800;
+                            }
+                        }
+                    }
+                }
+                .contribution-info {
+                    border: 1px solid #E6EAF3;
+                    display: flex;
+                    justify-content: space-around;
+                    height: 145px;
+                    div {
+                        width: 63px;
+                    }
+                    .contribution-2 {
+                        .contribution-bg-2 {
+                            margin-left: 8px;
+                            margin-top: 47px;
+                            height: 48px;
+                            width: 48px;
+                            position: relative;
+                            background: url('../../assets/ranking-img-2.png')
+                            background-size: 100% 100%
+                            .ranking-2 {
+                                position: absolute;
+                                top: -12px;
+                                left: 10px
+                            }
+                            .ranking-2-header {
+                                width: 44px;
+                                margin-top: 2px;
+                                margin-left: 2px;
+                            }
+                        }
+                        .contribution-name {
+                            font-size: 14px;
+                            line-height: 20px;
+                            text-align: center;
+                        }
+                        .contribution-text {
+                            font-size: 12px;
+                            line-height: 20px;
+                            text-align: center;
+                        }
+                    }
+                    .contribution-1 {
+                        .contribution-bg-1 {
+                            margin-left: 1px;
+                            margin-top: 35px;
+                            height: 60px;
+                            width: 60px;
+                            position: relative;
+                            background: url('../../assets/ranking-img-1.png')
+                            background-size: 100% 100%
+                            .ranking-1 {
+                                position: absolute;
+                                top: -21px;
+                                left: 10px
+                            }
+                            .ranking-1-header {
+                                width: 56px;
+                                margin-top: 2px;
+                                margin-left: 2.05px;
+                            }
+                        }
+                        .contribution-name {
+                            font-size: 14px;
+                            line-height: 20px;
+                            text-align: center;
+                        }
+                        .contribution-text {
+                            font-size: 12px;
+                            line-height: 20px;
+                            text-align: center;
+                        }
+                    }
+                    .contribution-3 {
+                        .contribution-bg-3 {
+                            margin-left: 8px;
+                            margin-top: 47px;
+                            height: 48px;
+                            width: 48px;
+                            position: relative;
+                            background: url('../../assets/ranking-img-3.png')
+                            background-size: 100% 100%
+                            .ranking-3 {
+                                position: absolute;
+                                top: -12px;
+                                left: 10px
+                            }
+                            .ranking-3-header {
+                                width: 44px;
+                                margin-top: 2px;
+                                margin-left: 2px;
+                            }
+                        }
+                        .contribution-name {
+                            font-size: 14px;
+                            line-height: 20px;
+                            text-align: center;
+                        }
+                        .contribution-text {
+                            font-size: 12px;
+                            line-height: 20px;
+                            text-align: center;
+                        }
+                    }
                 }
 
                 .el-tabs__nav-scroll {
@@ -1673,9 +2004,16 @@ export default {
                 }
 
                 .chatroom {
-                    background: #f4f4f4;
+                    border: 1px solid #E6EAF3;
+                    border-top: 0;
+                    background: #fff;
                     padding: 5px 14px;
-
+                    position: relative;
+                    .chat-new {
+                        position: absolute;
+                        bottom: 70px;
+                        left: 90px
+                    }
                     >div:nth-child(2n-1) {
                         background: #ededed;
                     }
@@ -1684,7 +2022,6 @@ export default {
                         vertical-align: middle;
                     }
                 }
-
                 .giftdonghua {
                     position: absolute;
                     left: 0;

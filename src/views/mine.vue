@@ -121,6 +121,9 @@ export default {
         case "我的关注":
           this.$router.push({ name: "concern" });
           break;
+        case "我的等级":
+          this.$router.push({ name: "level" });
+          break;
         // case "我的预约":
         //     this.$router.push({ name: "subscribe" });
         //     break;
@@ -160,7 +163,7 @@ export default {
 
 <style lang="stylus">
 #mine {
-  width: 1640px;
+  width: 1200px;
   margin: 0 auto;
   margin-top: 75px;
   padding-top: 80px;
@@ -173,7 +176,7 @@ export default {
     position: absolute;
     top: 0;
     height: 61px;
-    width: 1640px;
+    width: 100%;
     background: #fff;
 
     .contentval {

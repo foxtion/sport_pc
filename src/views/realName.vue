@@ -1,34 +1,29 @@
 <template>
+<el-dialog
+    title="修改密码"
+    :center="true"
+    :visible.sync="dialogVisible"
+    width="850px"
+    :close-on-click-modal=false
+    :before-close="handleClose">
     <div id="myProfile">
-        <h4>实名认证</h4>
-        <el-form :model="registerForm" :rules="registerRule" ref="registerForm">
+        <el-form :model="registerForm" :rules="registerRule" ref="registerForm" style="width: 668px; margin: 30px auto">
             <el-form-item prop="username">
-                <p>真实姓名:</p>
-                <el-input v-model="registerForm.username"  placeholder="请输入用户名"></el-input>
+                输入用户名:
+                <el-input v-model="registerForm.username"  placeholder="请输入用户名" style="width: 330px"></el-input>
             </el-form-item>
-
             <el-form-item prop="username">
-                <p>身份证号码:</p>
-                <el-input v-model="registerForm.username"  placeholder="请输入用户名"></el-input>
+                身份证号码:
+                <el-input v-model="registerForm.username"  placeholder="请输入身份证号码" style="width: 330px"></el-input>
             </el-form-item>
-
-<!--            <el-form-item prop="password">-->
-<!--                <p>真实姓名:</p>-->
-<!--                <el-input v-model="registerForm.password" show-password placeholder="请输入密码不少于6位"></el-input>-->
-<!--            </el-form-item>-->
-
-<!--            <el-form-item prop="password">-->
-<!--                <el-input v-model="registerForm.confirm_pass" show-password placeholder="请输入相同的密码"></el-input>-->
-<!--            </el-form-item>-->
-
             <el-form-item prop="mobile">
-                <p>输入手机号:</p>
-                <el-input v-model="registerForm.mobile" placeholder="请输入手机号码"></el-input>
+                输入手机号:
+                <el-input v-model="registerForm.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
             </el-form-item>
 
             <el-form-item prop="code">
-                <p>输入验证码:</p>
-                <el-input v-model="registerForm.code" placeholder="请输入天宸网络验证码">
+                输入验证码:
+                <el-input v-model="registerForm.code" placeholder="请输入天宸网络验证码" style="width: 330px">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum" :disabled="checkNumDisabled">
                             <span v-if="checkNumDisabled">{{ countDown }}秒后重试</span>
@@ -37,13 +32,6 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <!--            <el-form-item>-->
-            <!--                <div>-->
-            <!--                    <el-checkbox v-model="registerForm.checked">我已阅读并同意</el-checkbox>-->
-            <!--                    <span class="yonghuxieyi" @click.stop="toTHXY">《用户服务协议》</span>-->
-            <!--                </div>-->
-            <!--            </el-form-item>-->
-
             <el-form-item>
                 <div style="display: flex; justify-content: space-between">
 
@@ -57,6 +45,7 @@
             </el-form-item>
         </el-form>
     </div>
+</el-dialog>
 </template>
 
 <script>
@@ -82,6 +71,7 @@
                 checkNumDisabled: false,
                 countDown: 60,
                 timer: null,
+                dialogVisible: true,
             };
         },
         mounted() {
@@ -98,7 +88,9 @@
         },
 
         methods: {
-
+            handleClose() {
+            this.$router.go(-1);
+            },
             registerSub(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -226,7 +218,15 @@
         padding-left: 10px;
         margin-bottom: 40px;
     }
-
+    .el-form-item {
+        display: flex;
+        justify-content: center;
+        color:#434A66;
+        .xing{
+            color:#FF5D5D;
+            padding-right: 1px;
+        }
+    }
     .baseInput {
         margin-bottom: 30px;
 

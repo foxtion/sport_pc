@@ -17,13 +17,13 @@ export const Register = (params) => post({ url: 'Login.userReg', params})
 export const UserFindPass = (params) => post({ url: 'Login.userFindPass', params})
 
 //改绑手机
-export const ChangeMobile = (params) => post({ url: 'User.editPhone', params})
+export const ChangeMobile = (params) => post({ url: 'User.modifyMobile', params})
 
 //修改密码
 export const ChangePass = (params) => post({ url: 'User.updatePass', params})
 
 // 上传图片base64
-export const UploadPictures = (params) => post({ url: 'User.uploadPictures', params})
+export const UploadPictures = (params) => post({ url: 'User.uploadPicturesBase64', params})
 
 //修改用户信息
 export const UpdateProfile = (params) => post({ url: 'User.updateFields', params})

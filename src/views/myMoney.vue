@@ -5,18 +5,18 @@
       <div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="消费记录" name="consumption">
-            <div class="tab-item">
+            <!-- <div class="tab-item">
               <el-row :gutter="5" class="input-box">
                 <el-form :inline="true" :model="queryInfo" ref="queryInfoRef"  size="mini">
                   <el-form-item label="消费类型:" prop="type">
-                    <!-- <el-select v-model="queryInfo.orderStatus" size="mini" clearable>
+                    <el-select v-model="queryInfo.orderStatus" size="mini" clearable>
                       <el-option
                       v-for="item in orderStatusList"
                       :key="item.listvalue"
                       :value="item.listkey"
                       :label="item.listvalue"
                         />
-                    </el-select> -->
+                    </el-select>
                     <el-input v-model="queryInfo.type" />
                   </el-form-item>
                   <el-form-item label="消费时间:" prop="time">
@@ -25,18 +25,37 @@
                 </el-form>
               </el-row>
               <div class="search" @click="serchData">查询</div>
-            </div>
+            </div> -->
             <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" label="消息时间" width="200" align="center"> </el-table-column>
-              <el-table-column prop="date" label="房间号" width="200" align="center"> </el-table-column>
-              <el-table-column prop="date" label="主播" width="100" align="center"> </el-table-column>
-              <el-table-column prop="date" label="消费内容" width="100" align="center"> </el-table-column>
+              <el-table-column prop="addtime" label="消息时间" width="200" align="center"> </el-table-column>
+              <el-table-column prop="live_uid" label="房间号" width="200" align="center"> </el-table-column>
+              <el-table-column prop="live_nick_name" label="主播" width="100" align="center"> </el-table-column>
+              <el-table-column prop="gift" label="消费内容" width="100" align="center"> </el-table-column>
               <el-table-column prop="date" label="消费类型" width="200" align="center"> </el-table-column>
               <el-table-column prop="date" label="消费龙钻" width="100" align="center"> </el-table-column>
             </el-table>
           </el-tab-pane>
-          <el-tab-pane label="收支明细" name="spending">收支明细</el-tab-pane>
-          <el-tab-pane label="提现记录" name="withdrawal">提现记录</el-tab-pane>
+          <el-tab-pane label="收支明细" name="spending">
+            <el-table :data="tableData" style="width: 100%">
+              <el-table-column prop="date" label="收入时间" width="200" align="center"> </el-table-column>
+              <el-table-column prop="date" label="订单号" width="200" align="center"> </el-table-column>
+              <el-table-column prop="date" label="用户昵称" width="100" align="center"> </el-table-column>
+              <el-table-column prop="date" label="消费内容" width="100" align="center"> </el-table-column>
+              <el-table-column prop="date" label="消费类型" width="200" align="center"> </el-table-column>
+              <el-table-column prop="date" label="收入龙钻" width="100" align="center"> </el-table-column>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="提现记录" name="withdrawal">
+            <el-table :data="tableData" style="width: 98%">
+              <el-table-column prop="addtime" label="提现时间" width="140" align="center"> </el-table-column>
+              <el-table-column prop="orderno" label="订单号" width="160" align="center"> </el-table-column>
+              <el-table-column prop="pay_text" label="提现方式" width="80" align="center"> </el-table-column>
+              <el-table-column prop="money" label="提现金额" width="100" align="center"> </el-table-column>
+              <el-table-column prop="date" label="实际到账金额" width="130" align="center"> </el-table-column>
+              <el-table-column prop="status_text" label="提现状态" width="100" align="center"> </el-table-column>
+              <el-table-column prop="account" label="详情"  align="center"> </el-table-column>
+            </el-table>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -76,17 +95,17 @@ export default {
       }
       if (this.activeName == 'consumption') { // 消费记录
         rewardRecord(params).then(res => {
-          this.tableData = res.data
+          this.tableData = res.info
         })
       }
       if (this.activeName == 'spending') { // 收支明细
         incomeDetails(params).then(res => {
-          this.tableData = res.data
+          this.tableData = res.info
         })
       }
       if (this.activeName == 'withdrawal') { // 提现记录 
         extracCashList(params).then(res => {
-          this.tableData = res.data
+          this.tableData = res.info
         })
       }
     },
@@ -99,17 +118,17 @@ export default {
       }
       if (this.activeName == 'consumption') { // 消费记录
         rewardRecord(params).then(res => {
-          this.tableData = res.data
+          this.tableData = res.info
         })
       }
       if (this.activeName == 'spending') { // 收支明细
         incomeDetails(params).then(res => {
-          this.tableData = res.data
+          this.tableData = res.info
         })
       }
       if (this.activeName == 'withdrawal') { // 提现记录 
         extracCashList(params).then(res => {
-          this.tableData = res.data
+          this.tableData = res.info
         })
       }
     }
@@ -129,7 +148,7 @@ export default {
     margin-bottom: 40px;
   }
 }
-.el-table th, .el-table tr {
+.el-table .has-gutter th, .el-table .has-gutter tr {
   background: #EBF0FB;
 }
 .tab-item {

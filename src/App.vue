@@ -314,6 +314,7 @@ export default {
                 window.localStorage.setItem("isLogin", true);
                 window.localStorage.setItem("token", res.info.token);
                 window.localStorage.setItem("user",JSON.stringify(res.info));
+                this.$store.commit('userinfo',res.info)
                 setTimeout(() => {
                     this.showRegister = false;
                     this.$router.push("/");

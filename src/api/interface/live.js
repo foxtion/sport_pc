@@ -53,3 +53,12 @@ export const extracCashList = (params) => post({ url: 'Extract.extracCashList', 
 
 // 收入明细
 export const incomeDetails = (params) => post({ url: 'User.incomeDetails', params})
+
+// 房间管理列表
+export const userLiveList = (params) => post({ url: 'Live.userLiveList', params})
+
+// 用户关注主播列表
+export const userFollowAnchor = (params) => post({ url: 'Follow.userFollowAnchor', params})
+
+// 礼物列表
+export const getGiftList = (params) => post({ url: 'Live.getGiftList', params})

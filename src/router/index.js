@@ -383,6 +383,18 @@ const routes = [
             },
 
             {
+                path: 'level',
+                name: 'level',
+                component: function () {
+                    return import('../views/level.vue')
+                },
+                meta: {
+                    myCenterIndex: 15,
+                    title:'我的等级'
+                }
+            },
+
+            {
                 path: 'myFans',
                 name: 'myFans',
                 component: function () {

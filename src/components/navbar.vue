@@ -40,8 +40,8 @@
                         <div style="text-align:center;" @click="$router.push({ name: 'mine' })">
                             <el-avatar size="large" :src="info.avatar" style="width:100px; height:100px;"></el-avatar>
                             <p style = "font-size:20px;letter-spacing:1px; ">
-                                {{ info.user_nicename }}
-                                <img src="@/assets/img/level.png" style="width: 45px; position: relative; top: 2px;"/>
+                                {{ info.nick_name }}
+                                <img src="@/assets/img/level.png" style="width: 45px; position: relative; top: 2px;"/>{{ info.level }}
                             </p>
                             <el-tag type="info" effect="dark" size="small" style="position: absolute; left:5px; top:150px;">Lv.{{ info.level }}</el-tag>
                             <div style="width: 70%; position: absolute; left:55px; top:153px;">                                                               
@@ -51,12 +51,17 @@
                         </div>
 
                         <div style="font-size: 16px; color: #5A629E; font-weight: normal; line-height:30px; margin-top:50px;">
-                            <div style="float:left;">
+                            <div style="float:left;margin-right:30px;">
                                 <span>我的钱包</span>
                                 <img src="@/assets/img/my_coin.png" style="position:relative; top:5px; margin-right:10px;"/>
                                 <span>{{ info.coin}}</span>
                             </div>
-                             <div style="float:right; margin-right:50px;width: 68px;height: 27px;vertical-align:center;line-height: 27px;
+                            <div style="float:left;">
+                                <span>龙钻</span>
+                                <img src="@/assets/img/my_coin.png" style="position:relative; top:5px; margin-right:10px;"/>
+                                <span>{{ info.coin}}</span>
+                            </div>
+                             <div style="float:right; margin-right:0px;width: 68px;height: 27px;vertical-align:center;line-height: 27px;
                                         background: -webkit-linear-gradient(271.510649665691deg, rgba(252, 216, 179, 1) 3%, rgba(185, 153, 119, 1) 97%);
                                         background: -moz-linear-gradient(178.489350334309deg, rgba(252, 216, 179, 1) 3%, rgba(185, 153, 119, 1) 97%);
                                         background: linear-gradient(178.489350334309deg, rgba(252, 216, 179, 1) 3%, rgba(185, 153, 119, 1) 97%);
@@ -176,7 +181,7 @@
 </template>
 
 <script>
-import { Login,Getcode,Register,submitfk} from '@/api'
+import { Login,Getcode,Register,submitfk,GetUserinfo} from '@/api'
 export default {
     name: "navbar",
     inject: ["reload"],
@@ -216,10 +221,11 @@ export default {
             telphone:'',
             regiorlog:1,
             whichball:0,
-            regiorlog2:1
+            regiorlog2:1,
         };
     },
     mounted() {
+        console.log(this.$store.state)
         let active = location.hash
         console.log(location.hash)
         this.navList.forEach((item, index) => {
@@ -233,7 +239,6 @@ export default {
                 this.navList[2].active = true                
             } 
         }); 
-
         this.init();
     },
     methods: {

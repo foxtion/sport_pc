@@ -1,16 +1,20 @@
 <template>
+    <el-dialog
+        title="更换手机"
+        :center="true"
+        :visible.sync="dialogVisible"
+        width="850px"
+        :close-on-click-modal=false
+        :before-close="handleClose">
     <div id="changePhone">
-        <h4 @click="goBack"><i class="el-icon-arrow-left"></i>改绑手机</h4>
-        <el-steps :active="active" align-center simple>
-            <el-step title="验证身份"></el-step>
-            <el-step title="绑定新手机"></el-step>
-        </el-steps>
-        <el-form :model="loginForm" :rules="loginRule" ref="loginForm" style="width: 40%; margin: 30px auto" v-show="active == 0">
+        <el-form :model="loginForm" :rules="loginRule" ref="loginForm" style="width: 668px; margin: 30px auto" v-show="active == 0">
             <el-form-item prop="mobile">
-                <el-input v-model="loginForm.mobile" placeholder="请输入手机号码"></el-input>
+                <a class="xing">*</a>输入手机号:
+                <el-input v-model="loginForm.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
             </el-form-item>
             <el-form-item prop="code">
-                <el-input v-model="loginForm.code" placeholder="获取并输入验证码">
+                <a class="xing">*</a>输入验证码:
+                <el-input v-model="loginForm.code" placeholder="获取并输入验证码" style="width: 330px">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum" :disabled="checkNumDisabled">
                             <span v-if="checkNumDisabled">{{ countDown }}秒后重试</span>
@@ -19,22 +23,14 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <el-form-item>
-            <div>
-                <el-button type="primary" style="width: 100%; background: #f8c21b; border-color: #f8c21b" @click="xiayibu('loginForm')">
-                    下一步
-                </el-button>
-            </div>
-            </el-form-item>
-        </el-form>
-
-        <el-form :model="loginForm2" :rules="loginRule2" ref="loginForm2" style="width: 40%; margin: 30px auto" v-show="active == 1">
             <el-form-item prop="mobile">
-                <el-input v-model="loginForm2.mobile" placeholder="请输入手机号码"></el-input>
+                <a class="xing">*</a>输入手机号:
+                <el-input v-model="loginForm2.mobile" placeholder="请输入手机号码" style="width: 330px"></el-input>
             </el-form-item>
 
             <el-form-item prop="code">
-                <el-input v-model="loginForm2.code" placeholder="获取并输入验证码">
+                <a class="xing">*</a>输入验证码:
+                <el-input v-model="loginForm2.code" placeholder="获取并输入验证码" style="width: 330px">
                     <template slot="append">
                         <el-button type="info" @click="sendchecknum2" :disabled="checkNumDisabled2">
                             <span v-if="checkNumDisabled2">{{ countDown2 }}秒后重试</span>
@@ -47,12 +43,13 @@
             <el-form-item>
                 <div>
                     <el-button type="primary" style="width: 100%; background: #f8c21b; border-color: #f8c21b" @click="bangding('loginForm2')">
-                        绑定
+                        绑    定
                     </el-button>
                 </div>
             </el-form-item>
         </el-form>
     </div>
+    </el-dialog>
 </template>
 
 <script>
@@ -84,6 +81,7 @@ export default {
             checkNumDisabled2: false,
             countDown2: 60,
             timer2: null,
+            dialogVisible: true,
             user:{}
         }
     },
@@ -93,6 +91,9 @@ export default {
     },
 
     methods: {
+        handleClose() {
+            this.$router.go(-1);
+            },
         goBack() {
             this.$router.go(-1);
         },
@@ -167,7 +168,7 @@ export default {
                         return
                     }
 
-                    this.change_mobile(data,0)                   
+                    this.change_mobile(data,0)
                 }
             });
         },
@@ -271,7 +272,7 @@ export default {
                 }else{
                     this.$message.error(res.msg);
                 }
-            }           
+            }
         }
     }
 };
@@ -279,8 +280,6 @@ export default {
 
 <style lang="stylus">
 #changePhone {
-    padding: 32px 0 0 47px;
-
     h4 {
         cursor: pointer;
         margin-bottom: 40px;
@@ -289,5 +288,17 @@ export default {
     .el-steps {
         width: 90%;
     }
+    .el-form-item {
+        display: flex;
+        justify-content: center;
+        color:#434A66;
+        .xing{
+            color:#FF5D5D;
+            padding-right: 1px;
+        }
+    }
+}
+.el-dialog .el-dialog__header {
+    background: #E6EAF3 !important;
 }
 </style>

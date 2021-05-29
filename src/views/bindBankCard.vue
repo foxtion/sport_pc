@@ -1,25 +1,32 @@
 <template>
+<el-dialog
+        title="绑定银行卡"
+        :center="true"
+        :visible.sync="dialogVisible"
+        width="850px"
+        :close-on-click-modal=false
+        :before-close="handleClose">
     <div id="myProfile">
-        <h4>绑定银行卡</h4>
-        <div>
-            <div class="baseInput">
-                <p>真实姓名:</p>
-                <el-input style="width: 664px" v-model="user_nicename"></el-input>
-            </div>
-
-            <div class="baseInput">
-                <p>开户银行:</p>
-                <el-input style="width: 664px" v-model="user_bank"></el-input>
-            </div>
-            <div class="baseInput">
-                <p>开户城市与支行:</p>
-                <el-input style="width: 664px" v-model="user_bankcity"></el-input>
-            </div>
-
-            <div class="baseInput">
-                <p>银行卡号:</p>
-                <el-input style="width: 664px" v-model="user_cardnum"></el-input>
-            </div>
+        <el-form>
+            <el-form-item prop="mobile" class="baseInput">
+                <a class="xing"></a>真实姓名:
+                <el-input v-model="user_nicename" style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item prop="mobile" class="baseInput">
+                <a class="xing"></a>开户银行:
+                <el-input v-model="user_bank" style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item prop="mobile" class="baseInput">
+                <a class="xing"></a>开户城市:
+                <el-input v-model="user_bankcity" style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item prop="mobile" class="baseInput">
+                <a class="xing"></a>银行卡号:
+                <el-input v-model="user_cardnum" style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="Submit">确定绑定</el-button>
+            </el-form-item>
 <!--            <div style="display: flex">-->
 <!--                <div class="baseInput" style="margin-right: 40px">-->
 <!--                    <p>性别:</p>-->
@@ -62,9 +69,9 @@
 <!--                <p>直播公告:</p>-->
 <!--                <el-input style="width: 664px" v-model="notice"></el-input>-->
 <!--            </div>-->
-            <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="Submit">确定绑定</el-button>
-        </div>
+        </el-form>
     </div>
+</el-dialog>
 </template>
 
 <script>
@@ -87,6 +94,7 @@
                 user_bankcity:"",
                 user_cardnum:"",
                 token:"",
+                dialogVisible:true,
             };
         },
         mounted() {
@@ -103,6 +111,9 @@
         },
 
         methods: {
+            handleClose() {
+            this.$router.go(-1);
+            },
             async Submit() {
                 // let obj = {};
                 // if(this.user_nicename != this.user.user_nicename){
@@ -188,8 +199,6 @@
 
 <style lang="stylus">
     #myProfile {
-        padding: 32px 0 0 47px;
-
     h4 {
         font-size: 18px;
         font-weight: 600;
@@ -197,7 +206,11 @@
         padding-left: 10px;
         margin-bottom: 40px;
     }
-
+    .el-form-item {
+        display: flex;
+        justify-content: center;
+        color:#434A66;
+    }
     .baseInput {
         margin-bottom: 30px;
 
@@ -208,4 +221,7 @@
     }
     }
     }
+    .el-dialog .el-dialog__header {
+    background: #E6EAF3 !important;
+}
 </style>

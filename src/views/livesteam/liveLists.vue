@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="content-top">
-    <span></span><h3 class="fonth3">全部直播</h3>
-
+      <span></span>
+      <h3 class="fonth3">全部直播</h3>
     </div>
     <ul
       class="categoryinnercontent"
@@ -58,7 +58,7 @@
 
 <script>
 import noData from "@/components/noData.vue";
-import {LiveClass} from '@/api'
+import { LiveClass,GetLiveListByType } from "@/api";
 
 export default {
   name: "LiveType",
@@ -137,39 +137,48 @@ export default {
       tvactive: 1,
       classactive: 1,
       activebgimg: 1,
+      user:{}
     };
   },
   mounted() {
-      let params = {
-          source:'pc',
-          type:'2'
-      }
-      LiveClass(params).then((res)=>{
-          console.log(res)
-      })
-    this.$SERVER.getGameType().then((res) => {
-      if (res.data.code == 0) {
-        res.data.info.forEach((item, i) => {
-          if (i == 0) {
-            item.active = true;
-            this.active = item.name;
-            this.getzblist(item.id);
-          } else {
-            item.active = false;
-          }
-        });
-        this.sendlist = res.data.info;
-      }
-    });
+     this.user = JSON.parse(window.localStorage.getItem("user"))
+    let params = {
+      source: "pc",
+      type: "2",
+    };
+    // LiveClass(params).then((res) => {
+    //   console.log(res);
+    // });
+    // this.$SERVER.getGameType().then((res) => {
+    //   if (res.data.code == 0) {
+    //     res.data.info.forEach((item, i) => {
+    //       if (i == 0) {
+    //         item.active = true;
+    //         this.active = item.name;
+    //         this.getzblist(item.id);
+    //       } else {
+    //         item.active = false;
+    //       }
+    //     });
+    //     this.sendlist = res.data.info;
+    //   }
+    // });
+    this.getzblist(1) 
   },
   methods: {
-    // getzblist(id) {
-    //   this.$SERVER.getLiveListByType(id, 1).then((res) => {
-    //     if (res.data.code == 0) {
-    //       this.zhibo = res.data.info;
-    //     }
-    //   });
-    // },
+    getzblist(type) {
+      const parms = {
+        uid:this.user.id,
+        token:this.$store.state.user.info.token,
+        type:type,
+        p:'1',
+        source:'pc'
+      }
+      GetLiveListByType(parms).then(res=>{
+        console.log(res)
+
+      })
+    },
     tabFn(val, i) {
       this.getzblist(val.id);
       this.sendlist.forEach((item, index) => {
@@ -181,8 +190,8 @@ export default {
       });
     },
     toLive(val) {
-        console.log(window.localStorage)
-        // return
+      console.log(window.localStorage);
+      // return
       this.$router.push({
         name: "liveRoom",
         query: { liveuid: val.uid, stream: val.stream },
@@ -207,8 +216,9 @@ export default {
 .liveTypewrapperinner {
   width: 1750px;
   margin: 0 auto;
-   position relative;
-  height 474px
+  position: relative;
+  height: 474px;
+
   .liveTypenav {
     border-width: 0px;
     position: absolute;
@@ -216,9 +226,10 @@ export default {
     top: 60px;
     width: 100px;
     height: 984px;
-    background: -webkit-linear-gradient(90.1269007437983deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
-    background: -moz-linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
-    background: linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    // background: -webkit-linear-gradient(90.1269007437983deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    // background: -moz-linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    // background: linear-gradient(-0.126900743798345deg, rgba(109, 48, 55, 1) 0%, rgba(49, 58, 126, 1) 100%);
+    background: #1b1d2e;
     border: none;
     border-radius: 0px;
     -moz-box-shadow: none;
@@ -229,12 +240,14 @@ export default {
       height: 45%;
 
       >ul li.tvactive {
-        background: url('../../assets/img/ionilleft.svg');
+        // background: url('../../assets/img/ionilleft.svg');
+        background: linear-gradient(180deg, #0f1121, #202342 100%);
         color: rgb(240, 198, 130);
       }
 
       >ul li:hover {
-        background: url('../../assets/img/ionilleft.svg');
+        // background: url('../../assets/img/ionilleft.svg');
+        background: linear-gradient(180deg, #0f1121, #202342 100%);
         color: rgb(240, 198, 130);
         background-size: 100% 100%;
       }
@@ -245,22 +258,22 @@ export default {
       }
 
       >ul li:nth-child(2):hover >i {
-        background: url('../../assets/img/icontvleft3.png');
+        background: url('../../assets/img/icontvleft2.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(3):hover >i {
-        background: url('../../assets/img/icontvleft4.png');
+        background: url('../../assets/img/icontvleft3.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(4):hover >i {
-        background: url('../../assets/img/icontvleft2.png');
+        background: url('../../assets/img/icontvleft4.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(5):hover >i {
-        background: url('../../assets/img/icontvleft2.png');
+        background: url('../../assets/img/icontvleft5.png');
         background-size: 100% 100%;
       }
 
@@ -270,22 +283,22 @@ export default {
       }
 
       >ul li:nth-child(2) >i.activebgimg {
-        background: url('../../assets/img/icontvleft3.png');
+        background: url('../../assets/img/icontvleft2.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(3) >i.activebgimg {
-        background: url('../../assets/img/icontvleft4.png');
+        background: url('../../assets/img/icontvleft3.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(4) >i.activebgimg {
-        background: url('../../assets/img/icontvleft2.png');
+        background: url('../../assets/img/icontvleft4.png');
         background-size: 100% 100%;
       }
 
       >ul li:nth-child(5) >i.activebgimg {
-        background: url('../../assets/img/icontvleft2.png');
+        background: url('../../assets/img/icontvleft5.png');
         background-size: 100% 100%;
       }
 
@@ -293,8 +306,8 @@ export default {
         position: relative;
         border-width: 0;
         width: 100px;
-        height: 45px;
-        line-height: 32px;
+        height: 72px;
+        // line-height: 32px;
         display: flex;
         font-family: 'Arial Negreta', 'Arial Normal', 'Arial', sans-serif;
         font-weight: 700;
@@ -302,7 +315,10 @@ export default {
         font-size: 14px;
         color: #AAAAAA;
         padding: 10px;
-        margin: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
 
         /* >img{ */
         /* border-width: 0px; */
@@ -320,6 +336,7 @@ export default {
           height: 25px;
           margin-right: 7px;
           margin-left: 5px;
+          margin-bottom: 5px;
         }
       }
 
@@ -344,7 +361,7 @@ export default {
       }
 
       >ul li:nth-child(5) >i {
-        background: url('../../assets/img/icondataleft.png');
+        background: url('../../assets/img/icondataleft1.png');
         background-size: 100% 100%;
       }
     }
@@ -388,23 +405,23 @@ export default {
 
         >span {
           display: inline-block;
-          width: 60px;
-          height: 26px;
-          border-radius: 4px;
-          background-color: #7B7998;
+          width: 64px;
+          height: 28px;
+          border: 1px solid #9193b4;
+          border-radius: 5px;
           /* opacity: 0.9; */
-          line-height: 26px;
+          line-height: 28px;
         }
       }
 
       >ul li >span.classactive {
         color: #FACD91;
-        border: 1px solid #FACD91;
+        border: 1px solid #dbb16f;
       }
 
       >ul li >span:hover {
         color: #FACD91;
-        border: 1px solid #FACD91;
+        border: 1px solid #dbb16f;
       }
     }
 
@@ -580,20 +597,26 @@ export default {
     }
   }
 }
-.content-top{
-  display flex
-  justify-content:flex-start;
-  align-items center;
- span{
-    display:inline-block;
-    width 28px
-    height 28px
-    background url('../../assets/img/zhubo.png') no-repeat center;
-  }
-  .fonth3{
-    margin-left 5px;
-  }
- 
-}
 
+.content-top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  span {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: url('../../assets/img/zhubo.png') no-repeat center;
+  }
+
+  .fonth3 {
+    margin-left: 5px;
+     font-size: 22px;
+      font-family: PingFang SC, PingFang SC-Medium;
+      font-weight: 600;
+      text-align: left ;
+      color: #333333;
+  }
+}
 </style>

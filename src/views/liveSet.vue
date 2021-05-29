@@ -75,19 +75,18 @@
                 <p class="set-my-gome">设置自定义赛事</p>
             </div>
             <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="tiem" label="" width="80"> </el-table-column>
-                <el-table-column prop="name" label="" width="80"> </el-table-column>
-                <el-table-column prop="status" label="" width="120"></el-table-column>
-                <el-table-column label="" width="300">
+                <el-table-column prop="tiem" label="" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="" width="90" align="center"></el-table-column>
+                <el-table-column prop="status" label="" align="center"></el-table-column>
+                <el-table-column label="" width="300" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.aa }} VS {{ scope.row.bb }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
-                    fixed="right"
                     width="100">
-                    <template slot-scope="scope">
-                        <div @click="convention(scope.row)">预约</div>
+                    <template slot-scope="scope" align="center">
+                        <div @click="convention(scope.row)" class="dialog-btn">预约</div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -233,7 +232,7 @@
                     source: 'pc'
                 }
                 LiveStream(data).then(res => {
-                    this.tableData = res.data.info
+                    this.tableData = res.info
                 })
             },
             convention(row) {
@@ -284,8 +283,8 @@
         margin-bottom: 30px;
     }
 }
-.el-dialog .el-dialog__header {
-    background: #EBF0FB !important;
+.el-table .has-gutter th, .el-table .has-gutter tr {
+  background: #EBF0FB;
 }
 .dialog-footer .el-button {
     background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
@@ -312,5 +311,14 @@
     .set-my-gome {
         color: #DBB16F;
     }
+}
+.dialog-btn {
+    width: 46px;
+    height: 26px;
+    line-height 26px;
+    text-align: center;
+    opacity: 1;
+    background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+    border-radius: 2px;
 }
 </style>
