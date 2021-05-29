@@ -32,13 +32,12 @@
         },
         methods: {
           initDaysList (val) {
-            const flag = val == 0 ? 1 : val
             this.dateData = []
             // 获取系统当前时间
             var now = new Date()
             var nowTime = now.getTime()
             var oneDayTime = 24 * 60 * 60 * 1000
-            var upLoadNowTime = nowTime + oneDayTime * flag
+            var upLoadNowTime = nowTime + oneDayTime * val
             for (var i = 0; i < 7; i++) {
               var ShowTime = upLoadNowTime + i * oneDayTime
               var myDate = new Date(ShowTime)
@@ -47,25 +46,25 @@
               var str = myDate.getDay()
               switch(str) {
                 case 1:
-                      str = '星期一';
+                      str = '周一';
                       break;
                 case 2:
-                      str = '星期二';
+                      str = '周二';
                       break;
                 case 3:
-                      str = '星期三';
+                      str = '周三';
                       break;
                 case 4:
-                      str = '星期四';
+                      str = '周四';
                       break;
                 case 5:
-                      str = '星期五';
+                      str = '周五';
                       break;
                 case 6:
-                      str = '星期六';
+                      str = '周六';
                       break;
                 case 0:
-                      str = '星期日';
+                      str = '周日';
                       break;
               }
               this.dateData.push({
@@ -105,11 +104,14 @@
     .time-week-item {
         width: 84px;
         text-align: center;
+        color: #434A66;
         .time {
           padding-top: 10px
+          font-size: 16px;
         }
         .lable {
-          padding-bottom: 10px
+          padding-bottom: 10px;
+          font-size: 12px;
         }
         .current-date {
           background: linear-gradient(90deg,#eccbab, #dbb16f 100%);

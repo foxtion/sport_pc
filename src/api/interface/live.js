@@ -60,6 +60,9 @@ export const userLiveList = (params) => post({ url: 'Live.userLiveList', params}
 // 用户关注主播列表
 export const userFollowAnchor = (params) => post({ url: 'Follow.userFollowAnchor', params})
 
+// 关注主播
+export const FollowAnchor = (params) => post({ url: 'Follow.followAnchor', params})
+
 // 礼物列表
 export const getGiftList = (params) => post({ url: 'Live.getGiftList', params})
 

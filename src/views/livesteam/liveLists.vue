@@ -79,8 +79,11 @@
         background
         layout="prev, pager, next"
         :total="total"
+        :current-page="currentpage"
+        :page-size="20"
         @prev-click="prev"
         @next-click="next"
+        @current-change="currentchange"
       >
       </el-pagination>
     </div>
@@ -104,6 +107,7 @@ export default {
       tvactive: 1,
       classactive: 1,
       activebgimg: 1,
+      currentpage:1,
       user: {},
       listp: "1",
       total: 100,
@@ -111,7 +115,7 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(window.localStorage.getItem("user"));
-    this.getzblist(0,1);
+    this.getzblist(1);
   },
   computed: {
     // tabname() {
@@ -127,23 +131,32 @@ export default {
   methods: {
     prev(val) {
       console.log(val);
-      this.getzblist(String(val),this.listp)
+      this.getzblist(val);
+      this.currentpage = val
+      val--
     },
     next(val) {
       console.log(val);
-      this.getzblist(String(val),this.listp)
+      this.getzblist(val);
+      this.currentpage = val
+      val++
     },
-    getzblist(type,listp) {
+    currentchange(val){
+      console.log(val);
+       this.getzblist(val)
+       this.currentpage = val
+    },
+    getzblist(listp) {
       const parms = {
-        p: listp,
-        game_type: type,
+        p: String(listp),
+        game_type: this.tabname,
         source: "pc",
       };
       this.zhibo = [];
       console.log(parms);
       LiveSports(parms).then((res) => {
         console.log(res.info);
-        this.total =Number(res.info.total) 
+        this.total = Number(res.info.total);
         this.zhibo = res.info.list;
       });
     },
@@ -182,7 +195,7 @@ export default {
     tabname(newVal, oldVal) {
       console.log(newVal, oldVal);
       this.tabname = oldVal;
-      this.getzblist(oldVal,this.listp);
+      this.getzblist(oldVal, this.listp);
     },
   },
 };

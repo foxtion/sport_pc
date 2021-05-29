@@ -2,7 +2,7 @@
     <div id="myProfile">
         <h4>直播设置</h4>
         <div>
-            <el-form ref="form" :model="form" label-width="100px" :rules="formRule" >
+            <el-form ref="form" :model="form" label-width="100px" >
             <div class="baseInput" style="margin-right: 40px">
                 <el-form-item label="直播分类:">
                     <el-select v-model="form.classes">
@@ -63,24 +63,29 @@
             <DateWeek ref="dateWeek" @searchCompetitionData="searchCompetitionData"/>
             <div class="dialog-header">
                 <div class="dialog-header-left">
-                    <span class="date">05月15日</span><p>足球<span style="color: #DBB16F">332场</span>比赛</p>
+                    <span class="date">{{ currentTime }}</span><p>足球<span style="color: #DBB16F">332场</span>比赛</p>
                     <el-select v-model="gomeType" class="select-gome" size="mini">
-                        <el-option label="足球" value="0"></el-option>
-                        <el-option label="篮球" value="1"></el-option>
-                        <el-option label="网球" value="2"></el-option>
-                        <el-option label="电竞" value="3"></el-option>
-                        <el-option label="其它" value="4"></el-option>
+                        <el-option
+                            v-for="item in gomeTypeList"
+                            :key="item.events_id"
+                            :value="item.events_id"
+                            :label="item.name"
+                            />
                     </el-select>
                 </div> 
                 <p class="set-my-gome">设置自定义赛事</p>
             </div>
-            <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="tiem" label="" width="100" align="center"></el-table-column>
-                <el-table-column prop="name" label="" width="90" align="center"></el-table-column>
-                <el-table-column prop="status" label="" align="center"></el-table-column>
+            <el-table :data="tableData" style="width: 100%; height: 300px;">
+                <el-table-column prop="competition_time_text" label="" width="100" align="center"></el-table-column>
+                <el-table-column prop="short_name_zh" label="" width="90" align="center"></el-table-column>
+                <el-table-column prop="status_text" label="" align="center"></el-table-column>
                 <el-table-column label="" width="300" align="center">
                     <template slot-scope="scope">
-                        <span>{{ scope.row.aa }} VS {{ scope.row.bb }}</span>
+                       <div style="display: flex">
+                           <div style="display: flex">{{ scope.row.deputy_name }}<img :src="scope.row.deputy_logo" width="20px" /></div> 
+                           VS 
+                           <div style="display: flex"> <img :src="scope.row.main_logo" width="20px" />{{ scope.row.main_name }} </div>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -99,7 +104,7 @@
 
 <script>
     import DateWeek from './dateWeek'
-    import { CreateRoom, LiveStream, appointment} from '@/api'
+    import { CreateRoom, footMatch, appointment} from '@/api'
     export default {
         name: "LiveSet",
         components: {
@@ -145,13 +150,13 @@
                 ],
                 currentTime: '',
                 gomeType: '1',
-                uid: ''
+                uid: '',
+                gomeTypeList: []
             };
         },
         mounted() {
             this.user = JSON.parse(window.localStorage.getItem("user"))
             this.token = window.localStorage.getItem("token")
-            console.log(this.token)
             if(this.user){
                 this.iszb = this.user.iszb;
                 this.user_nicename = this.user.user_nicename;
@@ -209,30 +214,28 @@
                 this.dialogVisible = true
             },
             handleClose() {
-                
+                this.dialogVisible = false
             },
             searchCompetitionData(time) {
-                const startDate = new Date(time.showTime)
+                const startDate = new Date(time.showTime + 600000)
                 const startY = startDate.getFullYear() 
-                const startM = startDate.getMonth() + 1
-                const startD = startDate.getDate()
-                const endShowTime = time.showTime + 24 * 60 * 60 * 1000
-                const endDate = new Date(endShowTime)
-                const endY = endDate.getFullYear() 
-                const endM = endDate.getMonth() + 1
-                const endD = endDate.getDate()
-                const starttime = startY + '-' + startM + '-'+ startD + " 00:00:00"
-                const endtime = endY + '-' + endM + '-'+ endD + " 00:00:00"
+                const startM = startDate.getMonth() + 1 > 9 ? startDate.getMonth() + 1 : '0' +(startDate.getMonth()+ 1)
+                const startD = startDate.getDate() > 9 ? startDate.getDate() : '0' + startDate.getDate()
+                const h = (startDate.getHours() < 10 ? '0'+startDate.getHours() : startDate.getHours()) + ':';
+                const m = (startDate.getMinutes() < 10 ? '0'+startDate.getMinutes() : startDate.getMinutes()) + ':';
+                const s = (startDate.getSeconds() < 10 ? '0'+startDate.getSeconds() : startDate.getSeconds());
+                const starttime = startY + '-' + startM + '-'+ startD
+                this.currentTime = startM + '月'+ startD + '日'
                 const data = {
                     uid: this.user.id, //登录的uid
                     token: this.token, //登录的token
-                    type: this.gomeType,
-                    starttime,
-                    endtime,
+                    time: starttime,
                     source: 'pc'
                 }
-                LiveStream(data).then(res => {
-                    this.tableData = res.info
+                footMatch(data).then(res => {
+                    console.log(res, 'res---')
+                    this.tableData = res.info.list
+                    this.gomeTypeList = res.info.filter
                 })
             },
             convention(row) {
@@ -282,6 +285,10 @@
     .rechargenubms{
         margin-bottom: 30px;
     }
+     
+    .el-table thead {
+        display: none;
+    }
 }
 .el-table .has-gutter th, .el-table .has-gutter tr {
   background: #EBF0FB;
@@ -320,5 +327,10 @@
     opacity: 1;
     background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
     border-radius: 2px;
+}
+
+.el-dialog__headerbtn .el-dialog__close {
+    color: #76809C;
+    font-weight: 700
 }
 </style>

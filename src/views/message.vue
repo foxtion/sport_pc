@@ -3,10 +3,10 @@
     <h4>我的消息</h4>
     <div>
       <div>
-        <el-table :data="msglist" style="width: 95%">
-          <el-table-column prop="date1" label="消息时间" width="300" align="center"> </el-table-column>
-          <el-table-column prop="date2" label="消息内容" align="center"> </el-table-column>
-          <el-table-column prop="date3" label="消息类型" width="300" align="center"> </el-table-column>
+        <el-table :data="msglist" style="width: 95%" border>
+          <el-table-column prop="addtime" label="消息时间" width="200" align="center"> </el-table-column>
+          <el-table-column prop="content" label="消息内容" align="center"> </el-table-column>
+          <el-table-column prop="type" label="消息类型" width="200" align="center"> </el-table-column>
         </el-table>
       </div>
     </div>
@@ -19,7 +19,7 @@ import { MessageNoticeList } from '@/api'
 export default {
   name: "message",
   components: {
-    noData,
+    noData
   },
   data() {
     return {
@@ -39,14 +39,13 @@ export default {
       const params = {
         uid: user.id,
         token: window.localStorage.getItem("token"),
-        p: 1,
+        p: this.currentPage,
         source: 'pc'
       }
       MessageNoticeList(params).then(res => {
         this.msglist = res.info
-        console.log(res, 'res')
       })
-    }
+    },
   },
 };
 </script>

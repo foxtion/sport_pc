@@ -1,10 +1,10 @@
 <template>
   <div id="Livelist">
     <h4>房间管理</h4>
-    <el-table :data="tableData" style="width: 95%">
-      <el-table-column prop="code" label="房间号" width="300" align="center"> </el-table-column>
-      <el-table-column prop="name" label="房间主播" align="center"> </el-table-column>
-      <el-table-column prop="date" label="最近开播" width="300" align="center"> </el-table-column>
+    <el-table :data="tableData" style="width: 95%" border>
+      <el-table-column prop="stream" label="房间号" width="300" align="center"> </el-table-column>
+      <el-table-column prop="nick_name" label="房间主播" align="center"> </el-table-column>
+      <el-table-column prop="starttime" label="最近开播" width="300" align="center"></el-table-column>
        <el-table-column
        label="管理" 
         width="100">
