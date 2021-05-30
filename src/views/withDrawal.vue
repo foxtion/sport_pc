@@ -98,7 +98,7 @@
 
 <script>
 import envconfig from "../server/config.js";
-import { UserBindAccount } from "@/api";
+import { extracCashList } from "@/api";
 export default {
   name: "bindBankCard",
   data() {
@@ -174,11 +174,11 @@ export default {
             uid: this.user.id,
             token: this.token,
             name: this.loginForm.user_bank,
+            account: this.loginForm.idcard,//账户
             account_bank: this.loginForm.user_cardnum,
-            account: this.loginForm.idcard,
             type: 3,
           };
-          UserBindAccount(params).then((res) => {
+          extracCashList(params).then((res) => {
             if (res.code == 0) {
               this.$message({
                 message: res.msg,
@@ -195,7 +195,7 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 #myBank {
   padding: 0;
 
