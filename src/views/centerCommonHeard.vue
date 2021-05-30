@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="content_r">
-        <span class="ican">我要直播</span>
+        <span class="ican" @click="Submit">我要直播</span>
         <span class="fensi">我的粉丝：<i>888</i></span>
       </div>
     </div>
@@ -129,6 +129,9 @@ export default {
       else{
         this.$router.push({ name: 'withDrawal' })
       }
+    },
+    async Submit() {
+      this.$router.push({ name: "realName" });
     },
     //充值
     withdrawal() {},

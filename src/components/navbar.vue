@@ -238,7 +238,7 @@
                 alt
                 @click="$router.push({ name: 'message' })"
               />
-              <p @click="$router.push({ name: 'mine' })">我要直播</p>
+              <p @click=" Submit()">我要直播</p>
             </el-col>
             <!--                        <el-col :span="6">-->
             <!--                            <img src="@/assets/img/subscribe-active.png" alt @click="$router.push({ name: 'myProfile' })" />-->
@@ -498,6 +498,9 @@ export default {
     this.init();
   },
   methods: {
+    async Submit() {
+      this.$router.push({ name: "realName" });
+    },
     getIsAuth(){
       const params = {
         uid:this.user.id,

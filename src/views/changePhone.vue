@@ -274,7 +274,7 @@ export default {
 
 <style lang="stylus">
 #changePhone {
-    .el-dialog--center .el-dialog__body {
+    /deep/ .el-dialog--center .el-dialog__body {
         padding: 0px 25px 4px;
     }
     h4 {

@@ -22,7 +22,7 @@
           >
             <a class="xing">*</a>选择提现银行卡：
             <el-input
-              type="textarea"
+              
               v-model="loginForm.user_bank"
               placeholder="例：中国银行                                                            6510**** **** *** 168                                                             张山 
                 "

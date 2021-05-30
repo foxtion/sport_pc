@@ -24,6 +24,7 @@ export default {
     return {
       user: {},
       token: "",
+      tableData:[]
     };
   },
   created() {
@@ -46,7 +47,7 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 #concern {
   >div {
     padding: 0 0 0 30px;
