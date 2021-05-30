@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="top__fixturelist">
-        2
+        <DateWeek ref="dateWeek" @searchCompetitionData="searchCompetitionData"/>
       </div>
       <div class="time_fixturelist">
         <div class="date">
@@ -93,8 +93,12 @@
 
 <script>
 import { GetLiveListByType,football,basketball } from "@/api";
+import DateWeek from '../dateWeek'
 
   export default {
+    components: {
+        DateWeek
+    },
     data() {
       return {
         uid: "",
@@ -286,12 +290,18 @@ import { GetLiveListByType,football,basketball } from "@/api";
 .top__fixturelist{
   float:left;
   width: 946px;
-  height: 58px;
+  height: 52px;
   opacity: 1;
   background: #ffffff;
   border: 1px solid #e6eaf3;
   border-radius: 5px;
   margin-left:20px;
+  .time-week .time-week-item {
+    width: 100px;
+  }
+  .time-week .time-week-item {
+    width: 904px;
+  }
 }
 .time_fixturelist{
   width: 946px;
