@@ -76,3 +76,9 @@ export const openNoble = (params) => post({ url: 'noble.openNoble', params})
 export const enterRoom = (params) => post({ url: 'Live.enterRoom', params})
 // 礼物列表
 export const FollowLiveList = (params) => post({ url: 'Follow.followLiveList', params})
+
+// 开播设置 足球赛事选择
+export const footMatch = (params) => post({ url: 'Schedule.footMatch', params})
+
+// 开播设置 篮球赛事选择
+export const basketMatch = (params) => post({ url: 'Schedule.basketMatch', params})

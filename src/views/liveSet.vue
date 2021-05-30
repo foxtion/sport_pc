@@ -73,7 +73,7 @@
                             />
                     </el-select>
                 </div> 
-                <p class="set-my-gome">设置自定义赛事</p>
+                <p class="set-my-gome" @click="myCompetitionVisible = true">设置自定义赛事</p>
             </div>
             <el-table :data="tableData" style="width: 100%; height: 300px;">
                 <el-table-column prop="competition_time_text" label="" width="100" align="center"></el-table-column>
@@ -99,12 +99,24 @@
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
             </span>
         </el-dialog>
+        <!-- 自定义赛事 -->
+        <el-dialog
+        title="自定义赛事"
+        :center="true"
+        :visible.sync="myCompetitionVisible"
+        width="500px">
+            <div class="dialog-header">
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="myCompetitionBtn">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import DateWeek from './dateWeek'
-    import { CreateRoom, footMatch, appointment} from '@/api'
+    import { CreateRoom, footMatch, basketMatch, appointment} from '@/api'
     export default {
         name: "LiveSet",
         components: {
@@ -151,12 +163,11 @@
                 currentTime: '',
                 gomeType: '1',
                 uid: '',
-                gomeTypeList: []
+                gomeTypeList: [],
+                myCompetitionVisible: false
             };
         },
         mounted() {
-            this.user = JSON.parse(window.localStorage.getItem("user"))
-            this.token = window.localStorage.getItem("token")
             if(this.user){
                 this.iszb = this.user.iszb;
                 this.user_nicename = this.user.user_nicename;
@@ -166,6 +177,8 @@
             }
         },
         created() {
+            this.user = JSON.parse(window.localStorage.getItem("user"))
+            this.token = window.localStorage.getItem("token")
             var now = new Date()
             const data = {
                 showTime: now.getTime()
@@ -216,14 +229,11 @@
             handleClose() {
                 this.dialogVisible = false
             },
-            searchCompetitionData(time) {
+            searchCompetitionData(time) { 
                 const startDate = new Date(time.showTime + 600000)
                 const startY = startDate.getFullYear() 
                 const startM = startDate.getMonth() + 1 > 9 ? startDate.getMonth() + 1 : '0' +(startDate.getMonth()+ 1)
                 const startD = startDate.getDate() > 9 ? startDate.getDate() : '0' + startDate.getDate()
-                const h = (startDate.getHours() < 10 ? '0'+startDate.getHours() : startDate.getHours()) + ':';
-                const m = (startDate.getMinutes() < 10 ? '0'+startDate.getMinutes() : startDate.getMinutes()) + ':';
-                const s = (startDate.getSeconds() < 10 ? '0'+startDate.getSeconds() : startDate.getSeconds());
                 const starttime = startY + '-' + startM + '-'+ startD
                 this.currentTime = startM + '月'+ startD + '日'
                 const data = {
@@ -233,7 +243,6 @@
                     source: 'pc'
                 }
                 footMatch(data).then(res => {
-                    console.log(res, 'res---')
                     this.tableData = res.info.list
                     this.gomeTypeList = res.info.filter
                 })
@@ -251,6 +260,10 @@
                 appointment(params).then(res => {
                     console.log(res, 'res')
                 })
+            },
+            // 自定义赛事
+            myCompetitionBtn() {
+                this.myCompetitionVisible = false
             }
         },
     };
@@ -302,6 +315,15 @@
     .el-table thead {
         display: none;
     }
+    .el-dialog--center {
+        border-radius: 9px;
+    }
+    .el-dialog__header {
+        background: #EBF0FB;
+        border-radius: 9px 9px 0 0;
+        padding-top: 13px;
+        padding-bottom: 13px;
+    }
 }
 .el-table .has-gutter th, .el-table .has-gutter tr {
   background: #EBF0FB;
@@ -330,6 +352,7 @@
     }
     .set-my-gome {
         color: #DBB16F;
+        cursor: pointer;
     }
 }
 .dialog-btn {
