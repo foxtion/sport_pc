@@ -1,6 +1,8 @@
 const state = {
     info:JSON.parse(sessionStorage.getItem('info'))||[],
-    tabnav:0
+    tabnav:0,
+    isauth:false
+
 }
 const mutations = {
     userinfo(state,param){
@@ -9,9 +11,14 @@ const mutations = {
     },
     tabindex(state,param){
         state.tabnav =param
-        sessionStorage.setItem('info', JSON.stringify(param))
+        sessionStorage.setItem('tabnav', JSON.stringify(param))
 
-    }
+    },
+    isAuth(state,param){
+        state.tabnav =param
+        sessionStorage.setItem('isauth', JSON.stringify(param))
+
+    },
     
 }
 const actions = {}

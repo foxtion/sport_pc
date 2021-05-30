@@ -87,9 +87,14 @@
                 {{ info.nick_name }}
                 <img
                   src="@/assets/img/di.png"
-                  style="width: 45px; position: relative; top: 2px;width: 20px;
-height: 16px;
-opacity: 1;"
+                  style="
+                    width: 45px;
+                    position: relative;
+                    top: 2px;
+                    width: 20px;
+                    height: 16px;
+                    opacity: 1;
+                  "
                 />
               </p>
               <el-tag
@@ -128,11 +133,17 @@ opacity: 1;"
                 margin-top: 50px;
               "
             >
-              <div style="float: left; margin-right: 0px;font-size: 14px;
-font-family: PingFang SC, PingFang SC-Regular;
-font-weight: 400;
-text-align: left;
-color: #333333;">
+              <div
+                style="
+                  float: left;
+                  margin-right: 0px;
+                  font-size: 14px;
+                  font-family: PingFang SC, PingFang SC-Regular;
+                  font-weight: 400;
+                  text-align: left;
+                  color: #333333;
+                "
+              >
                 <span>我的钱包 </span>
                 <img
                   src="@/assets/img/my_coin.png"
@@ -140,11 +151,16 @@ color: #333333;">
                 />
                 <!-- <span>{{ info.coin}}</span> -->
               </div>
-              <div style="float: left;font-size: 14px;
-font-family: PingFang SC, PingFang SC-Regular;
-font-weight: 400;
-text-align: LEFT;
-color: #76809c;">
+              <div
+                style="
+                  float: left;
+                  font-size: 14px;
+                  font-family: PingFang SC, PingFang SC-Regular;
+                  font-weight: 400;
+                  text-align: LEFT;
+                  color: #76809c;
+                "
+              >
                 <span>龙钻</span>
                 <!-- <img src="@/assets/img/my_coin.png" style="position:relative; top:5px; margin-right:10px;"/> -->
                 <span> {{ info.coin }}</span>
@@ -405,14 +421,21 @@ color: #76809c;">
         />
       </el-backtop>
     </div>
+    <!-- <div class="motai">
+      <bindBankCard></bindBankCard>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { Login, Getcode, Register, submitfk, GetUserinfo } from "@/api";
+import bindBankCard from "../views/bindBankCard";
+import { Login, Getcode, Register, submitfk, GetUserinfo ,IsAuth} from "@/api";
 export default {
   name: "navbar",
   inject: ["reload"],
+  components: {
+    bindBankCard,
+  },
   props: {
     active: {
       type: Boolean,
@@ -450,12 +473,16 @@ export default {
       regiorlog: 1,
       whichball: 0,
       regiorlog2: 1,
+      suer:{},
+      token:''
     };
   },
   mounted() {
     console.log(this.$store.state);
     let active = location.hash;
     console.log(location.hash);
+     this.user = JSON.parse(window.localStorage.getItem("user"));
+    this.token = window.localStorage.token;
     this.navList.forEach((item, index) => {
       if (item.url == active) {
         this.navList[index].active = true;
@@ -467,9 +494,22 @@ export default {
         this.navList[2].active = true;
       }
     });
+  this.getIsAuth()
     this.init();
   },
   methods: {
+    getIsAuth(){
+      const params = {
+        uid:this.user.id,
+        token:this.token,
+        source:'pc'
+
+      }
+      IsAuth(params).then(res=>{
+        console.log(res)
+        this.$store.commit('isAuth',res.info)
+      })
+    },
     changexxk(ball) {
       if (ball == 1) {
         this.whichball = 2;
@@ -1003,5 +1043,18 @@ export default {
       }
     }
   }
+}
+
+.v-modal {
+  display: none;
+}
+
+.motai {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.el-dialog__wrapper {
+  background: rgba(0, 0, 0, 0.6);
 }
 </style>

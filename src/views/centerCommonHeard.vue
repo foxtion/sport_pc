@@ -33,7 +33,9 @@
           <span class="paybtn" @click="$router.push({ name: 'recharge' })"
             >充值</span
           >
-          <span class="tixianbtn" @click="$router.push({ name: 'withDrawal' })"
+          <!-- <span class="tixianbtn" @click="$router.push({ name: 'withDrawal' })" -->
+          <span class="tixianbtn" @click="tixian"
+
             >提现</span
           >
         </div>
@@ -120,6 +122,14 @@ export default {
     // this.getUserinfo();
   },
   methods: {
+    tixian(){
+      if(!true){
+        this.$router.push({ name: 'bindBankCard' })
+      }
+      else{
+        this.$router.push({ name: 'withDrawal' })
+      }
+    },
     //充值
     withdrawal() {},
     getUserinfo() {

@@ -66,7 +66,7 @@ export const FollowAnchor = (params) => post({ url: 'Follow.followAnchor', param
 // 礼物列表
 export const getGiftList = (params) => post({ url: 'Live.getGiftList', params})
 
-// 贵族列表 
+// 贵族列表
 export const nobleList = (params) => post({ url: 'noble.nobleList', params})
 
 // 开通贵族
@@ -82,3 +82,13 @@ export const footMatch = (params) => post({ url: 'Schedule.footMatch', params})
 
 // 开播设置 篮球赛事选择
 export const basketMatch = (params) => post({ url: 'Schedule.basketMatch', params})
+
+// 足球赛程
+export const football = (params) => post({ url: 'Schedule.football', params})
+
+// 篮球赛程
+export const basketball = (params) => post({ url: 'Schedule.basketball', params})
+
+// 主播是否实名认证
+export const IsAuth = (params) => post({ url: 'Live.isAuth', params})
+
