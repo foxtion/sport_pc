@@ -429,7 +429,7 @@
 
 <script>
 import bindBankCard from "../views/bindBankCard";
-import { Login, Getcode, Register, submitfk, GetUserinfo } from "@/api";
+import { Login, Getcode, Register, submitfk, GetUserinfo ,IsAuth} from "@/api";
 export default {
   name: "navbar",
   inject: ["reload"],
@@ -473,12 +473,16 @@ export default {
       regiorlog: 1,
       whichball: 0,
       regiorlog2: 1,
+      suer:{},
+      token:''
     };
   },
   mounted() {
     console.log(this.$store.state);
     let active = location.hash;
     console.log(location.hash);
+     this.user = JSON.parse(window.localStorage.getItem("user"));
+    this.token = window.localStorage.token;
     this.navList.forEach((item, index) => {
       if (item.url == active) {
         this.navList[index].active = true;
@@ -490,9 +494,22 @@ export default {
         this.navList[2].active = true;
       }
     });
+  this.getIsAuth()
     this.init();
   },
   methods: {
+    getIsAuth(){
+      const params = {
+        uid:this.user.id,
+        token:this.token,
+        source:'pc'
+
+      }
+      IsAuth(params).then(res=>{
+        console.log(res)
+        this.$store.commit('isAuth',res.info)
+      })
+    },
     changexxk(ball) {
       if (ball == 1) {
         this.whichball = 2;
