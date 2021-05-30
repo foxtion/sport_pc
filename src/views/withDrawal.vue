@@ -1,83 +1,42 @@
 <template>
-    <div id="myProfile">
-        <h4>绑定银行卡</h4>
-        <div>
-            <div class="baseInput">
-                <p>请选择提现银行卡:</p>
-                <el-input style="width: 664px" v-model="user_nicename"></el-input>
-            </div>
-
-            <div class="baseInput">
-                <p>提现金额:</p>
-                <el-input style="width: 664px" v-model="user_bank" placeholder="请输入提现金额"></el-input>
-            </div>
-            <div class="baseInput">
-                <p>资金安全码:</p>
-                <el-input style="width: 664px" v-model="user_bankcity" placeholder="输入账号资金安全码"></el-input>
-            </div>
-
-<!--            <div class="baseInput">-->
-<!--                <p>银行卡号:</p>-->
-<!--                <el-input style="width: 664px" v-model="user_cardnum" placeholder="请输入密码不少于6位"></el-input>-->
-<!--            </div>-->
-            <div class="rechargenubms">
-                <p>提现金额:<span>800</span><span>.00元</span></p>
-            </div>
-            <!--            <div style="display: flex">-->
-            <!--                <div class="baseInput" style="margin-right: 40px">-->
-            <!--                    <p>性别:</p>-->
-            <!--                    <el-select v-model="sex">-->
-            <!--                        <el-option label="保密" value="0"></el-option>-->
-            <!--                        <el-option label="男" value="1"></el-option>-->
-            <!--                        <el-option label="女" value="2"></el-option>-->
-            <!--                    </el-select>-->
-            <!--                </div>-->
-            <!--                <div class="baseInput">-->
-            <!--                    <p>出生日期:</p>-->
-            <!--                    <el-date-picker type="date" placeholder="选择日期" v-model="birthday" value-format="yyyy-MM-dd"></el-date-picker>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="baseInput">-->
-            <!--                <p>开播提醒:</p>-->
-            <!--                <el-radio-group v-model="start_live_remind">-->
-            <!--                    <el-radio label="1">开启</el-radio>-->
-            <!--                    <el-radio label="0">关闭</el-radio>-->
-            <!--                </el-radio-group>-->
-            <!--            </div>-->
-
-            <!--            <div class="baseInput">-->
-            <!--                <p>开赛提醒:</p>-->
-            <!--                <el-radio-group v-model="start_game_remind">-->
-            <!--                    <el-radio label="1">开启</el-radio>-->
-            <!--                    <el-radio label="0">关闭</el-radio>-->
-            <!--                </el-radio-group>-->
-            <!--            </div>-->
-
-            <!--            <div class="baseInput">-->
-            <!--                <p>小窗播放:</p>-->
-            <!--                <el-radio-group v-model="small_window_play">-->
-            <!--                    <el-radio label="1">开启</el-radio>-->
-            <!--                    <el-radio label="0">关闭</el-radio>-->
-            <!--                </el-radio-group>-->
-            <!--            </div>-->
-
-            <!--            <div class="baseInput" v-if="iszb == '1'">-->
-            <!--                <p>直播公告:</p>-->
-            <!--                <el-input style="width: 664px" v-model="notice"></el-input>-->
-            <!--            </div>-->
-            <el-button type="primary" style="background: #f8c21b; border-color: #f8c21b" @click="Submit">确定绑定</el-button>
-        </div>
+<el-dialog
+        title="提现"
+        :center="true"
+        :visible.sync="dialogVisible"
+        width="668px"
+        :close-on-click-modal=false
+        :before-close="handleClose">
+    <div id="myBank">
+        <el-form :model="loginForm" :rules="loginRule" ref="loginForm" style="width: 668px; margin: 30px auto">
+            <el-form-item prop="account_bank" class="baseInput">
+                <a class="xing">*</a>选择提现银行卡：:
+                <el-input v-model="loginForm.user_bank" placeholder="例：中国银行" style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item prop="account" class="baseInput">
+                <a class="xing">*</a>提现金额：:
+                <el-input v-model="loginForm.user_cardnum" placeholder="请输入银行卡号" style="width: 330px"></el-input>
+            </el-form-item>
+            <el-form-item prop="idcard" class="baseInput">
+                <a class="xing">*</a>资金安全码：:
+                <el-input v-model="loginForm.idcard" placeholder="请输入身份证号码" style="width: 330px"></el-input>
+            </el-form-item>
+            
+            <el-form-item>
+                <el-button type="primary" style=" background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400"  @click="xiayibu('loginForm')">确定绑定</el-button>
+            </el-form-item>
+        </el-form>
     </div>
+</el-dialog>
 </template>
 
 <script>
-    import { UserBindAccount} from '@/api'
+    import envconfig from "../server/config.js";
+    import { Getcode,UserBindAccount} from '@/api'
     export default {
         name: "bindBankCard",
         data() {
             return {
                 sex: "0",
-                user_nicename: "",
                 birthday: "",
                 user_email: "",
                 notice: "",
@@ -86,145 +45,235 @@
                 small_window_play: '1',
                 iszb: "0",
                 user:{},
-                user_bank:"",
-                user_bankcity:"",
-                user_cardnum:"",
+                // user_bank:"",
+                // user_bankcity:"",
+                // user_cardnum:"",
                 token:"",
+                dialogVisible:true,
+                checkNumDisabled: false,
+                countDown: 60,
+                loginForm: {
+                    mobile: "",
+                    code: "",
+                },
+                loginRule: {
+                    mobile: [{ required: true, message: "手机号码格式错误", trigger: "blur" }],
+                    code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+                },
+                name: "",
+                user_cardnum:"",
+                user_bank:"",
+                idcard:""
             };
+        },
+        created() {
+            this.token = window.localStorage.getItem("token")
         },
         mounted() {
             this.user = JSON.parse(window.localStorage.getItem("user"))
             this.token = window.localStorage.getItem("token")
-            console.log(this.token)
+            this.loginForm.mobile = this.user.mobile;
             if(this.user){
                 this.iszb = this.user.iszb;
-                this.user_nicename = this.user.user_nicename;
+                // this.user_nicename = this.user.user_nicename;
                 this.sex = this.user.sex;
                 this.birthday = this.user.birthday;
                 this.user_email = this.user.user_email;
             }
         },
-
         methods: {
-            async Submit() {
-                // let obj = {};
-                // if(this.user_nicename != this.user.user_nicename){
-                //     obj.user_nicename = this.user_nicename
-                // }
-                //
-                // if(this.sex != this.user.sex){
-                //     obj.sex = this.sex
-                // }
-                //
-                // if(this.birthday != this.user.birthday){
-                //     obj.birthday = this.birthday;
-                // }
-                //
-                // if(this.start_live_remind != this.user.start_live_remind){
-                //     obj.start_live_remind = this.start_live_remind;
-                // }
-                //
-                // if(this.start_game_remind != this.user.start_game_remind){
-                //     obj.start_game_remind = this.start_game_remind;
-                // }
-                //
-                // if(this.small_window_play != this.user.small_window_play){
-                //     obj.small_window_play = this.small_window_play;
-                // }
-                //
-                // if(this.user_email != this.user.user_email && this.user_email != ''){
-                //     let reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
-                //     if(!reg.test(this.user_email)){
-                //         this.$message({
-                //             message: "邮箱格式错误",
-                //             type: "warning",
-                //         });
-                //
-                //         return
-                //     }else{
-                //         obj.user_email = this.user_email;
-                //     }
-                // }
-                //
-                // if(JSON.stringify(obj) == "{}"){
-                //     this.$message({
-                //         message: "请选择要修改的信息",
-                //         type: "warning",
-                //     });
-                //
-                //     return
-                // }
-                //
-                // if (this.iszb == "1") {
-                //     obj.notice = this.notice;
-                // }
-                //
-                let data = {
-                    "uid": this.user.id,
-                    "token": this.token,
-                    "name":this.user_nicename,
-                    "account_bank":this.user_bank,
-                    "account":this.user_cardnum,
-                    "type":3
+            async sendchecknum() {
+                if (this.$REGEXUTIL.isPhone(this.loginForm.mobile)) {
+                    const timer_COUNT = 60;
+                    if (!this.timer) {
+                        this.countDown = timer_COUNT;
+                        this.checkNumDisabled = true;
+                        this.timer = setInterval(() => {
+                        if (this.countDown > 0 && this.countDown <= timer_COUNT) {
+                            this.countDown--;
+                        } else {
+                            this.checkNumDisabled = false;
+                            clearInterval(this.timer);
+                            this.timer = null;
+                        }
+                        }, 1000);
+                    }
+
+                    let sign = this.$md5(
+                        "mobile" + this.loginForm.mobile + "&" + envconfig.CODE_SALT
+                    );
+
+                    let data = {
+                        'mobile':this.loginForm.mobile,
+                        'sign':sign,
+                        "token": this.token,
+                        "type" : 1
+                    }
+                    let res = await Getcode(data)
+                    if(res.code == 0){
+                        this.$message({
+                            message: res.msg,
+                            type: "success",
+                        });
+                    }else{
+                        this.$message.error(res.msg);
+                        this.checkNumDisabled = false;
+                        clearInterval(this.timer);
+                        this.timer = null;
+                    }
+                } else {
+                    this.$message.error("请输入有效手机号");
                 }
-                //
+            },
+            handleClose() {
+            this.$router.go(-1);
+            },
+            xiayibu(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let data = {
+                            "uid" : this.user.id,
+                            "mobile" : this.loginForm.mobile,
+                            "code": this.loginForm.code,
+                            "type":3,
+                            "token": this.token,
+                        }
+                        if(this.loginForm.mobile == ""){
+                            this.$message({
+                                message: "请输入手机号码",
+                                type: "warning",
+                            });
+                            return;
+                        }
+
+                        if(this.loginForm.code.length < 6){
+                            this.$message({
+                                message: "请输入有效验证码",
+                                type: "warning",
+                            });
+
+                            return
+                        }
+                        this.bangding()
+                    }
+                })
+            },
+            bangding() {
+            if(this.loginForm.name == ""){
+                this.$message({
+                    message: "请输入姓名",
+                    type: "warning",
+                });
+                return;
+            }
+            if(this.loginForm.idcard == ""){
+                this.$message({
+                    message: "请输入身份证号",
+                    type: "warning",
+                });
+                return;
+            }
+            if(this.loginForm.user_cardnum == ""){
+                this.$message({
+                    message: "请输入银行",
+                    type: "warning",
+                });
+                return;
+            }
+            if(this.loginForm.account == ""){
+                this.$message({
+                    message: "请输入银行卡号",
+                    type: "warning",
+                });
+                return;
+            }
+
+            let data = {
+                "uid":this.user.id,
+                "mobile" : this.loginForm.mobile,
+                "code": this.loginForm.code,
+                "token": this.token,
+                "type":3,
+                "identity_card":this.loginForm.idcard,
+                "name":this.loginForm.name,
+                "account_bank":this.loginForm.user_bank,
+                "account":this.loginForm.user_cardnum
+            }
+            this.change_bank(data)
+        },
+            async change_bank(data){
                 let res = await UserBindAccount(data)
-                console.log(res.code + res.msg)
-                if(res.code == 0){
+                if(res.code == 200){
                     this.$message({
                         message: res.msg,
                         type: "success",
                     });
-
-                    // this.user.user_nicename = this.user_nicename;
-                    // this.user.sex = this.sex;
-                    // this.user.birthday = this.birthday;
-                    // this.user.user_email = this.user_email;
-                    // window.localStorage.setItem("user", JSON.stringify(this.user));
+                    setTimeout(() => {
+                        this.$router.push({ name: "myHome" });
+                    }, 1000)
                 }else{
                     this.$message.error(res.msg);
                 }
-            }
+            },
         },
     };
 </script>
 
 <style lang="stylus">
-    #myProfile {
-        padding: 32px 0 0 47px;
-
-        h4 {
-            font-size: 18px;
-            font-weight: 600;
-            border-left: 3px solid #ffc71c;
-            padding-left: 10px;
-            margin-bottom: 40px;
+    #myBank {
+        padding:0;
+        >.el-dialog--center .el-dialog__body {
+            padding: 30px 25px 4px;
         }
-
-        .baseInput {
-            margin-bottom: 30px;
-
-            >p {
-                margin-bottom: 4px;
-                font-size: 14px;
-                color: #777;
-            }
+    h4 {
+        font-size: 18px;
+        font-weight: 600;
+        border-left: 3px solid #ffc71c;
+        padding-left: 10px;
+        margin-bottom: 40px;
+    }
+    .el-form-item__content {
+        display: flex;
+        .el-input{
+            margin-left: 8px;
         }
-
-        .rechargenubms{
-            margin-bottom: 30px;
-            > p span:nth-child(1){
-                font-weight: 700;
-                font-style: normal;
-                font-size: 20px;
-                color: #BF965A;
-                margin: 0 20px;
-            }
-            > p span:nth-child(2){
-                font-weight: 700;
-                font-style: normal;
-                font-size: 18px;
-            }
+    }
+    .el-form-item {
+        display: flex;
+        justify-content: center;
+        color:#434A66;
+        .xing{
+            color:#FF5D5D;
+            padding-right: 1px;
         }
+    }
+    .baseInput {
+        margin-bottom: 30px;
+
+        }
+    }
+        .el-dialog .el-dialog__header {
+        background: #E6EAF3 !important;
+    }
+    .el-input-group__append {
+        border: 0;
+        width: 94px;
+        height: 32px;
+        opacity: 1;
+        background: #e6eaf3;
+        border-radius: 4px;
+    }
+    .code{
+        .el-input__inner{
+            height: 36px;
+            line-height: 36px;
+            width: 180px;
+        }
+    }
+    .line{
+        border: 1px solid #e6eaf3;
+        border-radius: 9px;
+        width: 588px;
+        margin: 10px 0 5px -54px;
     }
 </style>
