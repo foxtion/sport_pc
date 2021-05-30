@@ -1,6 +1,6 @@
 <template>
   <div id="concern">
-    <h4><span>我的关注</span></h4>
+    <h4 class=""><span>我的关注</span></h4>
     <div>
       <focus></focus>
     </div>

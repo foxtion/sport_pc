@@ -3,19 +3,12 @@
     <div id="myHome">
       <div class="content_l">
         <img :src="$store.state.user.info.avatar" alt="" />
-        <span @click="uploader"></span>
-        <input
-          type="file"
-          @change="uploadfile"
-          ref="avatar"
-          class="fileImage"
-        />
       </div>
       <div class="content_val">
         <div class="setname">
           <i class="dengji"></i
           ><span>{{ $store.state.user.info.nick_name }}</span>
-          <i class="xiugai"></i>
+          <i class="xiugai" @click="xiugai"></i>
         </div>
         <p class="signature">{{ $store.state.user.info.signature }}</p>
         <div class="jdutiao">
@@ -50,11 +43,48 @@
         <span class="fensi">我的粉丝：<i>888</i></span>
       </div>
     </div>
+    <el-dialog
+    title="基础资料"
+    :center="true"
+    :visible.sync="dialogVisible"
+    :auto-upload="false"
+    :limit="1"
+    width="668px"
+    :close-on-click-modal=false
+    :before-close="handleClose" class="content_l">
+      <el-form :model="Form" ref="Form" style="width: 633px; margin: 30px auto;display: flex;flex-direction: column;align-items: center;">
+        <el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar photos">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <a class="changephoto">点击图片修改头像</a>
+        </el-upload>
+        <el-form-item prop="nick_name">
+            用户昵称:
+            <el-input v-model="Form.nick_name" placeholder="请输入昵称" style="width: 330px; margin-left:8px"></el-input>
+        </el-form-item>
+        <el-form-item prop="signature">
+            <p>个性签名:</p>
+            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 5}" v-model="Form.signature" placeholder="输入签名" style="width: 330px;margin-left:8px" class="sign"></el-input>
+        </el-form-item>
+         <el-form-item>
+            <div style="width: 108px">
+                <el-button type="primary" style="width: 100%; background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400" @click="uploadfile">
+                    确    定
+                </el-button>
+            </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { UploadPictures, GetUserinfo } from "@/api";
+import { GetUserinfo,uploadPicturesBase64,changeNick } from "@/api";
 export default {
   name: "myHome",
   data() {
@@ -64,35 +94,60 @@ export default {
       baseImage: "",
       is_show: false,
       token: "",
+      Form:{
+        nick_name:"",
+        signature:""
+      },
+      dialogImageUrl: '',
+      imageUrl: '',
+      // loginRule: {
+      //   mobile: [{ required: true, message: "手机号码格式错误", trigger: "blur" }],
+      //   code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+      // },
+      dialogVisible: false
     };
   },
   mounted() {
-    let user = JSON.parse(window.localStorage.getItem("user"));
+    this.user = JSON.parse(window.localStorage.getItem("user"));
     this.token = window.localStorage.token;
-    console.log(window.localStorage);
-    if (user) {
-      this.user = user.id;
-      this.avatar = this.user.avatar;
-    } else {
-      this.$router.push({ name: "/" });
-    }
-    this.getUserinfo();
+    // console.log(window.localStorage);
+    // if (user) {
+    //   user = this.user;
+    //   // this.avatar = this.user.avatar;
+    // } else {
+    //   this.$router.push({ name: "/" });
+    // }
+    // this.getUserinfo();
   },
   methods: {
     //充值
     withdrawal() {},
     getUserinfo() {
       const params = {
-        uid: this.user,
-        token: this.token,
-        source: "pc",
+        "uid": this.user.id,
+        "token": this.token,
+        "source": "pc",
       };
       console.log(params);
       GetUserinfo(params).then((res) => {
         console.log(res);
       });
     },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 png 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
     is_uploader(type) {
       if (type == "show") {
         this.is_show = true;
@@ -106,32 +161,45 @@ export default {
     },
 
     uploadfile(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-
-      let that = this;
-      let reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onload = function (e) {
-        that.baseImage = e.target.result;
-      };
-
       setTimeout(() => {
-        var data = {
-          uid: that.user.id,
-          file: that.baseImage,
+        let data = {
+          "token": this.token,
+          "source": "pc",
+          "uid": this.user.id,
+          // avatar: this.imageUrl,
           token: this.$store.state.user.info.token,
+          nick_name:this.Form.nick_name,
+          signature:this.Form.signature
+
         };
-        this.Upload_Pictures(data);
+        this.change_Nick(data);
+        this.updatephoto()
       }, 1000);
     },
-
-    async Upload_Pictures(data) {
-      let res = await UploadPictures(data);
+    updatephoto(){
+      setTimeout(() => {
+        let data = {
+          token: this.token,
+          source: "pc",
+          uid: this.user.id,
+          file: this.imageUrl,
+          token: this.$store.state.user.info.token,
+        };
+        this.upload_PicturesBase64(data);
+      }, 1000);
+    },
+    xiugai(){
+      this.dialogVisible = true;
+    },
+    handleClose() {
+      this.dialogVisible = false;
+    },
+    async upload_PicturesBase64(data) {
+      let res = await uploadPicturesBase64(data);
       if (res.code == 0) {
-        this.user.avatar = res.info.avatar;
-        this.user.avatar_thumb = res.info.avatar_thumb;
-        this.avatar = res.info.avatar;
+        // this.user.avatar = res.info.avatar;
+        // this.user.avatar_thumb = res.info.avatar_thumb;
+        // this.avatar = res.info.avatar;
         window.localStorage.setItem("user", JSON.stringify(this.user));
         this.$message({
           message: res.msg,
@@ -144,16 +212,98 @@ export default {
         });
       }
     },
+    async change_Nick(data) {
+      let res = await changeNick(data);
+      if (res.code == 0) {
+        // this.user.avatar = res.info.avatar;
+        // this.user.avatar_thumb = res.info.avatar_thumb;
+        // this.avatar = res.info.avatar;
+        window.localStorage.setItem("user", JSON.stringify(this.user));
+        this.$message({
+          message: res.msg,
+          type: "success",
+        });
+      } else {
+        this.$message({
+          message: res.msg,
+          type: "warning",
+        });
+      }
+    }
   },
 };
 </script>
-
+<style lang="stylus" scoped>
+ /deep/ .el-form-item__content{
+    display: flex;
+  }
+ /deep/ .el-dialog--center {
+    text-align: center;
+    border: 1px solid #e6eaf3;
+    border-radius: 9px;
+  }
+  /deep/.photos{
+    width: 144px;
+    height: 144px;
+  }
+  /deep/.el-form-item {
+    display: flex;
+    justify-content: center;
+    color:#434A66;
+  }
+ /deep/ .el-dialog .el-dialog__header {
+      background: #E6EAF3 !important;
+      border-radius: 9px 9px 0 0;
+      font-weight: 800;
+      padding: 12px 10px;
+  }
+</style>
 <style lang="stylus" scoped>
 #content_center {
   width: 100%;
   background: #fff;
 }
-
+.sign{
+  .el-input__inner{
+    height:90px;
+  }
+}
+.avatar-uploader{
+  width: 144px;
+  height: 144px;
+  border: 1px solid;
+  margin-bottom: 40px;
+  position:relative;
+}
+.changephoto{
+  position:absolute;
+  bottom: 1px;
+  left: 16px;
+  z-index: 3;
+}
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 144px;
+    height: 144px;
+    line-height: 144px;
+    text-align: center;
+  }
+  .avatar {
+    width: 144px;
+    height: 144px;
+    display: block;
+  }
 #myHome {
   background: #fff;
   margin-bottom: 20px;
@@ -174,7 +324,6 @@ export default {
       height: 80px;
       opacity: 1;
       border-radius: 4px;
-      cursor: pointer;
     }
 
     span {
@@ -183,7 +332,6 @@ export default {
       display: block;
       width: 80px;
       height: 80px;
-      cursor: pointer;
 
       &:hover {
       }
@@ -193,7 +341,26 @@ export default {
       display: none;
     }
   }
-
+  .el-dialog--center {
+    text-align: center;
+    border: 1px solid #e6eaf3;
+    border-radius: 9px;
+  }
+  .photos{
+    width: 144px;
+    height: 144px;
+  }
+  .el-form-item {
+    display: flex;
+    justify-content: center;
+    color:#434A66;
+  }
+  .el-dialog .el-dialog__header {
+      background: #E6EAF3 !important;
+      border-radius: 9px 9px 0 0;
+      font-weight: 800;
+      padding: 12px 10px;
+  }
   .content_val {
     flex: 1;
     margin-left: 20px;
@@ -267,7 +434,7 @@ export default {
         display: inline-block;
         width: 18px;
         height: 19px;
-        background: url('../assets/img/di.png');
+        background: url('../assets/img/my_coin.png');
         position: relative;
         top: 3px;
       }

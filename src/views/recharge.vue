@@ -5,12 +5,12 @@
             <p>充值金额:</p>
             <div class="rechargenum" style="overflow: hidden">
                 <ul>
-                    <li class="active"><p>1球钻</p><p>¥1</p></li>
-                    <li><p>10球钻</p><p>¥10</p></li>
-                    <li><p>50球钻</p><p>¥50</p></li>
-                    <li><p>100球钻</p><p>¥100</p></li>
-                    <li><p>500球钻</p><p>¥500</p></li>
-                    <li><p>1000球钻</p><p>¥1000</p></li>
+                    <li class="active"><p>1龙钻</p><p>¥1</p></li>
+                    <li><p>10龙钻</p><p>¥10</p></li>
+                    <li><p>50龙钻</p><p>¥50</p></li>
+                    <li><p>100龙钻</p><p>¥100</p></li>
+                    <li><p>500龙钻</p><p>¥500</p></li>
+                    <li><p>1000龙钻</p><p>¥1000</p></li>
                     <li><p><el-input v-model="username"  placeholder="其它"></el-input></p></li>
                 </ul>
             </div>

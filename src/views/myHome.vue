@@ -1,69 +1,78 @@
 <template>
   <div id="myHome">
     <div class="myHome-b">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="我的资料" name="first">
-          <div class="myxsizi">
-            <h3 class="tabbody">
-              贵族专属<span class="tabtit"
-                >五大贵族 显赫身份 尊贵特权 奢华福利</span
+      <h4 class="hfour"><span>我的资料</span></h4>
+      <div class="myxsizi">
+        <h3 class="tabbody">
+          贵族专属<span class="tabtit"
+            >五大贵族 显赫身份 尊贵特权 奢华福利</span
+          >
+        </h3>
+        <div class="imgbg"></div>
+      </div>
+      <div class="myxsizi">
+        <h3 class="tabbody">账号设置</h3>
+        <div class="settinguser">
+          <ul>
+            <li>
+              <div class="li-l li01"></div>
+              <div class="li-c">
+                <p class="p1">
+                  当前手机号：<span>{{ $store.state.user.info.mobile }}</span>
+                </p>
+                <p class="p2">您可以享受手机相关的安全及提醒服务</p>
+              </div>
+              <div class="li-r" @click="$router.push({ name: 'changePhone' })">
+                修改手机号
+              </div>
+            </li>
+            <li>
+              <div class="li-l li02"></div>
+              <div class="li-c">
+                <p class="p1">登录密码</p>
+                <p class="p2">保障您的账号安全</p>
+              </div>
+              <div
+                class="li-r"
+                @click="$router.push({ name: 'changePassword' })"
               >
-            </h3>
-            <div class="imgbg"></div>
-          </div>
-          <div class="myxsizi">
-            <h3 class="tabbody">账号设置</h3>
-            <div class="settinguser">
-              <ul>
-                <li>
-                  <div class="li-l li01"></div>
-                  <div class="li-c">
-                    <p class="p1">
-                      当前手机号：<span>{{
-                        $store.state.user.info.mobile
-                      }}</span>
-                    </p>
-                    <p class="p2">您可以享受手机相关的安全及提醒服务</p>
-                  </div>
-                  <div class="li-r" @click="$router.push({ name: 'changePhone' })">修改手机号</div>
-                </li>
-                <li>
-                  <div class="li-l li02"></div>
-                  <div class="li-c">
-                    <p class="p1">登录密码</p>
-                    <p class="p2">保障您的账号安全</p>
-                  </div>
-                  <div class="li-r" @click="$router.push({ name: 'changePassword' })">修改密码</div>
-                </li>
-                <li>
-                  <div class="li-l li03"></div>
-                  <div class="li-c">
-                    <p class="p1">银行卡未绑定</p>
-                    <p class="p2">完善银行卡信息，便于提取直播收益</p>
-                  </div>
-                  <div class="li-r" @click="$router.push({ name: 'bindBankCard' })">绑定银行卡</div>
-                </li>
-                <li>
-                  <div class="li-l li04"></div>
-                  <div class="li-c">
-                    <p class="p1">暂未设置支付密码</p>
-                    <p class="p2">保障您的账号资金安全，便于提取收益</p>
-                  </div>
-                  <div class="li-r" @click="$router.push({ name: 'SecurityPass' })">设置密码</div>
-                </li>
-                <li>
-                  <div class="li-l li05"></div>
-                  <div class="li-c">
-                    <p class="p1">尚未实名认证</p>
-                    <p class="p2">认证后可申请直播间</p>
-                  </div>
-                  <div class="li-r" @click="$router.push({ name: 'realName' })">立即认证</div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+                修改密码
+              </div>
+            </li>
+            <li>
+              <div class="li-l li03"></div>
+              <div class="li-c">
+                <p class="p1">银行卡未绑定</p>
+                <p class="p2">完善银行卡信息，便于提取直播收益</p>
+              </div>
+              <div class="li-r" @click="$router.push({ name: 'bindBankCard' })">
+                绑定银行卡
+              </div>
+            </li>
+            <li>
+              <div class="li-l li04"></div>
+              <div class="li-c">
+                <p class="p1">暂未设置支付密码</p>
+                <p class="p2">保障您的账号资金安全，便于提取收益</p>
+              </div>
+              <div class="li-r" @click="$router.push({ name: 'SecurityPass' })">
+                设置密码
+              </div>
+            </li>
+            <li>
+              <div class="li-l li05"></div>
+              <div class="li-c">
+                <p class="p1">尚未实名认证</p>
+                <p class="p2">认证后可申请直播间</p>
+              </div>
+              <div class="li-r" @click="$router.push({ name: 'realName' })">
+                立即认证
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <!-- <div class="zhgl">
         <div>
           <img src="@/assets/img/phone.png" />
@@ -403,13 +412,14 @@ export default {
   }
 
   .myHome-b {
-    padding: 0 20px;
-    width: 1000px;
+    // padding: 0 20px;
+    // width: 1000px;
     height: auto;
     box-sizing: border-box;
 
     .myxsizi {
       margin-top: 16px;
+      padding-left: 20px;
 
       .tabbody {
         font-size: 14px;
@@ -615,5 +625,26 @@ export default {
 .tab-first {
   font-size: 14px !important;
   color: #333333 !important;
+}
+
+.hfour {
+  font-size: 18px;
+  font-weight: 600;
+  width: 100%;
+  height: 60px;
+  border-bottom: 1px solid #e6eaf3;
+
+  span {
+    display: inline-block;
+    font-size: 14px;
+    font-family: PingFang SC, PingFang SC-Medium;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    height: 100%;
+    border-bottom: 1px solid #dbb16f;
+    line-height: 60px;
+    margin-left: 20px;
+  }
 }
 </style>

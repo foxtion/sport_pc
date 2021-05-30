@@ -1,7 +1,7 @@
 <template>
-    <div id="myProfile">
-        <h4>直播设置</h4>
-        <div>
+    <div id="ListSet">
+        <h4><span>直播设置</span></h4>
+        <div style="margin-top:30px">
             <el-form ref="form" :model="form" label-width="100px" >
             <div class="baseInput" style="margin-right: 40px">
                 <el-form-item label="直播分类:">
@@ -257,16 +257,29 @@
 </script>
 
 <style lang="stylus">
-#myProfile {
-    padding: 32px 0 0 47px;
+#ListSet {
+      padding: 0 0 0 30px;
 
-    h4 {
-        font-size: 18px;
-        font-weight: 600;
-        border-left: 3px solid #ffc71c;
-        padding-left: 10px;
-        margin-bottom: 40px;
+  >h4 {
+    font-size: 18px;
+    font-weight: 600;
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #e6eaf3;
+
+    span {
+      display: inline-block;
+      font-size: 14px;
+      font-family: PingFang SC, PingFang SC-Medium;
+      font-weight: 500;
+      text-align: center;
+      color: #333333;
+      height: 100%;
+      border-bottom: 1px solid #dbb16f;
+      line-height: 60px;
+      margin-left: 20px;
     }
+  }
 
     .baseInput {
         margin-bottom: 30px;

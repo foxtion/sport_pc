@@ -1,52 +1,79 @@
 <template>
-    <div id="myProfile">
-        <h4>申请主播</h4>
-        <div style="position: relative">
-            <img src="../assets/img/applyAnchor.png"/>
-            <el-button type="primary" style="position: absolute;top: 520px;left: 315px;padding: 0px 20px;
-            margin-right: 40px;border: 0px;width: 290px;height: 90px;background-color:transparent " @click="Submit"></el-button>
-        </div>
+  <div id="myProfile">
+    <h4 class="hfour"><span>申请主播</span></h4>
+
+    <div style="position: relative; display:flex;">
+      <img src="../assets/img/applyAnchor.png" />
+      <el-button
+        type="primary"
+        style="
+          position: absolute;
+          top: 520px;
+          left: 315px;
+          padding: 0px 20px;
+          margin-right: 40px;
+          border: 0px;
+          width: 290px;
+          height: 90px;
+          background-color: transparent;
+        "
+        @click="Submit"
+      ></el-button>
     </div>
+  </div>
 </template>
 
 <script>
-    import { UserBindAccount} from '@/api'
-    export default {
-        name: "bindBankCard",
-        data() {
-            return {
-            };
-        },
-        mounted() {
-            this.user = JSON.parse(window.localStorage.getItem("user"))
-            this.token = window.localStorage.getItem("token")
-            console.log(this.token)
-            if(this.user){
-                this.iszb = this.user.iszb;
-                this.user_nicename = this.user.user_nicename;
-                this.sex = this.user.sex;
-                this.birthday = this.user.birthday;
-                this.user_email = this.user.user_email;
-            }
-        },
+import { UserBindAccount } from "@/api";
+export default {
+  name: "bindBankCard",
+  data() {
+    return {};
+  },
+  mounted() {
+    this.user = JSON.parse(window.localStorage.getItem("user"));
+    this.token = window.localStorage.getItem("token");
+    console.log(this.token);
+    if (this.user) {
+      this.iszb = this.user.iszb;
+      this.user_nicename = this.user.user_nicename;
+      this.sex = this.user.sex;
+      this.birthday = this.user.birthday;
+      this.user_email = this.user.user_email;
+    }
+  },
 
-        methods: {
-            async Submit() {
-                    this.$router.push({name:"realName"})
-            }
-        },
-    };
+  methods: {
+    async Submit() {
+      this.$router.push({ name: "realName" });
+    },
+  },
+};
 </script>
 
 <style lang="stylus">
-    #myProfile {
-        padding: 32px 0 0 47px;
-        h4 {
-            font-size: 18px;
-            font-weight: 600;
-            border-left: 3px solid #ffc71c;
-            padding-left: 10px;
-            margin-bottom: 40px;
-        }
-    }
+#myProfile {
+}
+
+.hfour {
+  font-size: 18px;
+  font-weight: 600;
+  width: 100%;
+  height: 60px;
+  border-bottom: 1px solid #e6eaf3;
+  margin-bottom: 15px;
+
+  span {
+    display: inline-block;
+    font-size: 14px;
+    font-family: PingFang SC, PingFang SC-Medium;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    height: 100%;
+    border-bottom: 1px solid #dbb16f;
+    line-height: 60px;
+    margin-left: 20px;
+  }
+}
 </style>
