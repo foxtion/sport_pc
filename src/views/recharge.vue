@@ -5,27 +5,26 @@
             <p>充值金额:</p>
             <div class="rechargenum" style="overflow: hidden">
                 <ul>
-                    <li class="active"><p>1龙钻</p><p>¥1</p></li>
-                    <li><p>10龙钻</p><p>¥10</p></li>
-                    <li><p>50龙钻</p><p>¥50</p></li>
-                    <li><p>100龙钻</p><p>¥100</p></li>
-                    <li><p>500龙钻</p><p>¥500</p></li>
-                    <li><p>1000龙钻</p><p>¥1000</p></li>
-                    <li><p><el-input v-model="username"  placeholder="其它"></el-input></p></li>
+                    <li  class="item"
+                    v-for="(item, index) in longzuan"
+                    :key="index"
+                    :class="{active: active === index}"
+                    @click="change(item, index)"><p>龙钻</p><p>¥{{ item.zuan }}</p></li>
+                    <li><p><el-input v-model="other"  placeholder="其它" @blur="burchang()"></el-input></p></li>
                 </ul>
             </div>
             <div class="rechargeMode">
                 <p>支付方式:</p>
                 <ul>
-                    <li><i></i><span>支付宝</span></li>
-                    <li><i></i><span>微信</span></li>
+                    <li :class="{payactive : payactive ==1 }"  @click="changepay(1)"><i></i><span>支付宝</span></li>
+                    <li :class="{payactive : payactive ==2 }"  @click="changepay(2)"><i></i><span>微信</span></li>
                 </ul>
             </div>
             <div class="rechargenubms">
-                <p>应付金额:<span>1</span><span>元</span></p>
+                <p>应付金额:<span>{{ money }}</span><span>元</span></p>
             </div>
         </div>
-        <el-form :model="registerForm" :rules="registerRule" ref="registerForm">
+        <el-form :model="registerForm"  ref="registerForm">
             <el-form-item>
                 <div style="display: flex; justify-content: center">
 
@@ -48,13 +47,25 @@
         name: "recharge",
         data() {
             return {
-                // registerForm: {
-                //     mobile: "",
-                //     code: "",
-                //     username: "",
-                //     password: "",
-                //     checked: false,
-                // },
+                active: 0,
+                payactive: 1,
+                longzuan: [
+                    {zuan: 1, idnex: 0},
+                    {zuan: 10, idnex: 1},
+                    {zuan: 50, idnex: 2},
+                    {zuan: 100, idnex: 3},
+                    {zuan: 500, idnex: 4},
+                    {zuan: 1000, idnex: 5},
+                    ],
+                radio7: '1',
+                other: 0,
+                money:1,
+                registerForm: {
+                    mobile: "",
+                    code: "",
+                    password: "",
+                    checked: false,
+                },
                 // registerRule: {
                 //     mobile: [{ required: true, message: "手机号码格式错误", trigger: "blur" }],
                 //     code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
@@ -80,7 +91,16 @@
         },
 
         methods: {
-
+            change(val, index){
+                this.active = index;
+                this.money = val.zuan
+            },
+            changepay(e) {
+                this.payactive = e
+            },
+            burchang(){
+                this.money = this.other
+            },
             registerSub(formName) {
             //     this.$refs[formName].validate((valid) => {
             //         if (valid) {
@@ -224,7 +244,7 @@
         border-radius: 6px;
         border:1px solid rgba(215, 215, 215, 1);
         float:left;
-    margin-right:22px;
+        margin-right:22px;
         margin-bottom: 20px;
         margin-top: 10px;
         >p{
@@ -252,6 +272,9 @@
         height: 42px;
         border: 0;
     }
+    }
+    .rechargeMode> ul li.payactive{
+        border-color: rgba(2, 167, 240, 1);
     }
     .rechargeMode{
         overflow: hidden;
