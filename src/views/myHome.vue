@@ -456,8 +456,9 @@ export default {
             width: 468px;
             height: 80px;
             opacity: 1;
-            background: #fff;
+            background: #f6f9ff;
             padding: 20px;
+            margin: 8px 0;
             box-sizing: border-box;
             display: flex;
 
@@ -544,9 +545,9 @@ export default {
               }
             }
 
-            &:hover {
-              background: #f6f9ff;
-            }
+            // &:hover {
+            //   background: #f6f9ff;
+            // }
           }
 
           li:nth-of-type(2n) {

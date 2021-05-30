@@ -107,7 +107,7 @@ export default {
       tvactive: 1,
       classactive: 1,
       activebgimg: 1,
-      currentpage:1,
+      currentpage: 1,
       user: {},
       listp: "1",
       total: 100,
@@ -132,19 +132,19 @@ export default {
     prev(val) {
       console.log(val);
       this.getzblist(val);
-      this.currentpage = val
-      val--
+      this.currentpage = val;
+      val--;
     },
     next(val) {
       console.log(val);
       this.getzblist(val);
-      this.currentpage = val
-      val++
+      this.currentpage = val;
+      val++;
     },
-    currentchange(val){
+    currentchange(val) {
       console.log(val);
-       this.getzblist(val)
-       this.currentpage = val
+      this.getzblist(val);
+      this.currentpage = val;
     },
     getzblist(listp) {
       const parms = {
@@ -213,24 +213,26 @@ export default {
 
   .categoryinnercontent {
     li {
-      width: 272px;
-      margin: 0 20px 20px 0;
-      background-color: #fff;
-      display: inline-block;
-      border-radius: 4px;
-      cursor: pointer;
+      width: 285px;
+      height: 226px;
+      opacity: 1;
+      background: #ffffff;
+      border: 1px solid #e6eaf3;
+      border-radius: 7px;
+      box-shadow: 0px 9px 18px 0px rgba(0, 0, 0, 0.1);
 
       >div {
         position: relative;
         cursor: pointer;
         width: 100%;
-        height: 148px;
+        width: 285px;
+        height: 160px;
         transition: color 0.2s ease-out;
 
         .hotcontentimg {
           position: absolute;
           width: 100%;
-          height: 148px;
+          height: 160px;
           border-radius: 6px 6px 0 0;
         }
 
@@ -281,7 +283,7 @@ export default {
           color: #fff;
           position: absolute;
           top: 10px;
-          right: 2px;
+          right: 12px;
           border-radius: 5px;
           background-image: linear-gradient(to right, #F1D5B6, #CDAE8E);
 
@@ -314,11 +316,16 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          font-size: 14px;
+          font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #333333;
         }
 
         .avatar {
-          width: 43px;
-          height: 43px;
+          width: 46px;
+          height: 46px;
           border-radius: 50%;
           float: left;
           padding-top: 2px;
