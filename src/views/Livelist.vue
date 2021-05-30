@@ -1,8 +1,8 @@
 <template>
   <div id="Livelist">
     <h4 class="hfour"><span>房间管理</span></h4>
-    <div style="padding: 0 20px"> 
-      <el-table :data="tableData" style="width: 95%" height="520" border>
+    <div style="padding: 0 30px"> 
+      <el-table :data="tableData" style="width: 965px" height="520" border>
         <el-table-column
           prop="stream"
           label="房间号"
@@ -10,7 +10,7 @@
           align="center"
         >
         </el-table-column>
-        <el-table-column prop="nick_name" label="房间主播"  width="210" align="center">
+        <el-table-column prop="nick_name" label="房间主播"  width="220" align="center">
         </el-table-column>
         <el-table-column
           prop="starttime"
@@ -18,7 +18,7 @@
           width="300"
           align="center"
         ></el-table-column>
-        <el-table-column label="管理" width="110" align="center">
+        <el-table-column label="管理" width="150" align="center">
           <template slot-scope="scope">
             <div @click="goLiveHome(scope.row)" class="live-btn">
               进入直播间
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { userLiveList, enterRoom } from "@/api";
+import { userLiveList } from "@/api";
 export default {
   name: "Livelist",
   data() {
@@ -55,7 +55,6 @@ export default {
       };
       userLiveList(params).then((res) => {
         this.tableData = res.info;
-        console.log(res, "res---房间");
       });
     },
     goLiveHome(row) {
