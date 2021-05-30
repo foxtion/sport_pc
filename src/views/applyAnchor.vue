@@ -2,7 +2,7 @@
   <div id="myProfile">
     <h4 class="hfour"><span>申请主播</span></h4>
 
-    <div style="position: relative; display:flex;">
+    <div style="position: relative; display:flex;justify-content: center;">
       <img src="../assets/img/applyAnchor.png" />
       <el-button
         type="primary"

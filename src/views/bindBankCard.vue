@@ -130,7 +130,6 @@
                         "token": this.token,
                         "type" : 1
                     }
-
                     let res = await Getcode(data)
                     if(res.code == 0){
                         this.$message({

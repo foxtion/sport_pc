@@ -43,6 +43,8 @@ export const AppointmentList = (params) => post({ url: 'Make.appointmentList', p
 
 //用户预约
 export const Appointment = (params) => post({ url: 'Make.appointment', params})
+// 更换昵称
+export const changeNick = (params) => post({ url: 'User.changeNick', params})
 
-
-
+// 头像上传
+export const uploadPicturesBase64 = (params) => post({ url: 'Upload.uploadPicturesBase64', params})
