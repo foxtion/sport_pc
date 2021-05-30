@@ -74,5 +74,5 @@ export const openNoble = (params) => post({ url: 'noble.openNoble', params})
 
 // 进入直播间
 export const enterRoom = (params) => post({ url: 'Live.enterRoom', params})
-// 礼物列表
+// 礼物列表r
 export const FollowLiveList = (params) => post({ url: 'Follow.followLiveList', params})
