@@ -133,7 +133,7 @@ export default {
         // case "我的礼物":
         // this.$router.push({ name: "giftList" });
         // break;
-        case "我的钱包": 
+        case "我的钱包":
           this.$router.push({ name: "myMoney" });
           break;
         case "房间管理":
@@ -342,13 +342,15 @@ export default {
 
     .item.active {
       background: #ececec;
-      color: #fff;
+      color: #CC9F49;
       letter-spacing: 1px;
-      background: linear-gradient(
-        89.3179396068274deg,
-        rgba(237, 205, 176, 1) 0%,
-        rgba(218, 175, 107, 1) 100%
-      );
+      border-left: 4px solid #DBB16F;
+      background: #fff9f3;
+      // background: linear-gradient(
+      //   89.3179396068274deg,
+      //   rgba(237, 205, 176, 1) 0%,
+      //   rgba(218, 175, 107, 1) 100%
+      // );
 
       .datum {
         background: url('../assets/img/datumactive.png') no-repeat center;

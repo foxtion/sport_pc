@@ -288,6 +288,9 @@ export default {
       font-weight: 800;
       padding: 12px 10px;
   }
+  /deep/.el-progress-bar__outer{
+        height: 16px !important;
+      }
 </style>
 <style lang="stylus" scoped>
 #content_center {
@@ -434,6 +437,9 @@ export default {
     .jdutiao {
       width: 300px;
       position: relative;
+      .el-progress-bar__outer{
+        height:16px;
+      }
 
       span {
         display: inline-block;

@@ -14,9 +14,6 @@
             <div v-for="(item, index) in football"
             :key = "index"
             class="gamename">{{ item.name}}</div>
-            <div class="gamename">全部</div>
-            <div class="gamename">全部</div>
-            <div class="gamename">全部</div>
           </div>
             <div v-if="open == true" class="unfold" @click="open = false">展开<i class="arrows"></i></div>
             <div  v-else class="put"@click="open = true">收起<i class="noarrows"></i></div>
@@ -33,9 +30,6 @@
             <div v-for="(item, index) in basketball"
             :key = "index"
             class="gamename">{{ item.name}}</div>
-            <div class="gamename">全部</div>
-            <div class="gamename">全部</div>
-            <div class="gamename">全部</div>
           </div>
             <div v-if="open2 == true" class="unfold" @click="open2 = false">展开<i class="arrows"></i></div>
             <div  v-else class="put"@click="open2 = true">收起<i class="noarrows"></i></div>
@@ -299,7 +293,7 @@ import DateWeek from '../dateWeek'
   .time-week .time-week-item {
     width: 100px;
   }
-  .time-week .time-week-item {
+  .time-week .time-week-main {
     width: 904px;
   }
 }
