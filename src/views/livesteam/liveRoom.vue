@@ -452,6 +452,7 @@
               <span
                 style="margin-left: 5px; color: red"
                 v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
+                @click="userInfoBtn(item)"
               >
                 {{ item.ct.user_nicename }}
               </span>
@@ -485,6 +486,34 @@
                 style="margin-left: 5px"
                 >{{ item.ct }}</span
               >
+            </div>
+            <div class="bounced" v-if="isShowBounced">
+              <img src="@/assets/level-40.png" width="50" style="margin-left: 99px"/>
+              <div class="user-info">
+                带上草帽就是王<div class="user0info-lv">LV 88</div>
+                <div class="bounced-btn-msg" v-if="setUserType">
+                  <div v-if="setUserType == '1'"><p>确定设置 带上草帽就是王 为本直播间房管？</p></div>
+                  <div v-if="setUserType == '2'"><p>确定提出房间？</p></div>
+                  <div v-if="setUserType == '3'">
+                    <p>禁言设置时间</p>
+                    <select autofocus class="select-time">
+                      <option value="1">1小时</option>
+                      <option value="2">2小时</option>
+                      <option value="3">3小时</option>
+                      <option value="4">4小时</option>
+                    </select>
+                  </div>
+                  <div class="msg-btn">
+                    <div @click="msgBtnOk()">确定</div>
+                    <div @click="msgBtnNo()">取消</div>
+                  </div>
+                </div>
+              </div>
+              <div class="bounced-btn">
+                <div @click="getSetUser('1')">设为房管</div>
+                <div @click="getSetUser('2')">踢出房间</div>
+                <div @click="getSetUser('3')">禁言</div>
+              </div>
             </div>
           </div>
           <div class="giftdonghua" v-if="showgiftdonghua">
@@ -895,10 +924,10 @@ export default {
       xiaoxilist: [
         {
           _method_: "SendMsg",
-          uname: "李四",
+          uname: "lllll紧急",
           level: 2,
           ct: {
-            user_nicename: "说的",
+            user_nicename: "张三",
             giftname: "hjkfdg",
           },
           msgtype: 1,
@@ -966,7 +995,9 @@ export default {
       },{
         name: '上帝之手0564689',
         num: '1234'
-      }]
+      }],
+      isShowBounced: false,
+      setUserType: ''
     };
   },
 
@@ -1564,6 +1595,24 @@ export default {
           this.giftData.push(this.getGiftListData[i]);
         }
       })
+    },
+    // 点击名称显示弹框
+    userInfoBtn(item) {
+      this.isShowBounced = true
+    },
+    // getSetUser   
+    getSetUser(val) {
+      this.setUserType = val
+    },
+    // 确定
+    msgBtnOk() {
+      this.setUserType = ''
+      this.isShowBounced = false
+    },
+    // 取消
+    msgBtnNo() {
+      this.setUserType = ''
+      this.isShowBounced = false
     }
   },
   destroyed() {
@@ -2489,6 +2538,81 @@ export default {
         .scoller {
           height: 515px;
           overflow-y: overlay;
+          position: relative;
+          .bounced {
+            position: absolute;
+            top: 180px;
+            left: 20px;
+            background: #fff !important;
+            border: 1px solid #e6eaf3;
+            box-shadow: 0px 6px 12px 0px rgba(219,177,111,0.30); 
+            padding: 10px 30px;
+            width: 310px;
+            z-indecx: 999;
+            .user-info {
+              font-size: 14px;
+              color: #6E7CA0;
+              display: flex;
+              margin-top: 20px;
+              margin-bottom: 20px;
+              justify-content: center;
+              position: relative;
+              .user0info-lv {
+                margin-left: 10px;
+                color: #9193B4;
+              }
+              .bounced-btn-msg {
+                width: 260px;
+                position: absolute;
+                top: -65px;
+                left: -5px
+                background: #fff;
+                border: 1px solid #e6eaf3;
+                box-shadow: 0px 6px 12px 0px rgba(219,177,111,0.30); 
+                padding: 10px;
+                text-align: center;
+                .select-time {
+                  width: 100px;
+                  border: 1px solid #e6eaf3;
+                  margin-top: 10px;
+                  margin-bottom: 5px;
+                }
+                .msg-btn {
+                  display: flex;
+                  justify-content: space-around;
+                  margin: 10px 30px 0;
+                  div {
+                    width: 40px;
+                    height: 30px;
+                    line-height: 30px;
+                    border: 1px solid #E6EAF3;
+                  }
+                  div:hover {
+                    background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+                    color: #fff;
+                  }
+                }
+              }
+            }
+            .bounced-btn {
+              display: flex;
+              height: 30px;
+              line-height: 30px;
+              font-size: 14px;
+              border: 1px solid #E6EAF3;
+              border-right: 0;
+              div {
+                width: 103px;
+                text-align: center;
+                border-right: 1px solid #E6EAF3;
+                cursor: pointer;
+              }
+              div:hover {
+                background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+                color: #fff;
+              }
+            }
+          }
         }
 
         .rankinglist {
