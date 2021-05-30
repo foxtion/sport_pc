@@ -1,13 +1,17 @@
 <template>
   <div id="message">
    <h4 class="hfour"><span>我的消息</span></h4>
-    <div>
-      <div>
-        <el-table :data="msglist" style="width: 95%;margin:0 auto;" border>
+    <div v-if="msglist.length">
+        <el-table :data="msglist" style="width: 95%;margin:0 auto;" height="520" border>
           <el-table-column prop="addtime" label="消息时间" width="200" align="center"> </el-table-column>
           <el-table-column prop="content" label="消息内容" align="center"> </el-table-column>
           <el-table-column prop="type" label="消息类型" width="200" align="center"> </el-table-column>
         </el-table>
+    </div>
+    <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
+      <div>
+        <img src="@/assets/no-data.png" height="146px" />
+        <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
       </div>
     </div>
   </div>
