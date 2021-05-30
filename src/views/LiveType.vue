@@ -266,10 +266,9 @@ export default {
 
 <style lang="stylus">
 .liveTypewrapperinner {
-  width: 1750px;
+  width: 1920px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   padding: 60px 0 0 0;
 
   // position: relative;
@@ -518,6 +517,7 @@ export default {
     width: 1600px;
     height: 960px;
     overflow-y: auto;
+    margin-left 30px
 
     .categoryinnercontent {
       li {
