@@ -134,7 +134,32 @@ export default {
       });
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+       var images = URL.createObjectURL(file.raw);
+       images = URL.createObjectURL(file.raw);
+       this.imageUrl = this.imageUrlToBase64(images)
+    },
+    // 将图片转换为Base64
+    imageUrlToBase64(img) {
+      // 一定要设置为let，不然图片不显示
+      let image = new Image();
+      // 解决跨域问题
+      image.setAttribute('crossOrigin','anonymous');
+      let image2 = img;
+      image.src = image2;
+      // image.onload为异步加载
+      image.onload = () => {
+        this.getImage(image);
+      };
+    },
+    getImage(image) {
+      let canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      let context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0, image.width, image.height);
+      let quality = 0.8;
+      // 这里的dataurl就是base64类型
+      this.imageUrl = canvas.toDataURL('image/jpeg', quality);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/png';
@@ -163,11 +188,9 @@ export default {
     uploadfile(e) {
       setTimeout(() => {
         let data = {
-          "token": this.token,
           "source": "pc",
           "uid": this.user.id,
-          // avatar: this.imageUrl,
-          token: this.$store.state.user.info.token,
+          "token": this.token,
           nick_name:this.Form.nick_name,
           signature:this.Form.signature
 
@@ -179,12 +202,12 @@ export default {
     updatephoto(){
       setTimeout(() => {
         let data = {
-          token: this.token,
+          "token": this.token,
           source: "pc",
           uid: this.user.id,
           file: this.imageUrl,
-          token: this.$store.state.user.info.token,
         };
+        console.log(data,   0)
         this.upload_PicturesBase64(data);
       }, 1000);
     },
@@ -197,14 +220,12 @@ export default {
     async upload_PicturesBase64(data) {
       let res = await uploadPicturesBase64(data);
       if (res.code == 0) {
-        // this.user.avatar = res.info.avatar;
-        // this.user.avatar_thumb = res.info.avatar_thumb;
-        // this.avatar = res.info.avatar;
         window.localStorage.setItem("user", JSON.stringify(this.user));
         this.$message({
           message: res.msg,
           type: "success",
         });
+        this.handleClose()
       } else {
         this.$message({
           message: res.msg,

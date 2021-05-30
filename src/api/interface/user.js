@@ -42,6 +42,6 @@ export const SecurityPass = (params) => post({ url: 'User.securityPass', params}
 export const AppointmentList = (params) => post({ url: 'Make.appointmentList', params})
 
 // 更换昵称
-export const changeNick = (params) => post({ url: 'User.userCustom', params})
+export const changeNick = (params) => post({ url: 'User.changeNick', params})
 // 头像上传
-export const uploadPicturesBase64 = (params) => post({ url: 'User.uploadPicturesBase64', params})
+export const uploadPicturesBase64 = (params) => post({ url: 'Upload.uploadPicturesBase64', params})
