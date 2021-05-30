@@ -8,16 +8,37 @@
               <img src="../../assets/img/foot.png" class="icons"/>
               <div class="title">足球</div>
             </div>
-            <div class="header-right">今日<span class="number">150</span>场比赛</div>
+            <div class="header-right">今日<span class="number">{{ football.length}}</span>场比赛</div>
           </div>
-          <div class="nav-item-content">
+          <div class="nav-item-content" :style="open? 'overflow: hidden;height: 106px;' : 'overflow: inherit'">
+            <div v-for="(item, index) in football"
+            :key = "index"
+            class="gamename">{{ item.name}}</div>
             <div class="gamename">全部</div>
             <div class="gamename">全部</div>
             <div class="gamename">全部</div>
-            <div class="gamename">全部</div>
-            <div class="unfold">展开<i class="arrows"></i></div>
-            <!-- <div class="put">收起<i class="noarrows"></i></div> -->
           </div>
+            <div v-if="open == true" class="unfold" @click="open = false">展开<i class="arrows"></i></div>
+            <div  v-else class="put"@click="open = true">收起<i class="noarrows"></i></div>
+        </div>
+        <div  class="nav-item-box">
+          <div class="nav-item-header">
+            <div class="header-left">
+              <img src="../../assets/img/basketball.png" class="icons"/>
+              <div class="title">篮球</div>
+            </div>
+            <div class="header-right">今日<span class="number">{{ basketball.length}}</span>场比赛</div>
+          </div>
+          <div class="nav-item-content" :style="open2? 'overflow: hidden;height: 106px;' : 'overflow: inherit'">
+            <div v-for="(item, index) in basketball"
+            :key = "index"
+            class="gamename">{{ item.name}}</div>
+            <div class="gamename">全部</div>
+            <div class="gamename">全部</div>
+            <div class="gamename">全部</div>
+          </div>
+            <div v-if="open2 == true" class="unfold" @click="open2 = false">展开<i class="arrows"></i></div>
+            <div  v-else class="put"@click="open2 = true">收起<i class="noarrows"></i></div>
         </div>
       </div>
       <div class="top__fixturelist">
@@ -29,7 +50,7 @@
             05月15日
           </div>
           <div class="match">
-            (332场比赛)
+            ({{ basketball.length + football.length}}场比赛)
           </div>
         </div>
         <div class="live">
@@ -71,15 +92,23 @@
 </template>
 
 <script>
-import { GetLiveListByType } from "@/api";
+import { GetLiveListByType,football,basketball } from "@/api";
 
   export default {
     data() {
       return {
         uid: "",
+        open: true,
+        open2: true,
         token: "",
         balls:[],
+        football: [],
+        basketball: []
       };
+    },
+    created() {
+      this.getfootball()
+      this.getbasketball()
     },
     mounted() {
       this.uid = JSON.parse(window.localStorage.getItem("user"));
@@ -99,6 +128,26 @@ import { GetLiveListByType } from "@/api";
           console.log(res, 1111);
         });
       },
+      getfootball(){
+        const data = {
+          source: 'pc'
+        }
+        football(data).then(res => {
+          if (res.code == 200 ) {
+            this.football = res.info.filter
+          }
+        })
+      },
+      getbasketball(){
+        const data = {
+          source: 'pc'
+        }
+        basketball(data).then(res => {
+          if (res.code == 200 ) {
+            this.basketball = res.info.filter
+          }
+        })
+      },
     },
   };
 </script>
@@ -106,7 +155,7 @@ import { GetLiveListByType } from "@/api";
 <style lang="stylus">
 .left_fixturelist{
   width: 234px;
-  height: 684px;
+  min-height: 684px;
   opacity: 1;
   background: #ffffff;
   border: 1px solid #e6eaf3;
@@ -191,7 +240,10 @@ import { GetLiveListByType } from "@/api";
       .gamename:hover{
         background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
       }
-      .unfold{
+    }
+  }
+}
+.unfold{
         width: 210px;
         height: 20px;
         opacity: 1;
@@ -199,6 +251,7 @@ import { GetLiveListByType } from "@/api";
         float: left;
         text-align: center;
         position:relative;
+        cursor: pointer;
         .arrows{
           width: 0;
           height: 0;
@@ -209,7 +262,8 @@ import { GetLiveListByType } from "@/api";
           top: 8px;
           right: 75px;
         }
-      }.put{
+      }
+      .put{
         width: 210px;
         height: 20px;
         opacity: 1;
@@ -217,6 +271,7 @@ import { GetLiveListByType } from "@/api";
         float: left;
         text-align: center;
         position:relative;
+        cursor: pointer;
         .noarrows{
           width: 0;
           height: 0;
@@ -228,9 +283,6 @@ import { GetLiveListByType } from "@/api";
           right: 75px;
         }
       }
-    }
-  }
-}
 .top__fixturelist{
   float:left;
   width: 946px;
