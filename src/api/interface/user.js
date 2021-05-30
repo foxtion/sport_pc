@@ -41,8 +41,8 @@ export const SecurityPass = (params) => post({ url: 'User.securityPass', params}
 //用户预约列表
 export const AppointmentList = (params) => post({ url: 'Make.appointmentList', params})
 
-//
-
-
-
+// 更换昵称
+export const changeNick = (params) => post({ url: 'User.userCustom', params})
+// 头像上传
+export const uploadPicturesBase64 = (params) => post({ url: 'User.uploadPicturesBase64', params})
 

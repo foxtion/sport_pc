@@ -211,6 +211,8 @@ export default {
   // padding: 0 0 0 30px;
   .el-tabs__nav-scroll {
     margin-left: 30px;
+    height: 60px;
+    line-height: 60px
   }
   .el-tabs__active-bar {
     background-color: #dbb16f;
@@ -224,6 +226,9 @@ export default {
   }
   .el-table td, .el-table th {
     padding: 8px 0;
+  }
+  .el-tabs__header {
+    margin: 0;
   }
   >h4 {
     font-size: 18px;

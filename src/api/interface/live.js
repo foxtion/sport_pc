@@ -80,5 +80,5 @@ export const FollowLiveList = (params) => post({ url: 'Follow.followLiveList', p
 // 开播设置 足球赛事选择
 export const footMatch = (params) => post({ url: 'Schedule.footMatch', params})
 
-// 开播设置 篮球赛事选择55555
+// 开播设置 篮球赛事选择
 export const basketMatch = (params) => post({ url: 'Schedule.basketMatch', params})

@@ -6,7 +6,7 @@
         width="668px"
         :close-on-click-modal=false
         :before-close="handleClose">
-    <div id="myProfile">
+    <div id="myBank">
         <el-form :model="loginForm" :rules="loginRule" ref="loginForm" style="width: 668px; margin: 30px auto">
             <el-form-item prop="account_bank" class="baseInput">
                 <a class="xing">*</a>开户银行:
@@ -130,7 +130,6 @@
                         "token": this.token,
                         "type" : 1
                     }
-
                     let res = await Getcode(data)
                     if(res.code == 0){
                         this.$message({
@@ -242,7 +241,7 @@
 </script>
 
 <style lang="stylus">
-    #myProfile {
+    #myBank {
         padding:0;
         >.el-dialog--center .el-dialog__body {
             padding: 30px 25px 4px;
