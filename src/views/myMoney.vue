@@ -23,7 +23,7 @@
               </div>
               <el-table :data="tableData" style="width: 94%; margin-left:30px" class="table-data-box" height="440" border>
                 <el-table-column prop="addtime" label="消息时间" width="200" align="center"> </el-table-column>
-                <el-table-column prop="live_uid" label="房间号" width="160" align="center"> </el-table-column>
+                <el-table-column prop="showid" label="房间号" width="160" align="center"> </el-table-column>
                 <el-table-column prop="live_nick_name" label="主播" width="100" align="center"> </el-table-column>
                 <el-table-column prop="gift" label="消费内容" width="250" align="center"> </el-table-column>
                 <el-table-column prop="type" label="消费类型" width="130" align="center"> </el-table-column>

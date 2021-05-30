@@ -10,6 +10,9 @@
                         <el-select v-model="form.classes">
                             <el-option label="足球" value="1"></el-option>
                             <el-option label="篮球" value="2"></el-option>
+                            <el-option label="网球" value="3"></el-option>
+                            <el-option label="电竞" value="4"></el-option>
+                            <el-option label="其他" value="5"></el-option>
                         </el-select>
                     </el-form-item>
                 </div>
@@ -311,7 +314,7 @@
                             this.loading = false
                         }
                     })
-                } else {
+                } else if(this.queryInfo.type == 1 || this.form.classes == 1) {
                     footMatch(data).then(res => {
                         this.tableAllData = res.info.list
                         this.gomeTypeList = res.info.filter
@@ -656,15 +659,6 @@
     display: block;
   }
 #myHome {
-  background: #fff;
-  margin-bottom: 20px;
-  height: 150px;
-  padding: 20px;
-  box-sizing: border-box;
-  background: #fff;
-  display: flex;
-  width: 1000px;
-
   .content_l {
     width: 80px;
     height: 100%;

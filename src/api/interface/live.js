@@ -82,7 +82,13 @@ export const footMatch = (params) => post({ url: 'Schedule.footMatch', params})
 
 // 开播设置 篮球赛事选择
 export const basketMatch = (params) => post({ url: 'Schedule.basketMatch', params})
+
 // 足球赛程
 export const football = (params) => post({ url: 'Schedule.football', params})
+
 // 篮球赛程
 export const basketball = (params) => post({ url: 'Schedule.basketball', params})
+
+// 主播是否实名认证
+export const IsAuth = (params) => post({ url: 'Live.isAuth', params})
+
