@@ -1,8 +1,8 @@
 <template>
   <div id="Livelist">
     <h4 class="hfour"><span>房间管理</span></h4>
-    <div style="padding: 0 20px">
-      <el-table :data="tableData" style="width: 95%" border>
+    <div style="padding: 0 20px"> 
+      <el-table :data="tableData" style="width: 95%" height="520" border>
         <el-table-column
           prop="stream"
           label="房间号"
@@ -10,7 +10,7 @@
           align="center"
         >
         </el-table-column>
-        <el-table-column prop="nick_name" label="房间主播" align="center">
+        <el-table-column prop="nick_name" label="房间主播"  width="210" align="center">
         </el-table-column>
         <el-table-column
           prop="starttime"
@@ -18,7 +18,7 @@
           width="300"
           align="center"
         ></el-table-column>
-        <el-table-column label="管理" width="100">
+        <el-table-column label="管理" width="110" align="center">
           <template slot-scope="scope">
             <div @click="goLiveHome(scope.row)" class="live-btn">
               进入直播间
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { userLiveList } from "@/api";
+import { userLiveList, enterRoom } from "@/api";
 export default {
   name: "Livelist",
   data() {
@@ -58,6 +58,12 @@ export default {
         console.log(res, "res---房间");
       });
     },
+    goLiveHome(row) {
+      this.$router.push({
+        name: "liveRoom",
+        query: { liveuid: row.uid, stream: row.stream },
+      });
+    }
   },
 };
 </script>
@@ -73,6 +79,10 @@ export default {
     color: #DBB16F;
     text-decoration: underline;
     cursor: pointer;
+  }
+  
+  .el-table__body-wrapper::-webkit-scrollbar{
+    display: none;
   }
 }
 
