@@ -39,7 +39,10 @@
               <div v-else style="height: 48px"></div>
             </div>
             <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
-              <img src="@/assets/no-data.png" height="355px" />
+              <div>
+                <img src="@/assets/no-data.png" height="146px" />
+                <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
+              </div>
             </div>
           </el-tab-pane>
           <el-tab-pane label="收支明细" name="spending">
@@ -78,7 +81,10 @@
               <div v-else style="height: 48px"></div>
             </div>
             <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
-              <img src="@/assets/no-data.png" height="355px" />
+              <div>
+                <img src="@/assets/no-data.png" height="146px" />
+                <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
+              </div>
             </div>
           </el-tab-pane>
           <el-tab-pane label="提现记录" name="withdrawal">
@@ -115,7 +121,10 @@
               <div v-else style="height: 48px"></div>
             </div>
             <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
-              <img src="@/assets/no-data.png" height="355px" />
+              <div>
+                <img src="@/assets/no-data.png" height="146px" />
+                <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
+              </div>
             </div>
           </el-tab-pane>
         </el-tabs>

@@ -1,7 +1,7 @@
 <template>
   <div id="Livelist">
     <h4 class="hfour"><span>房间管理</span></h4>
-    <div style="padding: 0 30px"> 
+    <div style="padding: 0 30px" v-if="tableData.length"> 
       <el-table :data="tableData" style="width: 965px" height="520" border>
         <el-table-column
           prop="stream"
@@ -26,6 +26,12 @@
           </template>
         </el-table-column>
       </el-table>
+    </div>
+    <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
+      <div>
+        <img src="@/assets/no-data.png" height="146px" />
+        <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
+      </div>
     </div>
   </div>
 </template>

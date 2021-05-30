@@ -1,8 +1,14 @@
 <template>
   <div id="concern">
     <h4 class=""><span>我的关注</span></h4>
-    <div>
+    <div v-if="tableData.length">
       <focus></focus>
+    </div>
+    <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
+      <div>
+        <img src="@/assets/no-data.png" height="146px" />
+        <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
+      </div>
     </div>
   </div>
 </template>
@@ -34,7 +40,6 @@ export default {
       };
       userFollowAnchor(params).then((res) => {
         this.tableData = res.info;
-        console.log(res, "res---房间");
       });
     },
   },
