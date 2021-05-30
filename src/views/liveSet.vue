@@ -3,7 +3,7 @@
         <h4><span>直播设置</span></h4>
         <div style="margin-left:30px">
         <div style="margin-top:30px">
-            <el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px" >
+            <el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px" :disabled="isOpen">
             <div style="display: flex">
                 <div class="baseInput" style="margin-right: 40px">
                     <el-form-item prop="classes" label="直播分类:">
@@ -69,7 +69,7 @@
             <el-form-item label="直播状态:"> 
                 未推流
             </el-form-item>
-
+                
                 <el-button type="primary" style="padding:0 20px;margin-right: 40px;border:0;border-radius: 5px;background: linear-gradient(180deg, rgba(129, 211, 248, 1) 0%, rgba(115, 206, 247, 1) 10%, rgba(2, 167, 240, 1) 87%);
                                                 width: 112px;height: 30px;line-height: 30px" @click="Submit">确定</el-button>
                 <el-button type="primary" style="padding:0 20px;border:0;border-radius: 5px;background-color: rgba(255, 113, 0, 1);width: 112px;height: 30px;line-height: 30px"
@@ -212,7 +212,8 @@
                 imageUrl: '',
                 imgFirst: '',
                 promoteAddress: '',
-                loading: false
+                loading: false,
+                isOpen: false
             };
         },
         mounted() {
@@ -253,7 +254,12 @@
                             game_details,
                         }
                         CreateRoom(params).then(res => {
-                            console.log(res, '00000000')
+                            this.promoteAddress = res.info.push
+                            this.isOpen = true
+                            this.$message({
+                                message: res.msg,
+                                type: "success",
+                            });
                         })
                     }
                 })
