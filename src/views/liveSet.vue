@@ -1,56 +1,71 @@
 <template>
     <div id="ListSet">
         <h4><span>直播设置</span></h4>
+        <div style="margin-left:30px">
         <div style="margin-top:30px">
-            <el-form ref="form" :model="form" label-width="100px" >
-            <div class="baseInput" style="margin-right: 40px">
-                <el-form-item label="直播分类:">
-                    <el-select v-model="form.classes">
-                        <el-option label="足球" value="1"></el-option>
-                        <el-option label="篮球" value="2"></el-option>
-                    </el-select>
-                </el-form-item>
+            <el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px" >
+            <div style="display: flex">
+                <div class="baseInput" style="margin-right: 40px">
+                    <el-form-item prop="classes" label="直播分类:">
+                        <el-select v-model="form.classes">
+                            <el-option label="足球" value="1"></el-option>
+                            <el-option label="篮球" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+                <div class="baseInput" style="margin-right: 40px">
+                    <el-form-item label="直播类型:" prop="type">
+                        <el-select v-model="form.type">
+                            <el-option label="赛事直播" value="1"></el-option>
+                            <el-option label="自定义直播" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
             </div>
-            <div class="baseInput" style="margin-right: 40px">
-                <el-form-item label="直播类型:">
-                    <el-select v-model="form.type">
-                        <el-option label="赛事直播" value="1"></el-option>
-                        <el-option label="自定义直播" value="2"></el-option>
-                    </el-select>
-                </el-form-item>
-            </div>
-
             <div class="baseInput">
-                <el-form-item label="选择赛事:">
+                <el-form-item label="选择赛事:" prop="user_bank">
                     <el-input style="width: 364px" v-model="form.user_bank"></el-input><span class="text-btn" @click="searchCompetition">查询</span>
                 </el-form-item>
             </div>
             <div class="baseInput">
-                <el-form-item label="直播标题:">
+                <el-form-item label="直播标题:" prop="user_bankcity">
                     <el-input style="width: 364px" v-model="form.user_bankcity" placeholder="广南U19 vs TT河内U19"></el-input>
                 </el-form-item>
             </div>
 
             <div class="rechargenubms">
-                <el-form-item label="聊天室公告:">
+                <el-form-item label="聊天室公告:" prop="desc">
                     <el-input style="width: 364px" type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>
             </div>
 
+            <el-form-item label="开播封面图:" prop="imgFirst">
+            <div style="display: flex">
+                    <el-input style="width: 620px" v-model="imgFirst" disabled></el-input>
+                    <el-upload
+                        class="live-set-uploader"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                        <div class="imgBtn">上传图片</div>
+                    </el-upload>
+                </div>
+            </el-form-item>
+                
             <div class="baseInput">
                 <el-form-item label="推流地址:">
-                    <el-input style="width: 364px" v-model="form.user_bankcity" placeholder="广南U19 vs TT河内U19"></el-input> 
+                    <el-input style="width: 364px" v-model="promoteAddress" disabled></el-input> 
                     <span class="text-btn tag-read"
-                    :data-clipboard-text="form.user_bankcity"
+                    :data-clipboard-text="promoteAddress"
                     @click="copy">
                         复制地址
                     </span>
                 </el-form-item>
             </div>
-
-            <div class="rechargenubms">
-                <p>直播状态:<span>未推流</span></p>
-            </div>
+            <el-form-item label="直播状态:"> 
+                未推流
+            </el-form-item>
 
                 <el-button type="primary" style="padding:0 20px;margin-right: 40px;border:0;border-radius: 5px;background: linear-gradient(180deg, rgba(129, 211, 248, 1) 0%, rgba(115, 206, 247, 1) 10%, rgba(2, 167, 240, 1) 87%);
                                                 width: 112px;height: 30px;line-height: 30px" @click="Submit">确定</el-button>
@@ -58,7 +73,7 @@
                        @click="overSubmit">结束</el-button>
             </el-form>
         </div>
-
+        </div>
         <el-dialog
         title="选择赛事"
         :center="true"
@@ -80,7 +95,7 @@
                 </div> 
                 <p class="set-my-gome" @click="myCompetitionVisible = true">设置自定义赛事</p>
             </div>
-            <el-table :data="tableData" style="width: 100%;"  height="300px" :highlight-current-row="true" @row-click="changeRowList">
+            <el-table :data="tableData" style="width: 100%;"  height="300px" :highlight-current-row="true" v-loading="loading" @row-click="changeRowList">
                 <el-table-column prop="competition_time_text" label="" width="80" align="center"></el-table-column>
                 <el-table-column prop="short_name_zh" label="" width="90" align="center"></el-table-column>
                 <el-table-column prop="status_text" width="90" label="" align="center"></el-table-column>
@@ -132,7 +147,7 @@
 
 <script>
     import DateWeek from './dateWeek'
-    import { CreateRoom, footMatch, basketMatch, Appointment, AppointmentList} from '@/api'
+    import { CreateRoom, footMatch, basketMatch, Appointment, AppointmentList, uploadPicturesBase64 } from '@/api'
     export default {
         name: "LiveSet",
         components: {
@@ -146,6 +161,23 @@
                     user_bank:"",
                     user_bankcity:"",
                     type: '1'
+                },
+                rules: {
+                    classes: [
+                        { required: true, message: '请选择直播分类', trigger: 'change' }
+                    ],
+                    type: [
+                        { required: true, message: '请选择直播类型', trigger: 'change' }
+                    ],
+                    user_bankcity: [
+                        { required: true, message: '请输入直播标题', trigger: 'change' }
+                    ], 
+                    user_bank: [
+                        { required: true, message: '请选择选择赛事', trigger: 'change' }
+                    ], 
+                    desc: [
+                        { required: true, message: '请输入直播公告', trigger: 'change' }
+                    ], 
                 },
                 user_nicename: "",
                 birthday: "",
@@ -172,7 +204,12 @@
                 queryInfo: {},
                 currentCompetition: {},
                 currentCompetitionRow: {},
-                AppointmentListData: []
+                AppointmentListData: [],
+                dialogImageUrl: '',
+                imageUrl: '',
+                imgFirst: '',
+                promoteAddress: '',
+                loading: false
             };
         },
         mounted() {
@@ -191,21 +228,31 @@
         },
         methods: {
             async Submit() {
-                const params = {
-                    uid: this.user.id, //登录的uid
-                    token: this.token, //登录的token
-                    live_class_id: this.form.classes,
-                    game_id: this.currentCompetitionRow.id,
-                    title: this.form.user_bankcity,
-                    notice: this.form.desc,
-                    thumb: '', // 封面图
-                    starttime: this.currentCompetitionRow.competition_time,
-                    source: 'pc',
-                    type: form.type, //直播类型 1球赛直播 2自定义直播
-                    video_url: ''
+                if (!this.imgFirst) {
+                    this.$message.error("请上传直播封面图片");
+                    return
                 }
-                CreateRoom(params).then(res => {
-                    console.log(res, '00000000')
+                this.$refs.ruleForm.validate((valid) => {
+                    if (valid) {
+                        const game_details = JSON.stringify(this.currentCompetitionRow)
+                        const params = {
+                            uid: this.user.id, //登录的uid
+                            token: this.token, //登录的token
+                            live_class_id: this.form.classes,
+                            game_id: this.currentCompetitionRow.id,
+                            title: this.form.user_bankcity,
+                            notice: this.form.desc,
+                            thumb: this.imgFirst, // 封面图
+                            starttime: this.currentCompetitionRow.competition_time,
+                            source: 'pc',
+                            type: this.form.type, //直播类型 1球赛直播 2自定义直播
+                            video_url: '',
+                            game_details,
+                        }
+                        CreateRoom(params).then(res => {
+                            console.log(res, '00000000')
+                        })
+                    }
                 })
             },
             overSubmit(){},
@@ -238,6 +285,7 @@
                 this.dialogVisible = false
             },
             searchCompetitionData(time) { 
+                this.loading = true
                 const startDate = new Date(time.showTime + 600000)
                 const startY = startDate.getFullYear() 
                 const startM = startDate.getMonth() + 1 > 9 ? startDate.getMonth() + 1 : '0' +(startDate.getMonth()+ 1)
@@ -257,8 +305,10 @@
                         if(this.queryInfo.time) {
                             this.tableData = this.tableAllData.filter(item => item.competition_time_text == this.queryInfo.time)
                             this.this.queryInfo = {}
+                            this.loading = false
                         } else {
                             this.tableData = res.info.list
+                            this.loading = false
                         }
                     })
                 } else {
@@ -268,8 +318,10 @@
                         if(this.queryInfo.time) {
                             this.tableData = this.tableAllData.filter(item => item.competition_time_text == this.queryInfo.time)
                             this.this.queryInfo = {}
+                            this.loading = false
                         } else {
                             this.tableData = res.info.list
+                            this.loading = false
                         }
                     })
                 }
@@ -313,9 +365,12 @@
                 }
             },
             changeGomeType() {
+                this.loading = true
                 if (this.gomeType == '全部') {
+                    this.loading = false
                     this.tableData = this.tableAllData
                 } else {
+                    this.loading = false
                     this.tableData = this.tableAllData.filter(item => item.short_name_zh == this.gomeType)
                 }
             },
@@ -334,17 +389,88 @@
                     source: 'pc'
                 }
                 AppointmentList(params).then(res => {
-                    console.log(res, 'r----es')
+                    console.log(res, 'r---000--es')
                     // this.AppointmentListData = res.info.list
                 })
+            },
+            handleAvatarSuccess(res, file) {
+                var images = URL.createObjectURL(file.raw);
+                images = URL.createObjectURL(file.raw);
+                this.imageUrl = this.imageUrlToBase64(images)
+                
+                setTimeout(() => {
+                    this.updatephoto()
+                }, 1000)
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 png 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            // 将图片转换为Base64
+            imageUrlToBase64(img) {
+                // 一定要设置为let，不然图片不显示
+                let image = new Image();
+                // 解决跨域问题
+                image.setAttribute('crossOrigin','anonymous');
+                let image2 = img;
+                image.src = image2;
+                // image.onload为异步加载
+                image.onload = () => {
+                    this.getImage(image);
+                };
+                },
+            getImage(image) {
+                let canvas = document.createElement('canvas');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                let context = canvas.getContext('2d');
+                context.drawImage(image, 0, 0, image.width, image.height);
+                let quality = 0.8;
+                // 这里的dataurl就是base64类型
+                this.imageUrl = canvas.toDataURL('image/jpeg', quality);
+            },
+            updatephoto(){
+                let data = {
+                    token: this.token,
+                    source: "pc",
+                    uid: this.user.id,
+                    file: this.imageUrl,
+                }
+                this.upload_PicturesBase64(data).then(res => {
+                    console.log(res)
+                })
+            },
+            
+            async upload_PicturesBase64(data) {
+            let res = await uploadPicturesBase64(data);
+            if (res.code == 0) {
+                window.localStorage.setItem("user", JSON.stringify(this.user));
+                this.imgFirst = res.info.domain + res.info.img
+                this.$message({
+                message: res.msg,
+                type: "success",
+                });
+            } else {
+                this.$message({
+                message: res.msg,
+                type: "warning",
+                });
             }
+            },
         },
     };
 </script>
 
 <style lang="stylus">
 #ListSet {
-      padding: 0 0 0 30px;
 
   >h4 {
     font-size: 18px;
@@ -365,10 +491,9 @@
       line-height: 60px;
       margin-left: 20px;
     }
-  }
+}
 
     .baseInput {
-        margin-bottom: 30px;
         .text-btn {
             padding-left: 10px
             color: #DBB16F;
@@ -433,6 +558,38 @@
         color: #DBB16F;
         cursor: pointer;
     }
+        
+    .avatar-uploader{
+    width: 144px;
+    height: 144px;
+    border: 1px solid;
+    margin-bottom: 40px;
+    position:relative;
+    }
+    
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 144px;
+    height: 144px;
+    line-height: 144px;
+    text-align: center;
+  }
+  .avatar {
+    width: 144px;
+    height: 144px;
+    display: block;
+  }
 }
 .dialog-btn {
     width: 46px;
@@ -442,10 +599,307 @@
     opacity: 1;
     background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
     border-radius: 2px;
+    cursor: pointer;
 }
 
 .el-dialog__headerbtn .el-dialog__close {
     color: #76809C;
     font-weight: 700
+}
+
+.live-set-uploader {
+  width: 100%;
+  background: #fff;
+}
+.sign{
+  .el-input__inner{
+    height:90px;
+  }
+}
+.avatar-uploader{
+  width: 144px;
+  height: 144px;
+  border: 1px solid;
+  margin-bottom: 40px;
+  position:relative;
+}
+.changephoto{
+  position:absolute;
+  bottom: 1px;
+  left: 16px;
+  z-index: 3;
+}
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 144px;
+    height: 144px;
+    line-height: 144px;
+    text-align: center;
+    border: 1px solid #DCDFE6;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  .avatar {
+    width: 144px;
+    height: 144px;
+    display: block;
+  }
+#myHome {
+  background: #fff;
+  margin-bottom: 20px;
+  height: 150px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #fff;
+  display: flex;
+  width: 1000px;
+
+  .content_l {
+    width: 80px;
+    height: 100%;
+    position: relative;
+
+    img {
+      width: 80px;
+      height: 80px;
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    span {
+      position: absolute;
+      top: 0;
+      display: block;
+      width: 80px;
+      height: 80px;
+
+      &:hover {
+      }
+    }
+
+    .fileImage {
+      display: none;
+    }
+  }
+  .el-dialog--center {
+    text-align: center;
+    border: 1px solid #e6eaf3;
+    border-radius: 9px;
+  }
+  .photos{
+    width: 144px;
+    height: 144px;
+  }
+  .el-form-item {
+    display: flex;
+    justify-content: center;
+    color:#434A66;
+  }
+  .el-dialog .el-dialog__header {
+      background: #E6EAF3 !important;
+      border-radius: 9px 9px 0 0;
+      font-weight: 800;
+      padding: 12px 10px;
+  }
+  .content_val {
+    flex: 1;
+    margin-left: 20px;
+
+    .setname {
+      .dengji {
+        display: inline-block;
+        width: 20px;
+        height: 16px;
+        background: url('../assets/img/di.png');
+      }
+
+      span {
+        font-size: 18px;
+        font-family: PingFang SC, PingFang SC-Medium;
+        font-weight: 500;
+        text-align: LEFT;
+        color: #333333;
+        margin: 0 8px 0 6px;
+      }
+
+      .xiugai {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url('../assets/img/bianji.png');
+        cursor: pointer;
+      }
+    }
+
+    .signature {
+      font-size: 14px;
+      font-family: PingFang SC, PingFang SC-Regular;
+      font-weight: 400;
+      text-align: LEFT;
+      color: #666666;
+      margin: 8px 0 17px 0;
+    }
+
+    .jdutiao {
+      width: 300px;
+      position: relative;
+
+      span {
+        display: inline-block;
+        width: 43px;
+        height: 21px;
+        line-height: 21px;
+        color: #fff;
+        background: url('../assets/img/1-10.png');
+        border: 1px solid #acbfff;
+        border-radius: 3px;
+        text-align: center;
+        margin-left: 4px;
+        padding: 0 0 0 12px;
+        font-size: 10px;
+        position: relative;
+      }
+    }
+
+    .coin {
+      font-size: 14px;
+      font-family: PingFang SC, PingFang SC-Regular;
+      font-weight: 400;
+      text-align: LEFT;
+      color: #333333;
+      position: relative;
+      margin-top: 11px;
+
+      .coinlogo {
+        display: inline-block;
+        width: 18px;
+        height: 19px;
+        background: url('../assets/img/my_coin.png');
+        position: relative;
+        top: 3px;
+      }
+
+      span {
+        font-size: 14px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: LEFT;
+        color: #76809c;
+        margin-left: 6px;
+
+        .tishi {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          background: url('../assets/img/tishi.png');
+          position: relative;
+          top: 3px;
+          cursor: pointer;
+        }
+      }
+
+      .paybtn {
+        display: inline-block;
+        width: 54px;
+        height: 20px;
+        opacity: 1;
+        background: linear-gradient(90deg, #f27a2e, #f15b43 100%);
+        border-radius: 2px;
+        font-size: 13px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        line-height: 20px;
+        margin-left: 60px;
+        cursor: pointer;
+      }
+
+      .tixianbtn {
+        display: inline-block;
+        width: 54px;
+        height: 20px;
+        line-height: 20px;
+        opacity: 1;
+        background: #748aff;
+        border-radius: 2px;
+        font-size: 13px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    }
+
+    .tixian {
+      margin-left: 40px !important;
+    }
+  }
+
+  .content_r {
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .ican {
+      display: block;
+      width: 88px;
+      height: 34px;
+      opacity: 1;
+      background: #ffffff;
+      border: 1px solid #dbb16f;
+      border-radius: 5px;
+      line-height: 34px;
+      text-align: center;
+      font-size: 16px;
+      font-family: PingFang SC, PingFang SC-Regular;
+      font-weight: 400;
+      text-align: CENTER;
+      color: #dbb16f;
+      cursor: pointer;
+    }
+
+    .fensi {
+      font-size: 14px;
+      font-family: PingFang SC, PingFang SC-Regular;
+      font-weight: 400;
+      text-align: LEFT;
+      color: #333333;
+
+      i {
+        font-style: normal;
+        font-size: 14px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: LEFT;
+        color: #76809c;
+      }
+    }
+  }
+}
+.imgBtn {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 8px;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #76809C;
+    border: 1px solid #C0C4CC;
+    border-radius: 5px;
+    margin-left: 10px;
 }
 </style>
