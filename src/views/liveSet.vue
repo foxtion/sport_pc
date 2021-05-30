@@ -6,11 +6,16 @@
             <div class="baseInput" style="margin-right: 40px">
                 <el-form-item label="直播分类:">
                     <el-select v-model="form.classes">
-                        <el-option label="足球" value="0"></el-option>
-                        <el-option label="篮球" value="1"></el-option>
-                        <el-option label="网球" value="2"></el-option>
-                        <el-option label="电竞" value="3"></el-option>
-                        <el-option label="其它" value="4"></el-option>
+                        <el-option label="足球" value="1"></el-option>
+                        <el-option label="篮球" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+            </div>
+            <div class="baseInput" style="margin-right: 40px">
+                <el-form-item label="直播类型:">
+                    <el-select v-model="form.type">
+                        <el-option label="赛事直播" value="1"></el-option>
+                        <el-option label="自定义直播" value="2"></el-option>
                     </el-select>
                 </el-form-item>
             </div>
@@ -63,28 +68,28 @@
             <DateWeek ref="dateWeek" @searchCompetitionData="searchCompetitionData"/>
             <div class="dialog-header">
                 <div class="dialog-header-left">
-                    <span class="date">{{ currentTime }}</span><p>足球<span style="color: #DBB16F">332场</span>比赛</p>
-                    <el-select v-model="gomeType" class="select-gome" size="mini">
+                    <span class="date">{{ currentTime }}</span><p>共<span style="color: #DBB16F"> {{ tableData.length }} 场</span>比赛</p>
+                    <el-select v-model="gomeType" class="select-gome" size="mini" @change="changeGomeType">
                         <el-option
                             v-for="item in gomeTypeList"
                             :key="item.events_id"
-                            :value="item.events_id"
+                            :value="item.name"
                             :label="item.name"
                             />
                     </el-select>
                 </div> 
                 <p class="set-my-gome" @click="myCompetitionVisible = true">设置自定义赛事</p>
             </div>
-            <el-table :data="tableData" style="width: 100%; height: 300px;">
-                <el-table-column prop="competition_time_text" label="" width="100" align="center"></el-table-column>
+            <el-table :data="tableData" style="width: 100%;"  height="300px" :highlight-current-row="true" @row-click="changeRowList">
+                <el-table-column prop="competition_time_text" label="" width="80" align="center"></el-table-column>
                 <el-table-column prop="short_name_zh" label="" width="90" align="center"></el-table-column>
-                <el-table-column prop="status_text" label="" align="center"></el-table-column>
-                <el-table-column label="" width="300" align="center">
+                <el-table-column prop="status_text" width="90" label="" align="center"></el-table-column>
+                <el-table-column label=""  align="center">
                     <template slot-scope="scope">
-                       <div style="display: flex">
-                           <div style="display: flex">{{ scope.row.deputy_name }}<img :src="scope.row.deputy_logo" width="20px" /></div> 
-                           VS 
-                           <div style="display: flex"> <img :src="scope.row.main_logo" width="20px" />{{ scope.row.main_name }} </div>
+                       <div style="display: flex;justify-content: space-around;color:#434A66">
+                           <div style="display: flex;justify-content: space-between; width: 180px">{{ scope.row.deputy_name }}<img :src="scope.row.deputy_logo" width="20px" style="margin-left: 30px" /></div> 
+                           <div style="width: 30px;margin:0 30px;color: #333333">VS </div>
+                           <div style="width: 180px;display: flex;justify-content: space-between;"> <img :src="scope.row.main_logo" width="20px" style="margin-right: 30px" />{{ scope.row.main_name }} </div>
                         </div>
                     </template>
                 </el-table-column>
@@ -96,7 +101,7 @@
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="dialogBtn">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 自定义赛事 -->
@@ -105,7 +110,18 @@
         :center="true"
         :visible.sync="myCompetitionVisible"
         width="500px">
-            <div class="dialog-header">
+            <div class="">
+                  <el-form :inline="true" :model="queryInfo" ref="queryInfoRef" label-width="80px" size="small">
+                    <el-form-item label="类型:" prop="type">
+                      <el-select v-model="queryInfo.type" clearable style="width: 300px;">
+                          <el-option label="足球" value="1"></el-option>
+                          <el-option label="篮球" value="2"></el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="开赛时间:" prop="time">
+                        <el-time-select v-model="queryInfo.time" style="width: 300px;" :picker-options="{ start: '00:00', step: '00:05', end: '24:00' }"></el-time-select>
+                    </el-form-item>
+                  </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="myCompetitionBtn">确 定</el-button>
@@ -116,7 +132,7 @@
 
 <script>
     import DateWeek from './dateWeek'
-    import { CreateRoom, footMatch, basketMatch, appointment} from '@/api'
+    import { CreateRoom, footMatch, basketMatch, Appointment, AppointmentList} from '@/api'
     export default {
         name: "LiveSet",
         components: {
@@ -126,9 +142,10 @@
             return {
                 form: {
                     desc: '',
-                    classes: "0",
+                    classes: "1",
                     user_bank:"",
                     user_bankcity:"",
+                    type: '1'
                 },
                 user_nicename: "",
                 birthday: "",
@@ -144,27 +161,18 @@
                 user_cardnum:"",
                 token:"",
                 dialogVisible: false,
-                tableData: [
-                    {
-                        tiem: '14:55',
-                        name: '中超',
-                        status: '未开始',
-                        aa: '莱斯特城',
-                        bb: '西汉姆联',
-                    },
-                    {
-                        tiem: '14:55',
-                        name: '中超',
-                        status: '未开始',
-                        aa: '莱斯特城',
-                        bb: '西汉姆联',
-                    }
-                ],
+                tableData: [],
+                tableAllData: [],
                 currentTime: '',
-                gomeType: '1',
+                gomeType: '全部',
                 uid: '',
                 gomeTypeList: [],
-                myCompetitionVisible: false
+                myCompetitionVisible: false,
+                isMyCompetition: false,
+                queryInfo: {},
+                currentCompetition: {},
+                currentCompetitionRow: {},
+                AppointmentListData: []
             };
         },
         mounted() {
@@ -179,27 +187,22 @@
         created() {
             this.user = JSON.parse(window.localStorage.getItem("user"))
             this.token = window.localStorage.getItem("token")
-            var now = new Date()
-            const data = {
-                showTime: now.getTime()
-            }
-            this.searchCompetitionData(data)
+            this.getAppointmentList()
         },
         methods: {
             async Submit() {
                 const params = {
                     uid: this.user.id, //登录的uid
                     token: this.token, //登录的token
-                    live_class_id: this.form,
-                    game_id: '',
-                    title: '',
-                    notice: '',
-                    thumb: '',
-                    starttime: '',
+                    live_class_id: this.form.classes,
+                    game_id: this.currentCompetitionRow.id,
+                    title: this.form.user_bankcity,
+                    notice: this.form.desc,
+                    thumb: '', // 封面图
+                    starttime: this.currentCompetitionRow.competition_time,
                     source: 'pc',
-                    type: '',
-                    video_url: '',
-                    game_type: ''
+                    type: form.type, //直播类型 1球赛直播 2自定义直播
+                    video_url: ''
                 }
                 CreateRoom(params).then(res => {
                     console.log(res, '00000000')
@@ -225,6 +228,11 @@
             },
             searchCompetition() {
                 this.dialogVisible = true
+                var now = new Date()
+                const data = {
+                    showTime: now.getTime()
+                }
+                this.searchCompetitionData(data)
             },
             handleClose() {
                 this.dialogVisible = false
@@ -242,28 +250,93 @@
                     time: starttime,
                     source: 'pc'
                 }
-                footMatch(data).then(res => {
-                    this.tableData = res.info.list
-                    this.gomeTypeList = res.info.filter
-                })
+                if(this.queryInfo.type == 2 || this.form.classes == 2) {
+                    basketMatch(data).then(res => {
+                        this.tableAllData = res.info.list
+                        this.gomeTypeList = res.info.filter
+                        if(this.queryInfo.time) {
+                            this.tableData = this.tableAllData.filter(item => item.competition_time_text == this.queryInfo.time)
+                            this.this.queryInfo = {}
+                        } else {
+                            this.tableData = res.info.list
+                        }
+                    })
+                } else {
+                    footMatch(data).then(res => {
+                        this.tableAllData = res.info.list
+                        this.gomeTypeList = res.info.filter
+                        if(this.queryInfo.time) {
+                            this.tableData = this.tableAllData.filter(item => item.competition_time_text == this.queryInfo.time)
+                            this.this.queryInfo = {}
+                        } else {
+                            this.tableData = res.info.list
+                        }
+                    })
+                }
             },
+            // 预约赛事
             convention(row) {
+                const game_details = JSON.stringify(row)
                 const params = {
                     uid: this.user.id, //登录的uid
                     token: this.token, //登录的token
-                    game_status: 1,
+                    game_status: row.status,
                     game_id: row.id,
-                    gametime: row.tiem,
-                    game_type: row.type,
+                    gametime: row.competition_time,
+                    game_details, 
+                    game_type: 1,
                     source: 'pc'
                 }
-                appointment(params).then(res => {
+                Appointment(params).then(res => {
                     console.log(res, 'res')
+                    if (res.code == '0') {
+                        this.$message({
+                            message: "关注成功！",
+                            type: "success",
+                        });
+                    }
                 })
             },
             // 自定义赛事
             myCompetitionBtn() {
                 this.myCompetitionVisible = false
+                if (this.queryInfo.type) {
+                    this.form.classes == this.queryInfo.type
+                }
+                if (this.queryInfo.type || this.time) {
+                    this.isMyCompetition = true
+                    var now = new Date()
+                    const data = {
+                        showTime: now.getTime()
+                    }
+                    this.searchCompetitionData(data)
+                }
+            },
+            changeGomeType() {
+                if (this.gomeType == '全部') {
+                    this.tableData = this.tableAllData
+                } else {
+                    this.tableData = this.tableAllData.filter(item => item.short_name_zh == this.gomeType)
+                }
+            },
+            dialogBtn() {
+                this.dialogVisible = false
+                this.currentCompetitionRow = this.currentCompetition
+                this.form.user_bank = this.currentCompetitionRow.competition_time_text + this.currentCompetitionRow.name_zh + '、' + this.currentCompetitionRow.deputy_name + '-' + this.currentCompetitionRow.main_name
+            },
+            changeRowList(row) {
+                this.currentCompetition = row
+            },
+            getAppointmentList() {
+                const params = {
+                    uid: this.user.id, //登录的uid
+                    token: this.token, //登录的token
+                    source: 'pc'
+                }
+                AppointmentList(params).then(res => {
+                    console.log(res, 'r----es')
+                    // this.AppointmentListData = res.info.list
+                })
             }
         },
     };
@@ -324,6 +397,12 @@
         padding-top: 13px;
         padding-bottom: 13px;
     }
+    .el-dialog--center .el-dialog__body {
+        padding: 10px;
+    }
+  .el-table__body-wrapper::-webkit-scrollbar{
+    display: none;
+  }
 }
 .el-table .has-gutter th, .el-table .has-gutter tr {
   background: #EBF0FB;
