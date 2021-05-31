@@ -42,10 +42,14 @@
             <li>
               <div class="li-l li03"></div>
               <div class="li-c">
-                <p class="p1">银行卡未绑定</p>
+                <p class="p1" v-if="isAccountBank">银行卡已绑定</p>
+                <p class="p1" v-else>银行卡未绑定</p>
                 <p class="p2">完善银行卡信息，便于提取直播收益</p>
               </div>
-              <div class="li-r" @click="$router.push({ name: 'bindBankCard' })">
+              <div class="li-r" v-if="isAccountBank">
+                已绑定
+              </div>
+              <div class="li-r" v-else @click="$router.push({ name: 'bindBankCard' })">
                 绑定银行卡
               </div>
             </li>
@@ -87,7 +91,7 @@
 </template>
 
 <script>
-import { UploadPictures, GetUserinfo } from "@/api";
+import { UploadPictures, GetUserinfo, UserAccount } from "@/api";
 export default {
   name: "myHome",
   data() {
@@ -98,6 +102,7 @@ export default {
       is_show: false,
       token: "",
       activeName: "first",
+      isAccountBank: false
     };
   },
   mounted() {
@@ -112,7 +117,24 @@ export default {
     }
     // this.getUserinfo()
   },
+  created() {
+    this.getuserAccount()
+  },
   methods: {
+     getuserAccount() {
+      let user = JSON.parse(window.localStorage.getItem("user"));
+      const params = {
+        uid: user.id,
+        token: this.token,
+      };
+      UserAccount(params).then((res) => {
+        console.log(res, 'res-----------')
+        if (res.info.account_bank) {
+          this.isAccountBank = true
+        }
+        console.log(res);
+      });
+    },
     //充值
     handleClick(tab, event) {
       console.log(tab, event);
