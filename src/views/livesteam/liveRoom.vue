@@ -639,100 +639,8 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div style="width: 1200px; margin: 50px auto">
-      <h4 style="margin-bottom: 20px; font-size: 22px">主播日程</h4>
-      <div style="position: relative; width: 1200px; margin: 0 auto">
-        <div class="swiper-container ssyyswiper">
-          <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="item in anchorSchedulelist"
-              :key="item.id"
-            >
-              <div class="title">
-                <div>
-                  <span
-                    style="
-                      width: 120px;
-                      overflow: hidden;
-                      white-space: nowrap;
-                      text-overflow: ellipsis;
-                    "
-                    >{{ item.sponsor_name }}</span
-                  >
-                </div>
-
-                <div class="match-time">
-                  <span style="padding-right: 5px">{{ item.day }}</span>
-                  <span>{{ item.time }}</span>
-                </div>
-              </div>
-
-              <div class="box">
-                <div class="battle-team fl">
-                  <p>
-                    <img class="logo match-cover" :src="item.team_one_logo" />
-                    <span class="ellipsis">{{ item.team_one_name }}</span>
-                  </p>
-                  <p>
-                    <img
-                      class="logo match-cover"
-                      :src="item.team_two_logo"
-                      alt
-                    />
-                    <span class="ellipsis">{{ item.team_two_name }}</span>
-                  </p>
-                </div>
-
-                <div
-                  class="appoinment"
-                  v-if="item.is_appointment == 0"
-                  @click="isyuyue(item)"
-                >
-                  预约
-                </div>
-                <div
-                  class="appoinment"
-                  v-else
-                  @click="isyuyue(item)"
-                  style="background: #ccc"
-                >
-                  已预约
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 如果需要导航按钮 -->
-        <div class="swiper-button-prev ssyyswiperprev"></div>
-        <div class="swiper-button-next ssyyswipernext"></div>
       </div>
-    </div>
-
-    <div style="width: 1200px; margin: 50px auto">
-      <h4 style="margin-bottom: 20px; font-size: 22px">视频推荐</h4>
-      <ul class="hotcontent">
-        <li v-for="(item, i) in zhibo" :key="i" @click="tozbj(item)">
-          <div>
-            <img :src="item.thumb" alt class="hotcontentimg" />
-            <span class="com" v-show="item.isrecommend == '1'">
-              <i>推荐</i>
-            </span>
-            <i class="btn-open"></i>
-            <h5 class="bottom-title">
-              <span class="name">{{ item.user_nicename }}</span>
-              <span class="num">
-                <img src="@/assets/icon-hot-white.png" alt="热度" />
-                <span>{{ item.online }}</span>
-              </span>
-            </h5>
-          </div>
-          <h4 class="ellipsis">{{ item.game_title }}</h4>
-        </li>
-      </ul>
-    </div>
+      <liveylist />
     <liveNoble ref="livenoble" />
   </div>
 </template>
@@ -741,10 +649,11 @@
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat } from "@/api";
+import Liveylist from './liveylist.vue';
 const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
 export default {
   name: "zbj",
-  components: { VBarrage, liveNoble },
+  components: { VBarrage, liveNoble, Liveylist },
   data() {
     return {
       uid: "",

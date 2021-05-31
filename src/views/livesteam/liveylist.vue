@@ -1,7 +1,7 @@
 <template>
   <div id="liveyy">
     <div class="liveyytop">
-      <div class="livetab" v-for="(irtem, index) in listtab" :key="index">
+      <div class="livetab" v-for="(item, index) in listtab" :key="index">
         <span
           :class="{ active: activeIndex === index }"
           @click="listactive(item, index)"
