@@ -63,7 +63,7 @@
           >
             <a class="xing">*</a>实际到账金额：<span
               style="color: #dbb16f"
-              
+
             >{{loginForm.user_cardnum}}</span
             >元
           </el-form-item>
@@ -179,7 +179,7 @@ export default {
     burchang() {
       console.log("111");
       if (
-       
+
         this.loginForm.user_cardnum &&
         this.loginForm.idcard
       ) {
@@ -231,9 +231,8 @@ export default {
   padding: 0;
 
   >.el-dialog--center .el-dialog__body {
-    padding: 30px 25px 4px;
+    padding: 25px 25px 0 25px;
   }
-
   h4 {
     font-size: 18px;
     font-weight: 600;
@@ -264,10 +263,6 @@ export default {
   .baseInput {
     margin-bottom: 30px;
   }
-}
-
-.el-dialog .el-dialog__header {
-  background: #E6EAF3 !important;
 }
 
 .el-input-group__append {
@@ -347,13 +342,22 @@ export default {
 }
 
 /deep/ .el-card__body {
-  padding: 5px 0 0 40px !important;
+  padding: 5px 0 0 22px !important;
 }
 
 /deep/ .el-card {
-  background: rgba(148, 148, 148, 0.6);
+  background: #f8f8f8;
 }
-
+/deep/.el-dialog--center {
+  text-align: center;
+  border-radius: 9px;
+}
+/deep/.el-dialog .el-dialog__header {
+  background: #e6eaf3 !important;
+  border-radius: 9px 9px 0 0;
+  font-weight: 800;
+  padding: 12px 10px;
+}
 .item {
   height: 30px;
   color: #666;
