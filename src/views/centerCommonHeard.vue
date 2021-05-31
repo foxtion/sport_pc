@@ -34,10 +34,7 @@
             >充值</span
           >
           <!-- <span class="tixianbtn" @click="$router.push({ name: 'withDrawal' })" -->
-          <span class="tixianbtn" @click="tixian"
-
-            >提现</span
-          >
+          <span class="tixianbtn" @click="tixian">提现</span>
         </div>
       </div>
       <div class="content_r">
@@ -46,39 +43,75 @@
       </div>
     </div>
     <el-dialog
-    title="基础资料"
-    :center="true"
-    :visible.sync="dialogVisible"
-    :auto-upload="false"
-    :limit="1"
-    width="668px"
-    :close-on-click-modal=false
-    :before-close="handleClose" class="content_l">
-      <el-form :model="Form" ref="Form" style="width: 633px; margin: 30px auto;display: flex;flex-direction: column;align-items: center;">
+      title="基础资料"
+      :center="true"
+      :visible.sync="dialogVisible"
+      :auto-upload="false"
+      :limit="1"
+      width="668px"
+      :close-on-click-modal="false"
+      :before-close="handleClose"
+      class="content_l"
+    >
+      <el-form
+        :model="Form"
+        ref="Form"
+        style="
+          width: 633px;
+          margin: 30px auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        "
+      >
         <el-upload
           class="avatar-uploader"
           action="https://jsonplaceholder.typicode.com/posts/"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar photos">
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar photos" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           <a class="changephoto">点击图片修改头像</a>
         </el-upload>
         <el-form-item prop="nick_name">
-            用户昵称:
-            <el-input v-model="Form.nick_name" placeholder="请输入昵称" style="width: 330px; margin-left:8px"></el-input>
+          用户昵称:
+          <el-input
+            v-model="Form.nick_name"
+            placeholder="请输入昵称"
+            style="width: 330px; margin-left: 8px"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="signature">
-            <p>个性签名:</p>
-            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 5}" v-model="Form.signature" placeholder="输入签名" style="width: 330px;margin-left:8px" class="sign"></el-input>
+          <p>个性签名:</p>
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 4, maxRows: 5 }"
+            v-model="Form.signature"
+            placeholder="输入签名"
+            style="width: 330px; margin-left: 8px"
+            class="sign"
+          ></el-input>
         </el-form-item>
-         <el-form-item>
-            <div style="width: 108px">
-                <el-button type="primary" style="width: 100%; background: linear-gradient(90deg, #eccbab, #dbb16f 100%); border-color: #f8c21b;width:108px;height:40px;font-size:16px;font-weight: 400" @click="uploadfile">
-                    确    定
-                </el-button>
-            </div>
+        <el-form-item>
+          <div style="width: 108px">
+            <el-button
+              type="primary"
+              style="
+                width: 100%;
+                background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
+                border-color: #f8c21b;
+                width: 108px;
+                height: 40px;
+                font-size: 16px;
+                font-weight: 400;
+              "
+              @click="uploadfile"
+            >
+              确 定
+            </el-button>
+          </div>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -86,7 +119,7 @@
 </template>
 
 <script>
-import { GetUserinfo,uploadPicturesBase64,changeNick } from "@/api";
+import { GetUserinfo, uploadPicturesBase64, changeNick } from "@/api";
 export default {
   name: "myHome",
   data() {
@@ -96,73 +129,63 @@ export default {
       baseImage: "",
       is_show: false,
       token: "",
-      Form:{
-        nick_name:"",
-        signature:""
+      Form: {
+        nick_name: this.$store.state.user.info.nick_name,
+        signature: this.$store.state.user.info.signature,
       },
-      dialogImageUrl: '',
-      imageUrl: '',
+      dialogImageUrl: "",
+      imageUrl: "",
       // loginRule: {
       //   mobile: [{ required: true, message: "手机号码格式错误", trigger: "blur" }],
       //   code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       // },
-      dialogVisible: false
+      dialogVisible: false,
     };
   },
   mounted() {
     this.user = JSON.parse(window.localStorage.getItem("user"));
     this.token = window.localStorage.token;
-    // console.log(window.localStorage);
-    // if (user) {
-    //   user = this.user;
-    //   // this.avatar = this.user.avatar;
-    // } else {
-    //   this.$router.push({ name: "/" });
-    // }
-    // this.getUserinfo();
+    this.getUserinfo();
   },
   methods: {
-    tixian(){
-      if(!true){
-        this.$router.push({ name: 'bindBankCard' })
-      }
-      else{
-        this.$router.push({ name: 'withDrawal' })
+    tixian() {
+      if (!true) {
+        this.$router.push({ name: "bindBankCard" });
+      } else {
+        this.$router.push({ name: "withDrawal" });
       }
     },
     async Submit() {
-       if(this.$store.state.user.isauth.is_auth==='1'){
-         this.$router.push({ name: "liveSet" });
-
-     }else{
-       
-       this.$router.push({ name: "realName" });
-     }
+      if (this.$store.state.user.isauth.is_auth === "1") {
+        this.$router.push({ name: "liveSet" });
+      } else {
+        this.$router.push({ name: "realName" });
+      }
     },
     //充值
     withdrawal() {},
     getUserinfo() {
       const params = {
-        "uid": this.user.id,
-        "token": this.token,
-        "source": "pc",
+        uid: this.user.id,
+        token: this.token,
+        source: "pc",
       };
-      console.log(params);
       GetUserinfo(params).then((res) => {
-        console.log(res);
+        this.$store.commit("userinfo", res.info);
+        console.log(res.info);
       });
     },
     handleAvatarSuccess(res, file) {
-       var images = URL.createObjectURL(file.raw);
-       images = URL.createObjectURL(file.raw);
-       this.imageUrl = this.imageUrlToBase64(images)
+      var images = URL.createObjectURL(file.raw);
+      images = URL.createObjectURL(file.raw);
+      this.imageUrl = this.imageUrlToBase64(images);
     },
     // 将图片转换为Base64
     imageUrlToBase64(img) {
       // 一定要设置为let，不然图片不显示
       let image = new Image();
       // 解决跨域问题
-      image.setAttribute('crossOrigin','anonymous');
+      image.setAttribute("crossOrigin", "anonymous");
       let image2 = img;
       image.src = image2;
       // image.onload为异步加载
@@ -171,24 +194,24 @@ export default {
       };
     },
     getImage(image) {
-      let canvas = document.createElement('canvas');
+      let canvas = document.createElement("canvas");
       canvas.width = image.width;
       canvas.height = image.height;
-      let context = canvas.getContext('2d');
+      let context = canvas.getContext("2d");
       context.drawImage(image, 0, 0, image.width, image.height);
       let quality = 0.8;
       // 这里的dataurl就是base64类型
-      this.imageUrl = canvas.toDataURL('image/jpeg', quality);
+      this.imageUrl = canvas.toDataURL("image/jpeg", quality);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/png';
+      const isJPG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 png 格式!');
+        this.$message.error("上传头像图片只能是 png 格式!");
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
     },
@@ -207,30 +230,31 @@ export default {
     uploadfile(e) {
       setTimeout(() => {
         let data = {
-          "source": "pc",
-          "uid": this.user.id,
-          "token": this.token,
-          nick_name:this.Form.nick_name,
-          signature:this.Form.signature
-
+          source: "pc",
+          uid: this.user.id,
+          token: this.token,
+          nick_name: this.Form.nick_name,
+          signature: this.Form.signature,
         };
         this.change_Nick(data);
-        this.updatephoto()
+        this.updatephoto();
       }, 1000);
     },
-    updatephoto(){
+    updatephoto() {
       setTimeout(() => {
         let data = {
-          "token": this.token,
+          token: this.token,
           source: "pc",
           uid: this.user.id,
           file: this.imageUrl,
         };
-        console.log(data,   0)
-        this.upload_PicturesBase64(data);
+        console.log(data, 0);
+        if (data.file !== "") {
+          this.upload_PicturesBase64(data);
+        }
       }, 1000);
     },
-    xiugai(){
+    xiugai() {
       this.dialogVisible = true;
     },
     handleClose() {
@@ -244,7 +268,9 @@ export default {
           message: res.msg,
           type: "success",
         });
-        this.handleClose()
+        this.getUserinfo();
+
+        this.handleClose();
       } else {
         this.$message({
           message: res.msg,
@@ -263,90 +289,106 @@ export default {
           message: res.msg,
           type: "success",
         });
+        this.getUserinfo();
+
+        this.handleClose();
       } else {
         this.$message({
           message: res.msg,
           type: "warning",
         });
       }
-    }
+    },
   },
 };
 </script>
 <style lang="stylus" scoped>
- /deep/ .el-form-item__content{
-    display: flex;
-  }
- /deep/ .el-dialog--center {
-    text-align: center;
-    border: 1px solid #e6eaf3;
-    border-radius: 9px;
-  }
-  /deep/.photos{
-    width: 144px;
-    height: 144px;
-  }
-  /deep/.el-form-item {
-    display: flex;
-    justify-content: center;
-    color:#434A66;
-  }
- /deep/ .el-dialog .el-dialog__header {
-      background: #E6EAF3 !important;
-      border-radius: 9px 9px 0 0;
-      font-weight: 800;
-      padding: 12px 10px;
-  }
-  /deep/.el-progress-bar__outer{
-        height: 16px !important;
-      }
+/deep/ .el-form-item__content {
+  display: flex;
+}
+
+/deep/ .el-dialog--center {
+  text-align: center;
+  border: 1px solid #e6eaf3;
+  border-radius: 9px;
+}
+
+/deep/.photos {
+  width: 144px;
+  height: 144px;
+}
+
+/deep/.el-form-item {
+  display: flex;
+  justify-content: center;
+  color: #434A66;
+}
+
+/deep/ .el-dialog .el-dialog__header {
+  background: #E6EAF3 !important;
+  border-radius: 9px 9px 0 0;
+  font-weight: 800;
+  padding: 12px 10px;
+}
+
+/deep/.el-progress-bar__outer {
+  height: 16px !important;
+}
 </style>
 <style lang="stylus" scoped>
 #content_center {
   width: 100%;
   background: #fff;
 }
-.sign{
-  .el-input__inner{
-    height:90px;
+
+.sign {
+  .el-input__inner {
+    height: 90px;
   }
 }
-.avatar-uploader{
+
+.avatar-uploader {
   width: 144px;
   height: 144px;
   border: 1px solid;
   margin-bottom: 40px;
-  position:relative;
+  position: relative;
 }
-.changephoto{
-  position:absolute;
+
+.changephoto {
+  position: absolute;
   bottom: 1px;
   left: 16px;
   z-index: 3;
 }
+
 .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 144px;
-    height: 144px;
-    line-height: 144px;
-    text-align: center;
-  }
-  .avatar {
-    width: 144px;
-    height: 144px;
-    display: block;
-  }
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 144px;
+  height: 144px;
+  line-height: 144px;
+  text-align: center;
+}
+
+.avatar {
+  width: 144px;
+  height: 144px;
+  display: block;
+}
+
 #myHome {
   background: #fff;
   margin-bottom: 20px;
@@ -384,26 +426,31 @@ export default {
       display: none;
     }
   }
+
   .el-dialog--center {
     text-align: center;
     border: 1px solid #e6eaf3;
     border-radius: 9px;
   }
-  .photos{
+
+  .photos {
     width: 144px;
     height: 144px;
   }
+
   .el-form-item {
     display: flex;
     justify-content: center;
-    color:#434A66;
+    color: #434A66;
   }
+
   .el-dialog .el-dialog__header {
-      background: #E6EAF3 !important;
-      border-radius: 9px 9px 0 0;
-      font-weight: 800;
-      padding: 12px 10px;
+    background: #E6EAF3 !important;
+    border-radius: 9px 9px 0 0;
+    font-weight: 800;
+    padding: 12px 10px;
   }
+
   .content_val {
     flex: 1;
     margin-left: 20px;
@@ -446,8 +493,9 @@ export default {
     .jdutiao {
       width: 300px;
       position: relative;
-      .el-progress-bar__outer{
-        height:16px;
+
+      .el-progress-bar__outer {
+        height: 16px;
       }
 
       span {

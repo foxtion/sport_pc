@@ -1,7 +1,8 @@
 const state = {
     info:JSON.parse(sessionStorage.getItem('info'))||[],
     tabnav:0,
-    isauth:false
+    isauth:false,
+    login:false
 
 }
 const mutations = {
@@ -17,6 +18,12 @@ const mutations = {
     isAuth(state,param){
         state.isauth =param
         sessionStorage.setItem('isauth', JSON.stringify(param))
+
+    },
+    
+    islogin(state,param){
+        state.login =param
+        sessionStorage.setItem('islogin', JSON.stringify(param))
 
     },
     

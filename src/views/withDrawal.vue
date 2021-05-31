@@ -50,6 +50,7 @@
             <a class="xing">*</a>资金安全码：
             <el-input
               v-model="loginForm.idcard"
+              type="passward"
               placeholder="输入账号资金安全码"
               style="width: 330px"
               @blur="burchang()"
