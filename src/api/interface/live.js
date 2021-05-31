@@ -51,6 +51,9 @@ export const rewardRecord = (params) => post({ url: 'User.rewardRecord', params}
 // 提现记录
 export const extracCashList = (params) => post({ url: 'Extract.extracCashList', params})
 
+// 提现记录
+export const extracCash = (params) => post({ url: 'Extract.extracCash', params})
+
 // 收入明细
 export const incomeDetails = (params) => post({ url: 'User.incomeDetails', params})
 
@@ -91,4 +94,6 @@ export const basketball = (params) => post({ url: 'Schedule.basketball', params}
 
 // 主播是否实名认证
 export const IsAuth = (params) => post({ url: 'Live.isAuth', params})
+// 主播是否实名认证
+export const UserAccount = (params) => post({ url: '	User.userAccount', params})
 

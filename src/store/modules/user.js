@@ -15,7 +15,7 @@ const mutations = {
 
     },
     isAuth(state,param){
-        state.tabnav =param
+        state.isauth =param
         sessionStorage.setItem('isauth', JSON.stringify(param))
 
     },

@@ -499,7 +499,14 @@ export default {
   },
   methods: {
     async Submit() {
-      this.$router.push({ name: "realName" });
+
+      if(this.$store.state.user.isauth.is_auth==='1'){
+         this.$router.push({ name: "liveSet" });
+
+     }else{
+       
+       this.$router.push({ name: "realName" });
+     }
     },
     getIsAuth(){
       const params = {
@@ -509,7 +516,7 @@ export default {
 
       }
       IsAuth(params).then(res=>{
-        console.log(res)
+        console.log(res.info)
         this.$store.commit('isAuth',res.info)
       })
     },

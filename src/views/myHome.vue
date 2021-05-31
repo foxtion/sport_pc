@@ -62,78 +62,26 @@
             <li>
               <div class="li-l li05"></div>
               <div class="li-c">
-                <p class="p1">尚未实名认证</p>
+                <p class="p1">
+                  {{
+                    $store.state.user.isauth.is_auth === "1"
+                      ? "已实名"
+                      : "尚未实名认证"
+                  }}
+                </p>
                 <p class="p2">认证后可申请直播间</p>
               </div>
-              <div class="li-r" @click="$router.push({ name: 'realName' })">
-                立即认证
+              <div class="li-r" @click="shimin">
+                {{
+                  $store.state.user.isauth.is_auth === "1"
+                    ? "已认证"
+                    : "立即认证"
+                }}
               </div>
             </li>
           </ul>
         </div>
       </div>
-
-      <!-- <div class="zhgl">
-        <div>
-          <img src="@/assets/img/phone.png" />
-          <div class="text">
-            <span>我的手机</span>
-            <br />
-            <span>已经绑定手机号码</span>
-          </div>
-          <div class="btn" @click="$router.push({ name: 'changePhone' })">
-            更换手机
-          </div>
-        </div>
-        <div>
-          <img src="@/assets/img/password.png" />
-          <div class="text">
-            <span>我的密码</span>
-            <br />
-            <span>已经设置密码</span>
-          </div>
-          <div class="btn" @click="$router.push({ name: 'changePassword' })">
-            更改密码
-          </div>
-        </div>
-      </div>
-      <div class="zhgl">
-        <div>
-          <img src="@/assets/img/phone.png" />
-          <div class="text">
-            <span>绑定银行卡</span>
-            <br />
-            <span>未绑定银行卡</span>
-          </div>
-          <div class="btn" @click="$router.push({ name: 'bindBankCard' })">
-            绑定银行卡
-          </div>
-        </div>
-        <div>
-          <img src="@/assets/img/password.png" />
-          <div class="text">
-            <span>设置支付密码</span>
-            <br />
-            <span>未设置支付密码</span>
-          </div>
-          <div class="btn" @click="$router.push({ name: 'SecurityPass' })">
-            设置支付密码
-          </div>
-        </div>
-      </div>
-      <div class="zhgl">
-        <div>
-          <img src="@/assets/img/phone.png" />
-          <div class="text">
-            <span>立即认证</span>
-            <br />
-            <span>未认证</span>
-          </div>
-          <div class="btn" @click="$router.push({ name: 'realName' })">
-            立即认证
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -168,6 +116,11 @@ export default {
     //充值
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    shimin(){
+      if( this.$store.state.user.isauth.is_auth !== "1"){
+        this.$router.push({ name: 'realName' })
+      }
     },
     withdrawal() {},
     getUserinfo() {
@@ -544,10 +497,6 @@ export default {
                 cursor: pointer;
               }
             }
-
-            // &:hover {
-            //   background: #f6f9ff;
-            // }
           }
 
           li:nth-of-type(2n) {

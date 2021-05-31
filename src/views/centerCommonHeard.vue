@@ -131,7 +131,13 @@ export default {
       }
     },
     async Submit() {
-      this.$router.push({ name: "realName" });
+       if(this.$store.state.user.isauth.is_auth==='1'){
+         this.$router.push({ name: "liveSet" });
+
+     }else{
+       
+       this.$router.push({ name: "realName" });
+     }
     },
     //充值
     withdrawal() {},
