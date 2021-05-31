@@ -173,10 +173,10 @@ export default {
       }
     },
     async Submit() {
-      if (this.$store.state.user.isauth.is_auth === "1") {
-        this.$router.push({ name: "liveSet" });
-      } else {
+      if (this.$store.state.user.isauth.is_auth == 0) {
         this.$router.push({ name: "realName" });
+      } else {
+        this.$router.push({ name: "liveSet" });
       }
     },
     //充值

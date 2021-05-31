@@ -62,9 +62,9 @@ export default {
 
     span {
       display: inline-block;
-      font-size: 14px;
+      font-size: 20px;
       font-family: PingFang SC, PingFang SC-Medium;
-      font-weight: 500;
+      font-weight: 600;
       text-align: center;
       color: #333333;
       height: 100%;
