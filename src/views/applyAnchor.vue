@@ -45,7 +45,14 @@ export default {
 
   methods: {
     async Submit() {
-      this.$router.push({ name: "realName" });
+      if (this.$store.state.user.isauth.is_auth == 0) {
+        this.$router.push({ name: "realName" });
+      } else {
+        this.$message({
+          message: "您已经是主播",
+          type: "success",
+        });
+      }
     },
   },
 };

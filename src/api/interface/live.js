@@ -95,5 +95,5 @@ export const basketball = (params) => post({ url: 'Schedule.basketball', params}
 // 主播是否实名认证
 export const IsAuth = (params) => post({ url: 'Live.isAuth', params})
 // 主播是否实名认证
-export const UserAccount = (params) => post({ url: '	User.userAccount', params})
+export const UserAccount = (params) => post({ url: 'User.userAccount', params})
 

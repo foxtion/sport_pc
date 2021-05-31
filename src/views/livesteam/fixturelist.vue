@@ -75,8 +75,9 @@
             <div class="playingteam">{{ item.name_zh }}</div>
             <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
-              <!-- <div class="playover">已结束</div> -->
-              <div class="playing">去观看</div><a>直播中...</a>
+              <div v-if="item.is_live == 1" class="playing">去观看</div>
+              <div v-else class="playover">已结束</div>
+              <a v-if="item.is_live == 1">直播中...</a>
             </div>
           </div>
           <div class="right_game">
@@ -107,8 +108,9 @@
             <div class="playingteam">{{ item.name_zh }}</div>
             <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
-              <!-- <div class="playover">已结束</div> -->
-              <div class="playing">去观看</div><a>直播中...</a>
+              <div v-if="item.is_live == 1" class="playing">去观看</div>
+              <div v-else class="playover">已结束</div>
+              <a v-if="item.is_live == 1">直播中...</a>
             </div>
           </div>
           <div class="right_game">
@@ -180,7 +182,6 @@ import DateWeek from '../dateWeek'
           source: 'pc'
         }
         if (val !== undefined) {
-          console.log(789789789)
           this.date = val.date
         }
         football(data).then(res => {

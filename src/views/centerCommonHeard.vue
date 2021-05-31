@@ -73,7 +73,8 @@
           :before-upload="beforeAvatarUpload"
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar photos" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+          <img v-else :src="$store.state.user.info.avatar" alt="" style="width: 144px;height: 144px"/>
           <a class="changephoto">点击图片修改头像</a>
         </el-upload>
         <el-form-item prop="nick_name">
