@@ -70,7 +70,8 @@
               this.dateData.push({
                 label: str,
                 time: month + '/' + date,
-                showTime: ShowTime
+                showTime: ShowTime,
+                date: month + '月' + date + '日'
               })
             }
             this.currentDate = this.dateData[0]
