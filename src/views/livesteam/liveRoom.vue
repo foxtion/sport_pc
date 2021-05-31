@@ -489,6 +489,7 @@
             </div>
             <div class="bounced" v-if="isShowBounced">
               <img src="@/assets/level-40.png" width="50" style="margin-left: 99px"/>
+              <img src="@/assets/close.png" width="10" class="close-icon" @click="isShowBounced = false"/>
               <div class="user-info">
                 带上草帽就是王<div class="user0info-lv">LV 88</div>
                 <div class="bounced-btn-msg" v-if="setUserType">
@@ -1607,12 +1608,10 @@ export default {
     // 确定
     msgBtnOk() {
       this.setUserType = ''
-      this.isShowBounced = false
     },
     // 取消
     msgBtnNo() {
       this.setUserType = ''
-      this.isShowBounced = false
     }
   },
   destroyed() {
@@ -2549,6 +2548,12 @@ export default {
             padding: 10px 30px;
             width: 310px;
             z-indecx: 999;
+            .close-icon {
+              position: absolute;
+              cursor: pointer;
+              top: 8px;
+              right: 8px;
+            }
             .user-info {
               font-size: 14px;
               color: #6E7CA0;
@@ -2586,6 +2591,7 @@ export default {
                     height: 30px;
                     line-height: 30px;
                     border: 1px solid #E6EAF3;
+                    cursor: pointer;
                   }
                   div:hover {
                     background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
