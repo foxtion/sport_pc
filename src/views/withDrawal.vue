@@ -21,17 +21,17 @@
             style="margin-left: -36x"
           >
             <a class="xing">*</a>选择提现银行卡：
-            <el-input
-              
-              v-model="loginForm.user_bank"
-              placeholder="例：中国银行                                                            6510**** **** *** 168                                                             张山 
-                "
-              style="width: 330px; height: 90px"
-              :rows="90"
-              @blur="burchang()"
-              height="90px"
-              class="dute"
-            ></el-input>
+            <el-card class="box-card">
+              <div class="text item">
+                {{account_bank }}
+              </div>
+              <div class="text item">
+                {{ identity_card }}
+              </div>
+              <div class="text item">
+               {{name}}
+              </div>
+            </el-card>
           </el-form-item>
           <el-form-item prop="account" class="baseInput">
             <a class="xing">*</a>提现金额：
@@ -62,7 +62,8 @@
           >
             <a class="xing">*</a>实际到账金额：<span
               style="color: #dbb16f"
-            ></span
+              
+            >{{loginForm.user_cardnum}}</span
             >元
           </el-form-item>
           <el-form-item>
@@ -98,7 +99,7 @@
 
 <script>
 import envconfig from "../server/config.js";
-import { extracCashList } from "@/api";
+import { extracCash, UserAccount } from "@/api";
 export default {
   name: "bindBankCard",
   data() {
@@ -117,9 +118,9 @@ export default {
       checkNumDisabled: false,
       countDown: 60,
       loginForm: {
-        user_bank: "",//银行卡
-        account_bank: "",//金额
-        idcard: "",//资金密码
+        user_bank: "", //银行卡
+        account_bank: "", //金额
+        idcard: "", //资金密码
       },
       disabled: true,
       loginRule: {
@@ -132,11 +133,15 @@ export default {
       user_cardnum: "",
       user_bank: "",
       idcard: "",
+      user: {},
+      token: "",
+      identity_card: "",
+      account_bank: "",
+      account: "",
+      name:''
     };
   },
-  created() {
-    this.token = window.localStorage.getItem("token");
-  },
+  created() {},
   mounted() {
     this.user = JSON.parse(window.localStorage.getItem("user"));
     this.token = window.localStorage.getItem("token");
@@ -148,12 +153,32 @@ export default {
       this.birthday = this.user.birthday;
       this.user_email = this.user.user_email;
     }
+    this.getuserAccount();
   },
   methods: {
+     handleClose() {
+      this.$router.go(-1);
+
+    },
+    getuserAccount() {
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+      };
+      UserAccount(params).then((res) => {
+        if (res.code === 0) {
+          this.identity_card = res.info.identity_card;
+          this.account_bank = res.info.account_bank;
+          this.account = res.info.account;
+          this.name = res.info.name
+        }
+        console.log(res);
+      });
+    },
     burchang() {
       console.log("111");
       if (
-        this.loginForm.user_bank &&
+       
         this.loginForm.user_cardnum &&
         this.loginForm.idcard
       ) {
@@ -167,23 +192,28 @@ export default {
       this.$router.go(-1);
     },
     xiayibu(formName) {
-        debugger
+      debugger;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const params = {
             uid: this.user.id,
             token: this.token,
             name: this.loginForm.user_bank,
-            account: this.loginForm.idcard,//账户
-            account_bank: this.loginForm.user_cardnum,
+            account: this. identity_card, //账户
+            money:this.loginForm.user_cardnum,
             type: 3,
+            name:this.name,
+            bank_card:this.account_bank,
+            secure_pass:this.loginForm.idcard,
+            source:'pc'
           };
-          extracCashList(params).then((res) => {
+          extracCash(params).then((res) => {
             if (res.code == 0) {
               this.$message({
                 message: res.msg,
                 type: "success",
               });
+              this.handleClose()
             } else {
               this.$message.error(res.msg);
             }
@@ -309,6 +339,28 @@ export default {
       color: #333333;
     }
   }
+}
+
+.text {
+  font-size: 14px;
+}
+
+/deep/ .el-card__body {
+  padding: 5px 0 0 40px !important;
+}
+
+/deep/ .el-card {
+  background: rgba(148, 148, 148, 0.6);
+}
+
+.item {
+  height: 30px;
+  color: #666;
+}
+
+.box-card {
+  width: 300px;
+  height: 110px;
 }
 
 .el-dialog__body {
