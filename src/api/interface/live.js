@@ -97,3 +97,13 @@ export const IsAuth = (params) => post({ url: 'Live.isAuth', params})
 // 主播是否实名认证
 export const UserAccount = (params) => post({ url: 'User.userAccount', params})
 
+// 观众给主播送礼物
+export const sendGift = (params) => post({ url: 'Live.sendGift', params})
+
+// 直播详情
+export const liveDetail = (params) => post({ url: 'Live.liveDetail', params})
+// 进入聊天室
+
+export const enterChat = (params) => post({ url: 'Chat.enterChat', params})
+// 聊天室记录
+export const msgList = (params) => post({ url: 'Chat.msgList', params})

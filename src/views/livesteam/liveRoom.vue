@@ -109,7 +109,7 @@
               <div style="display: flex">
                 <img
                   src="@/assets/left-arrow.png"
-                  style="height: 48px; margin-right: 10px"
+                  style="height: 48px; margin-right: 10px;cursor: pointer;"
                   @click="leftArrow"
                 />
                 <div class="time-week-main" style="display: flex">
@@ -117,13 +117,12 @@
                     v-for="(item, index) in giftData"
                     class="gift-main"
                     :key="index"
-                    @click="getCurrentDate(item)"
                   >
                     <!-- {{}} -->
-                    <el-popover placement="top" trigger="hover" popper-class="gift-popover">
-                      <div class="gift-main-popover">
+                    <el-popover placement="top" trigger="hover" popper-class="gift-popover" @hide="clearGiftNum">
+                      <div class="gift-main-popover" >
                         <div style="display: flex">
-                          <img :src="item.icon" style="width: 111px" />
+                          <img :src="item.icon" style="width: 111px;" />
                           <div>
                             <p style="font-size: 16px">
                               {{ item.name }}
@@ -137,112 +136,38 @@
                           </div>
                         </div>
                         <div style="display: flex; margin: 2px 20px 10px 20px">
-                          <div
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
+                          <div @click="getGiftNum(88, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             88
                           </div>
-                          <div
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
+                           <div @click="getGiftNum(100, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             100
                           </div>
-                          <div
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
+                           <div @click="getGiftNum(520, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             520
-                          </div>
-                          <div
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
+                          </div> <div @click="getGiftNum(666, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             666
-                          </div>
-                          <div
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
+                          </div> <div @click="getGiftNum(1314, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             1314
                           </div>
                         </div>
-                        <div
-                          style="
-                            background: #ebf0fb;
-                            height: 44px;
-                            display: flex;
-                            line-height: 44px;
-                          "
-                        >
+                        <div style=" background: #ebf0fb; height: 44px; display: flex; line-height: 44px; ">
                           <img
                             src="@/assets/liveNoble/balance.png"
                             width="19px"
                             height="22px"
                             style="margin: 9px 6px 0 16px"
                           />
-                          <p>共需要88钻石</p>
+                          <p>共需要{{ allMoney }}钻石</p>
                           <el-input
                             style="width: 66px; margin: 0 10px 0 44px"
+                            @change="getGiftNum(giftNum, item)"
+                            v-model="giftNum"
                             size="mini"
                           ></el-input>
                           <div
-                            style="
-                              width: 50px;
-                              height: 26px;
-                              line-height: 26px;
-                              border-radius: 4px;
-                              margin-top: 9px;
-                              text-align: center;
-                              font-size: 13px;
-                              background: linear-gradient(
-                                90deg,
-                                #eccbab,
-                                #dbb16f 100%
-                              );
-                            "
-                          >
+                          @click="zengsong(item)"
+                            style="width: 50px;height: 26px;line-height: 26px;border-radius: 4px;margin-top: 9px;text-align: center;font-size: 13px;
+                              background: linear-gradient(90deg,#eccbab,#dbb16f 100%);">
                             赠送
                           </div>
                         </div>
@@ -269,7 +194,7 @@
                 </div>
                 <img
                   src="@/assets/right-arrow.png"
-                  style="height: 48px"
+                  style="height: 48px;cursor: pointer;"
                   @click="rightArrow"
                 />
               </div>
@@ -714,100 +639,8 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div style="width: 1200px; margin: 50px auto">
-      <h4 style="margin-bottom: 20px; font-size: 22px">主播日程</h4>
-      <div style="position: relative; width: 1200px; margin: 0 auto">
-        <div class="swiper-container ssyyswiper">
-          <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="item in anchorSchedulelist"
-              :key="item.id"
-            >
-              <div class="title">
-                <div>
-                  <span
-                    style="
-                      width: 120px;
-                      overflow: hidden;
-                      white-space: nowrap;
-                      text-overflow: ellipsis;
-                    "
-                    >{{ item.sponsor_name }}</span
-                  >
-                </div>
-
-                <div class="match-time">
-                  <span style="padding-right: 5px">{{ item.day }}</span>
-                  <span>{{ item.time }}</span>
-                </div>
-              </div>
-
-              <div class="box">
-                <div class="battle-team fl">
-                  <p>
-                    <img class="logo match-cover" :src="item.team_one_logo" />
-                    <span class="ellipsis">{{ item.team_one_name }}</span>
-                  </p>
-                  <p>
-                    <img
-                      class="logo match-cover"
-                      :src="item.team_two_logo"
-                      alt
-                    />
-                    <span class="ellipsis">{{ item.team_two_name }}</span>
-                  </p>
-                </div>
-
-                <div
-                  class="appoinment"
-                  v-if="item.is_appointment == 0"
-                  @click="isyuyue(item)"
-                >
-                  预约
-                </div>
-                <div
-                  class="appoinment"
-                  v-else
-                  @click="isyuyue(item)"
-                  style="background: #ccc"
-                >
-                  已预约
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 如果需要导航按钮 -->
-        <div class="swiper-button-prev ssyyswiperprev"></div>
-        <div class="swiper-button-next ssyyswipernext"></div>
       </div>
-    </div>
-
-    <div style="width: 1200px; margin: 50px auto">
-      <h4 style="margin-bottom: 20px; font-size: 22px">视频推荐</h4>
-      <ul class="hotcontent">
-        <li v-for="(item, i) in zhibo" :key="i" @click="tozbj(item)">
-          <div>
-            <img :src="item.thumb" alt class="hotcontentimg" />
-            <span class="com" v-show="item.isrecommend == '1'">
-              <i>推荐</i>
-            </span>
-            <i class="btn-open"></i>
-            <h5 class="bottom-title">
-              <span class="name">{{ item.user_nicename }}</span>
-              <span class="num">
-                <img src="@/assets/icon-hot-white.png" alt="热度" />
-                <span>{{ item.online }}</span>
-              </span>
-            </h5>
-          </div>
-          <h4 class="ellipsis">{{ item.game_title }}</h4>
-        </li>
-      </ul>
-    </div>
+      <liveylist />
     <liveNoble ref="livenoble" />
   </div>
 </template>
@@ -815,11 +648,12 @@
 <script>
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
-import { getGiftList, enterRoom } from "@/api";
+import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat } from "@/api";
+import Liveylist from './liveylist.vue';
 const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
 export default {
   name: "zbj",
-  components: { VBarrage, liveNoble },
+  components: { VBarrage, liveNoble, Liveylist },
   data() {
     return {
       uid: "",
@@ -1007,7 +841,14 @@ export default {
         num: '1234'
       }],
       isShowBounced: false,
-      setUserType: ''
+      setUserType: '',
+      songNum: '',
+      giftNum: '',
+      allMoney: 0,
+      city: '',
+      liveDetailInfo: {},
+      msgListData: [],
+      chatINfo: ''
     };
   },
 
@@ -1159,10 +1000,41 @@ export default {
   },
 
   created() {
-    this.enterRoomQuery()
-    this.getGiftListParams();
+    this.goLiveDetail()
+    setTimeout(() => {
+      this.goChatINfo()
+      this.enterRoomQuery()
+      this.msgListDataQuery()
+      this.getGiftListParams();
+    }, 1000);
   },
   methods: {
+    goLiveDetail() {
+      const query = this.$route.query
+      const params = {
+        uid: JSON.parse(window.localStorage.getItem("user")).id,
+        token: window.localStorage.getItem("token"),
+        live_uid: query.liveuid,
+        stream: query.stream,
+        source: 'pc'
+      }
+      liveDetail(params).then(res => {
+        this.liveDetailInfo = res.info
+      })
+    },
+    goChatINfo() {
+      const params = {
+        uid: JSON.parse(window.localStorage.getItem("user")).id,
+        nick_name: JSON.parse(window.localStorage.getItem("user")).nick_name,
+        id: this.liveDetailInfo.game_id,
+        source: 'pc',
+        token: window.localStorage.getItem("token")
+      }
+      enterChat(params).then(res => {
+        this.chatINfo = res.info
+        console.log(res, 'res============')
+      })
+    },
     toLive(val) {
       let routeData = this.$router.resolve({
         name: "liveRoom",
@@ -1434,26 +1306,36 @@ export default {
           });
       }
     },
-
+    clearGiftNum() {
+      this.allMoney = 0
+       this.giftNum = ''
+    },
+    getGiftNum(val, item) {
+      this.giftNum = val
+      this.allMoney = this.giftNum * item.price
+    },
     zengsong(value) {
+      this.allMoney = this.giftNum * value.price
       if (window.localStorage.getItem("token")) {
-        if (value.giftname) {
-          if (this.coin < parseInt(value.needcoin)) {
+        this.allMoney = this.songNum
+        if (value.name) {
+          if (this.coin < parseInt(this.allMoney)) {
             this.$message.error("余额不足");
           } else {
-            this.$SERVER
-              .sendGift(
-                JSON.parse(window.localStorage.getItem("user")).id,
-                window.localStorage.getItem("token"),
-                this.info.uid,
-                this.info.stream,
-                value.id,
-                0,
-                value.sticker_id,
-                1
-              )
-              .then((res) => {
-                if (res.data.code == 0) {
+            const query = this.$route.query
+            const params = {
+              uid: JSON.parse(window.localStorage.getItem("user")).id,
+              token: window.localStorage.getItem("token"),
+              live_uid: query.liveuid,
+              stream: query.stream,
+              gift_id: value.id,
+              count: this.giftNum,
+              ispack: value.type,
+              source: 'pc',
+              showid: this.liveDetailInfo.showid
+            }
+            sendGift(params).then((res) => {
+                if (res.code == 0) {
                   // 发送礼物
                   let broadcastObj = {};
                   broadcastObj.msg = [];
@@ -1474,7 +1356,7 @@ export default {
                   this.$socket.emit("broadcast", broadcastObj);
                   this.getCoin();
                 } else {
-                  this.$message.error(res.data.msg);
+                  this.$message.error(res.msg);
                 }
               });
           }
@@ -1593,11 +1475,15 @@ export default {
     },
     // 进入主播间
     enterRoomQuery() {
+      const query = this.$route.query
       const params = {
         source: "pc",
         uid: JSON.parse(window.localStorage.getItem("user")).id,
         token: window.localStorage.getItem("token"),
-        live_uid: '4',
+        live_uid: query.liveuid,
+        stream: query.stream,
+        // showid: this.liveDetailInfo.showid
+        showid: '1622391045'
       };
       enterRoom(params).then((res) => {
         this.getGiftListData = res.info;
@@ -1621,6 +1507,16 @@ export default {
     // 取消
     msgBtnNo() {
       this.setUserType = ''
+    },
+    // msgListData 
+    msgListDataQuery() {
+      const params = {
+        id: this.liveDetailInfo.game_id,
+        source: 'pc'
+      }
+      msgList(params).then(res => {
+        console.log(res)
+      })
     }
   },
   destroyed() {
