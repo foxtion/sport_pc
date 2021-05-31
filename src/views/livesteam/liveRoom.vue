@@ -1008,12 +1008,12 @@ export default {
 
   created() {
     this.goLiveDetail()
-    this.getGiftListParams();
-    // setTimeout(() => {
+    setTimeout(() => {
       this.goChatINfo()
       this.enterRoomQuery()
       this.msgListDataQuery()
-    // }, 1000);
+      this.getGiftListParams();
+    }, 1000);
   },
   methods: {
     goRecharge() {
@@ -1325,7 +1325,6 @@ export default {
        this.giftNum = ''
     },
     getGiftNum(val, item) {
-      console.log(val, 'item---')
       this.giftNum = val
       this.allMoney = this.giftNum * item.price
     },
@@ -1451,10 +1450,11 @@ export default {
         source: "pc",
       };
       getGiftList(params).then((res) => {
-        this.giftData = []
         this.getGiftListData = res.info;
-        this.giftData= res.info.slice(0,9) })
-        console.log(this.giftData, 'ppppppppp')
+        for (var i = 0; i < 8; i++) {
+          this.giftData.push(this.getGiftListData[i]);
+        }
+      });
     },
     leftArrow() {
       if (this.clickNum == 0) {
