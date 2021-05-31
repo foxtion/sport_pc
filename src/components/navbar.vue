@@ -499,14 +499,7 @@ export default {
   },
   methods: {
     async Submit() {
-
-      if(this.$store.state.user.isauth.is_auth==='1'){
-         this.$router.push({ name: "liveSet" });
-
-     }else{
-       
-       this.$router.push({ name: "realName" });
-     }
+      this.$router.push({ name: "realName" });
     },
     getIsAuth(){
       const params = {
@@ -516,7 +509,7 @@ export default {
 
       }
       IsAuth(params).then(res=>{
-        console.log(res.info)
+        console.log(res)
         this.$store.commit('isAuth',res.info)
       })
     },
@@ -750,6 +743,7 @@ export default {
 }
 
 .regisbtn {
+  cursor: pointer;
   color: #5A629E;
   border-width: 1px;
   border-color: rgba(242, 242, 242, 1);
@@ -769,6 +763,7 @@ export default {
 }
 
 .regisbtner {
+  cursor: pointer;
   color: white;
   border-width: 1px;
   border-color: rgba(242, 242, 242, 1);
