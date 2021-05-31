@@ -136,17 +136,17 @@
                           </div>
                         </div>
                         <div style="display: flex; margin: 2px 20px 10px 20px">
-                          <div @click="getGiftNum(88, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          <div @click="getGiftNum(88, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             88
                           </div>
-                           <div @click="getGiftNum(100, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                           <div @click="getGiftNum(100, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             100
                           </div>
-                           <div @click="getGiftNum(520, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                           <div @click="getGiftNum(520, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             520
-                          </div> <div @click="getGiftNum(666, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          </div> <div @click="getGiftNum(666, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             666
-                          </div> <div @click="getGiftNum(1314, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          </div> <div @click="getGiftNum(1314, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
                             1314
                           </div>
                         </div>
@@ -178,7 +178,11 @@
                                                 </li>
                                             </ul> -->
                       </div>
-                      <img :src="item.icon" slot="reference" class="gift-main-item"/>
+                      <img
+                        :src="item.icon"
+                        slot="reference"
+                        class="gift-main-item"
+                      />
                     </el-popover>
                     <!-- <img :src="item.icon" /> -->
                     <!-- <div :class="currentDate.time === item.time ? 'current-date' : ''">
@@ -997,12 +1001,12 @@ export default {
 
   created() {
     this.goLiveDetail()
-    this.getGiftListParams();
-    // setTimeout(() => {
+    setTimeout(() => {
       this.goChatINfo()
       this.enterRoomQuery()
       this.msgListDataQuery()
-    // }, 1000);
+      this.getGiftListParams();
+    }, 1000);
   },
   methods: {
     goLiveDetail() {
@@ -1307,7 +1311,6 @@ export default {
        this.giftNum = ''
     },
     getGiftNum(val, item) {
-      console.log(val, 'item---')
       this.giftNum = val
       this.allMoney = this.giftNum * item.price
     },
@@ -1433,10 +1436,11 @@ export default {
         source: "pc",
       };
       getGiftList(params).then((res) => {
-        this.giftData = []
         this.getGiftListData = res.info;
-        this.giftData= res.info.slice(0,9) })
-        console.log(this.giftData, 'ppppppppp')
+        for (var i = 0; i < 8; i++) {
+          this.giftData.push(this.getGiftListData[i]);
+        }
+      });
     },
     leftArrow() {
       if (this.clickNum == 0) {
