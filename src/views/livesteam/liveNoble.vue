@@ -319,7 +319,7 @@
 </template>
 
 <script>
-import { nobleList, openNoble } from "@/api";
+import { nobleList, openNoble, GetUserinfo } from "@/api";
 export default {
     name: "LiveNoble",
     data() {
@@ -369,10 +369,23 @@ export default {
               message: res.msg,
               type: 'success'
             });
+            this.getUserinfoList()
             this.dialogVisible = false
           }
         });
-      }
+      },
+    
+      getUserinfoList() {
+        const params = {
+          uid: this.user.id,
+          token: this.token,
+          source: "pc",
+        };
+        GetUserinfo(params).then((res) => {
+          this.$store.commit("userinfo", res.info);
+          console.log(res.info, 'info----------------------------');
+        });
+      },
     } 
 };
 </script>

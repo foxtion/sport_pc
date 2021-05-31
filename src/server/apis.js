@@ -93,9 +93,9 @@ class Api extends Axios {
     return await this.axios("GET", "?service=Schedule.scheduleDetail&game_id=" + game_id + "&uid=" + uid);
   }
   // 直播详情
-  async liveDetail(liveuid, stream, uid, token) {
-    return await this.axios("GET", "?service=Live.liveDetail&liveuid=" + liveuid + "&stream=" + stream + "&uid=" + uid + "&token=" + token);
-  }
+  // async liveDetail(liveuid, stream, uid, token) {
+  //   return await this.axios("GET", "?service=Live.liveDetail&liveuid=" + liveuid + "&stream=" + stream + "&uid=" + uid + "&token=" + token);
+  // }
   // 排行榜
   async getRankList(liveuid) {
     return await this.axios("GET", "?service=Live.getRankList&liveuid=" + liveuid);
@@ -149,10 +149,10 @@ class Api extends Axios {
   async getCoin(uid, token) {
     return await this.axios("GET", "?service=Live.getCoin&uid=" + uid + "&token=" + token);
   }
-  // 观众给主播送礼物
-  async sendGift(uid, token, liveuid, stream, giftid, ispack, is_sticker, giftcount) {
-    return await this.axios("GET", "?service=Live.sendGift&uid=" + uid + "&token=" + token + "&liveuid=" + liveuid + "&stream=" + stream + "&giftid=" + giftid + "&ispack=" + ispack + "&is_sticker=" + is_sticker + "&giftcount=" + giftcount);
-  }
+  // // 观众给主播送礼物
+  // async sendGift(uid, token, liveuid, stream, giftid, ispack, is_sticker, giftcount) {
+  //   return await this.axios("GET", "?service=Live.sendGift&uid=" + uid + "&token=" + token + "&liveuid=" + liveuid + "&stream=" + stream + "&giftid=" + giftid + "&ispack=" + ispack + "&is_sticker=" + is_sticker + "&giftcount=" + giftcount);
+  // }
   // 创建直播
   async createLive(uid, token, title, islive, starttime, thumb, anyway, liveclassid, game_id) {
     return await this.axios("GET", "?service=Live.createLive&uid=" + uid + "&token=" + token + "&title=" + title + "&islive=" + islive + "&starttime=" + starttime + "&thumb=" + thumb + "&anyway=" + anyway + "&liveclassid=" + liveclassid + "&game_id=" + game_id);
