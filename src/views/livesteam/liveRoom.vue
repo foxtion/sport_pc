@@ -395,6 +395,7 @@
               <span
                 style="margin-left: 5px; color: red"
                 v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
+                @click="userMsgBtn(item)"
               >
                 {{ item.uname }}
               </span>
@@ -464,6 +465,18 @@
                 <div @click="getSetUser('3')">禁言</div>
               </div>
             </div>
+            
+            <div class="bounced" v-if="isSserMsgBtn">
+              <img src="@/assets/close.png" width="10" class="close-icon" @click="isSserMsgBtn = false"/>
+              <div class="user-info">
+                <div>撤回</div>
+                <div>撤回消息所有用户不可见</div>
+              </div>
+              <div class="bounced-btn">
+                <div @click="serMsgBtnOk()">确定</div>
+                <div @click="serMsgBtnNo()">取消</div>
+              </div>
+            </div>
           </div>
           <div class="giftdonghua" v-if="showgiftdonghua">
             <p>{{ giftdonghuainfo.user_nicename }}</p>
@@ -511,8 +524,8 @@
                   slot="reference"
                   src="@/assets/chat-1.png"
                   style="
-                    width: 20px;
-                    width: 20px;
+                    width: 16px;
+                    width: 16px;
                     margin-right: 14px;
                     cursor: pointer;
                   "
@@ -557,8 +570,8 @@
                   src="@/assets/chat-2.png"
                   slot="reference"
                   style="
-                    width: 20px;
-                    width: 20px;
+                    width: 16px;
+                    width: 16px;
                     margin-right: 14px;
                     cursor: pointer;
                   "
@@ -571,8 +584,8 @@
                   @click="showLiveNoble"
                   slot="reference"
                   style="
-                    width: 20px;
-                    width: 20px;
+                    width: 16px;
+                    width: 16px;
                     margin-right: 14px;
                     cursor: pointer;
                   "
@@ -582,8 +595,8 @@
               <img
                 src="@/assets/chat-4.png"
                 style="
-                  width: 20px;
-                  width: 20px;
+                  width: 16px;
+                  width: 16px;
                   margin-right: 14px;
                   cursor: pointer;
                 "
@@ -594,48 +607,21 @@
                   src="@/assets/chat-5.png"
                   slot="reference"
                   style="
-                    width: 20px;
-                    width: 20px;
+                    width: 16px;
+                    width: 16px;
                     margin-right: 100px;
                     cursor: pointer;
                   "
                 />
               </el-popover>
               <el-popover placement="top" trigger="hover">
-                <div class="shielding-box">屏蔽消息设置</div>
-                <el-checkbox
-                  :label="city"
-                  style="margin-right: 14px; cursor: pointer"
-                  >屏蔽贵族特效</el-checkbox
-                >
-                <el-checkbox
-                  :label="city"
-                  style="margin-right: 14px; cursor: pointer"
-                  >屏蔽礼物特效</el-checkbox
-                >
-                <el-checkbox
-                  :label="city"
-                  style="margin-right: 14px; cursor: pointer"
-                  >屏蔽入场消息</el-checkbox
-                >
-                <el-checkbox
-                  :label="city"
-                  slot="reference"
-                  style="margin-right: 14px; cursor: pointer"
-                  >屏蔽消息</el-checkbox
-                >
+                  <div class="pingbigift">
+                      <el-checkbox-group  v-model="checkedCities" @change="handleCheckedCitiesChange">
+                          <el-checkbox  v-for="city in cities" :label="city" :key="city">{{ city }}</el-checkbox>
+                      </el-checkbox-group>
+                  </div>
+                  <el-checkbox :label="city" slot="reference" style="margin-right: 14px; cursor: pointer" >屏蔽消息</el-checkbox>
               </el-popover>
-              <!-- <el-popover placement="top" trigger="hover">
-                                <div class="pingbigift">
-                                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"  @change="handleCheckAllChange">
-                                        全部屏蔽
-                                    </el-checkbox>
-                                    <el-checkbox-group  v-model="checkedCities" @change="handleCheckedCitiesChange">
-                                        <el-checkbox  v-for="city in cities" :label="city" :key="city">{{ city }}</el-checkbox>
-                                    </el-checkbox-group>
-                                </div>
-                                <i slot="reference" class="el-icon-view" style="font-size: 22px"></i>
-                            </el-popover> -->
             </div>
             <div
               style="
@@ -882,9 +868,10 @@ export default {
         },
       ],
       isShowBounced: false,
-      setUserType: "",
-      songNum: "",
-      giftNum: "",
+      isSserMsgBtn: false,
+      setUserType: '',
+      songNum: '',
+      giftNum: '',
       allMoney: 0,
       city: "",
       liveDetailInfo: {},
@@ -1042,13 +1029,13 @@ export default {
   },
 
   created() {
-    this.goLiveDetail();
-    setTimeout(() => {
-      this.goChatINfo();
-      this.enterRoomQuery();
-      this.msgListDataQuery();
+    this.goLiveDetail()
+    // setTimeout(() => {
+      this.goChatINfo()
+      this.enterRoomQuery()
+      this.msgListDataQuery()
       this.getGiftListParams();
-    }, 1000);
+    // }, 2000);
   },
   methods: {
     goRecharge() {
@@ -1535,17 +1522,20 @@ export default {
         showid: "1622391045",
       };
       enterRoom(params).then((res) => {
-        this.getGiftListData = res.info;
-        for (var i = 0; i < 8; i++) {
-          this.giftData.push(this.getGiftListData[i]);
-        }
-      });
+        this.getGiftListData = res.info
+        this.giftData = res.info.slice(0,9)
+      })
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
       this.isShowBounced = true;
     },
-    // getSetUser
+
+    userMsgBtn(item) {
+      this.isSserMsgBtn = true
+    },
+    // getSetUser   
+
     getSetUser(val) {
       this.setUserType = val;
     },
@@ -1557,7 +1547,13 @@ export default {
     msgBtnNo() {
       this.setUserType = "";
     },
-    // msgListData
+    serMsgBtnNo() {
+      this.isSserMsgBtn = false
+    },
+    serMsgBtnOk() {
+      this.isSserMsgBtn = false
+    },
+    // msgListData 
     msgListDataQuery() {
       const params = {
         id: this.liveDetailInfo.game_id,
@@ -2521,7 +2517,7 @@ export default {
         }
 
         .scoller {
-          height: 515px;
+          height: 550px;
           overflow-y: overlay;
           position: relative;
 
