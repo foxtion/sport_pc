@@ -37,7 +37,7 @@
                 <p class="money">￥1000</p>
               </div>
               <div>
-                <el-input v-model="money" />
+                <el-input v-model="money"  placeholder="其他"/>
               </div>
             </div>
 
