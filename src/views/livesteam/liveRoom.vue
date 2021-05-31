@@ -1513,10 +1513,8 @@ export default {
         showid: '1622391045'
       };
       enterRoom(params).then((res) => {
-        this.getGiftListData = res.info;
-        for (var i = 0; i < 8; i++) {
-          this.giftData.push(this.getGiftListData[i]);
-        }
+        this.getGiftListData = res.info
+        this.giftData = res.info.slice(0,9)
       })
     },
     // 点击名称显示弹框
