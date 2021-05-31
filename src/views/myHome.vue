@@ -116,11 +116,24 @@ export default {
       this.$router.push({ name: "/" });
     }
     // this.getUserinfo()
-  },
-  created() {
+    this.getIsAuth()
     this.getuserAccount()
   },
+  created() {
+  },
   methods: {
+     getIsAuth(){
+      const params = {
+        uid:this.user.id,
+        token:this.token,
+        source:'pc'
+
+      }
+      IsAuth(params).then(res=>{
+        console.log(res)
+        this.$store.commit('isAuth',res.info)
+      })
+    },
      getuserAccount() {
       let user = JSON.parse(window.localStorage.getItem("user"));
       const params = {
