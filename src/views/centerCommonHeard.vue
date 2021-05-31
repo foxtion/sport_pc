@@ -30,7 +30,8 @@
             >可提现龙钻 {{ $store.state.user.info.coin }} <i class="tishi"></i
           ></span>
 
-          <span class="paybtn" @click="$router.push({ name: 'recharge' })"
+          <!-- <span class="paybtn" @click="$router.push({ name: 'recharge' })" -->
+          <span class="paybtn" @click="goRecharge"
             >充值</span
           >
           <!-- <span class="tixianbtn" @click="$router.push({ name: 'withDrawal' })" -->
@@ -82,13 +83,18 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge"/>
   </div>
 </template>
 
 <script>
 import { GetUserinfo,uploadPicturesBase64,changeNick } from "@/api";
+import fullMoney from './fullMoney'
 export default {
   name: "myHome",
+  components: {
+    fullMoney,
+  },
   data() {
     return {
       avatar: "",
@@ -106,7 +112,8 @@ export default {
       //   mobile: [{ required: true, message: "手机号码格式错误", trigger: "blur" }],
       //   code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       // },
-      dialogVisible: false
+      dialogVisible: false,
+      rechargeShow: false
     };
   },
   mounted() {
@@ -122,6 +129,13 @@ export default {
     // this.getUserinfo();
   },
   methods: {
+    goRecharge() {
+      this.rechargeShow = true
+      // this.$router.push({ name: 'recharge' })
+    },
+    closeRecharge() {
+      this.rechargeShow = false
+    },
     tixian(){
       if(!true){
         this.$router.push({ name: 'bindBankCard' })
