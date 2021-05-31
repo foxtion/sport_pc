@@ -55,10 +55,10 @@
                     </el-upload>
                 </div>
             </el-form-item>
-                
+
             <div class="baseInput">
                 <el-form-item label="推流地址:">
-                    <el-input style="width: 364px" v-model="promoteAddress" disabled></el-input> 
+                    <el-input style="width: 364px" v-model="promoteAddress" disabled></el-input>
                     <span class="text-btn tag-read"
                     :data-clipboard-text="promoteAddress"
                     @click="copy">
@@ -66,10 +66,10 @@
                     </span>
                 </el-form-item>
             </div>
-            <el-form-item label="直播状态:"> 
+            <el-form-item label="直播状态:">
                 未推流
             </el-form-item>
-                
+
                 <el-button type="primary" style="padding:0 20px;margin-right: 40px;border:0;border-radius: 5px;background: linear-gradient(180deg, rgba(129, 211, 248, 1) 0%, rgba(115, 206, 247, 1) 10%, rgba(2, 167, 240, 1) 87%);
                                                 width: 112px;height: 30px;line-height: 30px" @click="Submit">确定</el-button>
                 <el-button type="primary" style="padding:0 20px;border:0;border-radius: 5px;background-color: rgba(255, 113, 0, 1);width: 112px;height: 30px;line-height: 30px"
@@ -95,7 +95,7 @@
                             :label="item.name"
                             />
                     </el-select>
-                </div> 
+                </div>
                 <p class="set-my-gome" @click="myCompetitionVisible = true">设置自定义赛事</p>
             </div>
             <el-table :data="tableData" style="width: 100%;"  height="300px" :highlight-current-row="true" v-loading="loading" @row-click="changeRowList">
@@ -105,7 +105,7 @@
                 <el-table-column label=""  align="center">
                     <template slot-scope="scope">
                        <div style="display: flex;justify-content: space-around;color:#434A66">
-                           <div style="display: flex;justify-content: space-between; width: 180px">{{ scope.row.deputy_name }}<img :src="scope.row.deputy_logo" width="20px" style="margin-left: 30px" /></div> 
+                           <div style="display: flex;justify-content: space-between; width: 180px">{{ scope.row.deputy_name }}<img :src="scope.row.deputy_logo" width="20px" style="margin-left: 30px" /></div>
                            <div style="width: 30px;margin:0 30px;color: #333333">VS </div>
                            <div style="width: 180px;display: flex;justify-content: space-between;"> <img :src="scope.row.main_logo" width="20px" style="margin-right: 30px" />{{ scope.row.main_name }} </div>
                         </div>
@@ -174,13 +174,13 @@
                     ],
                     user_bankcity: [
                         { required: true, message: '请输入直播标题', trigger: 'change' }
-                    ], 
+                    ],
                     user_bank: [
                         { required: true, message: '请选择选择赛事', trigger: 'change' }
-                    ], 
+                    ],
                     desc: [
                         { required: true, message: '请输入直播公告', trigger: 'change' }
-                    ], 
+                    ],
                 },
                 user_nicename: "",
                 birthday: "",
@@ -293,10 +293,10 @@
             handleClose() {
                 this.dialogVisible = false
             },
-            searchCompetitionData(time) { 
+            searchCompetitionData(time) {
                 this.loading = true
                 const startDate = new Date(time.showTime + 600000)
-                const startY = startDate.getFullYear() 
+                const startY = startDate.getFullYear()
                 const startM = startDate.getMonth() + 1 > 9 ? startDate.getMonth() + 1 : '0' +(startDate.getMonth()+ 1)
                 const startD = startDate.getDate() > 9 ? startDate.getDate() : '0' + startDate.getDate()
                 const starttime = startY + '-' + startM + '-'+ startD
@@ -344,7 +344,7 @@
                     game_status: row.status,
                     game_id: row.id,
                     gametime: row.competition_time,
-                    game_details, 
+                    game_details,
                     game_type: 1,
                     source: 'pc'
                 }
@@ -406,7 +406,7 @@
                 var images = URL.createObjectURL(file.raw);
                 images = URL.createObjectURL(file.raw);
                 this.imageUrl = this.imageUrlToBase64(images)
-                
+
                 setTimeout(() => {
                     this.updatephoto()
                 }, 1000)
@@ -457,7 +457,7 @@
                     console.log(res)
                 })
             },
-            
+
             async upload_PicturesBase64(data) {
             let res = await uploadPicturesBase64(data);
             if (res.code == 0) {
@@ -490,9 +490,9 @@
 
     span {
       display: inline-block;
-      font-size: 14px;
+      font-size: 20px;
       font-family: PingFang SC, PingFang SC-Medium;
-      font-weight: 500;
+      font-weight: 600;
       text-align: center;
       color: #333333;
       height: 100%;
@@ -518,7 +518,7 @@
     .rechargenubms{
         margin-bottom: 30px;
     }
-     
+
     .el-table thead {
         display: none;
     }
@@ -567,7 +567,7 @@
         color: #DBB16F;
         cursor: pointer;
     }
-        
+
     .avatar-uploader{
     width: 144px;
     height: 144px;
@@ -575,7 +575,7 @@
     margin-bottom: 40px;
     position:relative;
     }
-    
+
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import noData from "@/components/noData.vue"; 
+import noData from "@/components/noData.vue";
 import { incomeDetails, rewardRecord,  extracCashList} from '@/api'
 export default {
   name: "myMoney",
@@ -200,7 +200,7 @@ export default {
           endtime: this.time[1],
           p: this.currentPage,
           source: 'pc'
-        } 
+        }
         extracCashList(params).then(res => {
           this.tableData = res.info.list
           this.total = Number(res.info.total)
@@ -229,9 +229,12 @@ export default {
   .el-tabs__item {
     color: #666666;
   }
+  .is-top{
+    font-size:20px;
+  }
   .el-tabs__item.is-active {
     color: #333333;
-    font-weight: 500;
+    font-weight: 600;
   }
   .el-table td, .el-table th {
     padding: 8px 0;
@@ -263,7 +266,7 @@ export default {
   //   height: 400px;
   //   overflow: auto;
   // }
-  
+
   .el-table__body-wrapper::-webkit-scrollbar{
     display: none;
   }
