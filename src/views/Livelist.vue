@@ -1,7 +1,7 @@
 <template>
   <div id="Livelist">
     <h4 class="hfour"><span>房间管理</span></h4>
-    <div style="padding: 0 30px" v-if="tableData.length"> 
+    <div style="padding: 0 30px" v-if="tableData.length">
       <el-table :data="tableData" style="width: 965px" height="520" border>
         <el-table-column
           prop="stream"
@@ -85,7 +85,7 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
-  
+
   .el-table__body-wrapper::-webkit-scrollbar{
     display: none;
   }
@@ -101,9 +101,9 @@ export default {
 
   span {
     display: inline-block;
-    font-size: 14px;
+    font-size: 20px;
     font-family: PingFang SC, PingFang SC-Medium;
-    font-weight: 500;
+    font-weight: 600;
     text-align: center;
     color: #333333;
     height: 100%;

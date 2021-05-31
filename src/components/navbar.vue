@@ -195,7 +195,7 @@
               >
                 <!--                                <img src="@/assets/img/score.png" style="position:relative; top:5px; margin-right:10px;"/>-->
                 <!--                                <span>{{ info.coin}} </span>-->
-                <span style="display: inline-block">充值</span>
+                <span style="display: inline-block;cursor: pointer;" @click="goRecharge">充值</span>
               </div>
             </div>
             <el-button
@@ -236,7 +236,7 @@
               <img
                 src="@/assets/img/zhubo.png"
                 alt
-                @click="$router.push({ name: 'message' })"
+                @click="Submit()"
               />
               <p @click=" Submit()">我要直播</p>
             </el-col>
@@ -424,10 +424,12 @@
     <!-- <div class="motai">
       <bindBankCard></bindBankCard>
     </div> -->
+    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge"/>
   </div>
 </template>
 
 <script>
+import fullMoney from '../views/fullMoney'
 import bindBankCard from "../views/bindBankCard";
 import { Login, Getcode, Register, submitfk, GetUserinfo ,IsAuth} from "@/api";
 export default {
@@ -435,6 +437,7 @@ export default {
   inject: ["reload"],
   components: {
     bindBankCard,
+    fullMoney
   },
   props: {
     active: {
@@ -473,6 +476,7 @@ export default {
       regiorlog: 1,
       whichball: 0,
       regiorlog2: 1,
+      rechargeShow: false,
       suer:{},
       token:''
     };
@@ -499,7 +503,17 @@ export default {
   },
   methods: {
     async Submit() {
-      this.$router.push({ name: "realName" });
+      if (this.$store.state.user.isauth.is_auth == 0) {
+        this.$router.push({ name: "realName" });
+      } else {
+        this.$router.push({ name: "liveSet" });
+      }
+    },
+    closeRecharge() {
+      this.rechargeShow = false
+    },
+    goRecharge() {
+      this.rechargeShow = true
     },
     getIsAuth(){
       const params = {
