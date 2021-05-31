@@ -116,7 +116,7 @@ export default {
       this.$router.push({ name: "/" });
     }
     // this.getUserinfo()
-    this.getIsAuth()
+    // this.getIsAuth()
     this.getuserAccount()
   },
   created() {
