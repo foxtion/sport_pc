@@ -106,184 +106,101 @@
           <div class="mediabtm">
             <div style="display: flex; width: 100%">
               <img src="@/assets/liveNoble/balance.png" />
-              <div style="display: flex">
-                <img
-                  src="@/assets/left-arrow.png"
-                  style="height: 48px; margin-right: 10px; cursor: pointer"
-                  @click="leftArrow"
-                />
-                <div class="time-week-main" style="display: flex">
-                  <div
-                    v-for="(item, index) in giftData"
-                    class="gift-main"
-                    :key="index"
-                  >
-                    <!-- {{}} -->
-                    <el-popover
-                      placement="top"
-                      trigger="hover"
-                      popper-class="gift-popover"
-                      @hide="clearGiftNum"
+              <div>
+                <div style="display: flex">
+                  <img
+                    src="@/assets/left-arrow.png"
+                    style="height: 48px; margin-right: 10px;cursor: pointer;"
+                    @click="leftArrow"
+                  />
+                  <div class="time-week-main" style="display: flex">
+                    <div
+                      v-for="(item, index) in giftData"
+                      class="gift-main"
+                      :key="index"
                     >
-                      <div class="gift-main-popover">
-                        <div style="display: flex">
-                          <img :src="item.icon" style="width: 111px" />
-                          <div>
-                            <p style="font-size: 16px">
-                              {{ item.name }}
-                              <span style="color: #dbb16f; font-size: 13px"
-                                >({{ item.price }} 钻石)</span
-                              >
-                            </p>
-                            <p style="color: #9193b4; font-size: 13px">
-                              {{ item.description }}
-                            </p>
+                      <!-- {{}} -->
+                      <el-popover placement="top" trigger="hover" popper-class="gift-popover" @hide="clearGiftNum">
+                        <div class="gift-main-popover" >
+                          <div style="display: flex">
+                            <img :src="item.icon" style="width: 111px;" />
+                            <div>
+                              <p style="font-size: 16px">
+                                {{ item.name }}
+                                <span style="color: #dbb16f; font-size: 13px"
+                                  >({{ item.price }} 钻石)</span
+                                >
+                              </p>
+                              <p style="color: #9193b4; font-size: 13px">
+                                {{ item.description }}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <div style="display: flex; margin: 2px 20px 10px 20px">
-                          <div
-                            @click="getGiftNum(88, item)"
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
-                            88
+                          <div style="display: flex; margin: 2px 20px 10px 20px">
+                            <div @click="getGiftNum(88, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                              88
+                            </div>
+                            <div @click="getGiftNum(100, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                              100
+                            </div>
+                            <div @click="getGiftNum(520, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                              520
+                            </div> <div @click="getGiftNum(666, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                              666
+                            </div> <div @click="getGiftNum(1314, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                              1314
+                            </div>
                           </div>
-                          <div
-                            @click="getGiftNum(100, item)"
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
-                            100
-                          </div>
-                          <div
-                            @click="getGiftNum(520, item)"
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
-                            520
-                          </div>
-                          <div
-                            @click="getGiftNum(666, item)"
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
-                            666
-                          </div>
-                          <div
-                            @click="getGiftNum(1314, item)"
-                            style="
-                              color: #9193b4;
-                              font-size: 13px;
-                              width: 44px;
-                              height: 22px;
-                              line-height: 22px;
-                              text-align: center;
-                              border: 1px solid #e6eaf3;
-                              margin-right: 10px;
-                            "
-                          >
-                            1314
-                          </div>
-                        </div>
-                        <div
-                          style="
-                            background: #ebf0fb;
-                            height: 44px;
-                            display: flex;
-                            line-height: 44px;
-                          "
-                        >
-                          <img
-                            src="@/assets/liveNoble/balance.png"
-                            width="19px"
-                            height="22px"
-                            style="margin: 9px 6px 0 16px"
-                          />
-                          <p>共需要{{ allMoney }}钻石</p>
-                          <el-input
-                            style="width: 66px; margin: 0 10px 0 44px"
-                            @change="getGiftNum(giftNum, item)"
-                            v-model="giftNum"
-                            size="mini"
-                          ></el-input>
-                          <div
+                          <div style=" background: #ebf0fb; height: 44px; display: flex; line-height: 44px; ">
+                            <img
+                              src="@/assets/liveNoble/balance.png"
+                              width="19px"
+                              height="22px"
+                              style="margin: 9px 6px 0 16px"
+                            />
+                            <p>共需要{{ allMoney }}钻石</p>
+                            <el-input
+                              style="width: 66px; margin: 0 10px 0 44px"
+                              @change="getGiftNum(giftNum, item)"
+                              v-model="giftNum"
+                              size="mini"
+                            ></el-input>
+                            <div
                             @click="zengsong(item)"
-                            style="
-                              width: 50px;
-                              height: 26px;
-                              line-height: 26px;
-                              border-radius: 4px;
-                              margin-top: 9px;
-                              text-align: center;
-                              font-size: 13px;
-                              background: linear-gradient(
-                                90deg,
-                                #eccbab,
-                                #dbb16f 100%
-                              );
-                            "
-                          >
-                            赠送
+                              style="width: 50px;height: 26px;line-height: 26px;border-radius: 4px;margin-top: 9px;text-align: center;font-size: 13px;
+                                background: linear-gradient(90deg,#eccbab,#dbb16f 100%);">
+                              赠送
+                            </div>
                           </div>
+
+                          <!-- <ul style="display: flex; justify-content: space-between;width: 330px; flex-wrap: wrap">
+                                                  <li data-id="grinning" v-for="item in levellist" :key="item" @click="addemoji(item)">
+                                                      <div :style="{ background: `${item.color}`}" style="width: 30px; height: 30px;line-height: 30px;text-align: center; border-radius: 50%;font-size: 11px;color: #fff;">{{ item.name }} </div>
+                                                  </li>
+                                              </ul> -->
                         </div>
+                        <img :src="item.icon" slot="reference" class="gift-main-item"/>
+                      </el-popover>
+                      <!-- <img :src="item.icon" /> -->
+                      <!-- <div :class="currentDate.time === item.time ? 'current-date' : ''">
 
-                        <!-- <ul style="display: flex; justify-content: space-between;width: 330px; flex-wrap: wrap">
-                                                <li data-id="grinning" v-for="item in levellist" :key="item" @click="addemoji(item)">
-                                                    <div :style="{ background: `${item.color}`}" style="width: 30px; height: 30px;line-height: 30px;text-align: center; border-radius: 50%;font-size: 11px;color: #fff;">{{ item.name }} </div>
-                                                </li>
-                                            </ul> -->
-                      </div>
-                      <img
-                        :src="item.icon"
-                        slot="reference"
-                        class="gift-main-item"
-                      />
-                    </el-popover>
-                    <!-- <img :src="item.icon" /> -->
-                    <!-- <div :class="currentDate.time === item.time ? 'current-date' : ''">
-
-                                    <div class="time">{{ item.time }}</div>
-                                    <div class="lable">{{ item.label}}</div>
-                                    </div> -->
+                                      <div class="time">{{ item.time }}</div>
+                                      <div class="lable">{{ item.label}}</div>
+                                      </div> -->
+                    </div>
                   </div>
+                  <img
+                    src="@/assets/right-arrow.png"
+                    style="height: 48px;cursor: pointer;"
+                    @click="rightArrow"
+                  />
                 </div>
-                <img
-                  src="@/assets/right-arrow.png"
-                  style="height: 48px; cursor: pointer"
-                  @click="rightArrow"
-                />
+                <div style="display: flex;justify-content: flex-end;color:#333333; font-size: 13px;">
+                  <img src="@/assets/liveNoble/balance.png" width="19px" height="20px" style="margin-top:4px; margin-right: 6px" />
+                  <p style="line-height: 34px">我的钻石：998</p>
+                  <div class="czhi" @click="goRecharge">充值</div>
+                  <div class="beibao">背包</div>
+                </div>
               </div>
             </div>
             <!-- <div><p>{{ coin }}</p><p>我的金币</p></div>
@@ -755,6 +672,7 @@
     <mytuijian />
     <liveylist />
     <liveNoble ref="livenoble" />
+    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge"/>
   </div>
 </template>
 
@@ -762,19 +680,13 @@
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import mytuijian from "./mytuijian";
-import {
-  getGiftList,
-  enterRoom,
-  sendGift,
-  liveDetail,
-  msgList,
-  enterChat,
-} from "@/api";
-import Liveylist from "./liveylist.vue";
-const cityOptions = ["屏蔽贵族特效", "屏蔽礼物特效", "屏蔽入场消息"];
+import fullMoney from '../fullMoney'
+import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat } from "@/api";
+import Liveylist from './liveylist.vue';
+const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
 export default {
   name: "zbj",
-  components: { VBarrage, liveNoble, Liveylist, mytuijian },
+  components: { VBarrage, liveNoble, Liveylist, fullMoney ,mytuijian},
   data() {
     return {
       uid: "",
@@ -977,7 +889,8 @@ export default {
       city: "",
       liveDetailInfo: {},
       msgListData: [],
-      chatINfo: "",
+      chatINfo: '',
+      rechargeShow: false
     };
   },
 
@@ -1138,6 +1051,13 @@ export default {
     }, 1000);
   },
   methods: {
+    goRecharge() {
+      console.log('234567876543')
+      this.rechargeShow = true
+    },
+    closeRecharge() {
+      this.rechargeShow = false
+    },
     goLiveDetail() {
       const query = this.$route.query;
       const params = {
@@ -2286,8 +2206,31 @@ export default {
 
         .mediabtm {
           display: flex;
-          height: 88px;
-
+          height: 98px;
+          .czhi {
+            width: 54px;
+            line-height: 20px;
+            text-align: center;
+            height: 20px;
+            opacity: 1;
+            background: linear-gradient(90deg,#f27a2e, #f15b43 100%);
+            border-radius: 2px;
+            margin-left: 30px;
+            margin-top: 7px;
+            cursor: pointer;
+          }
+          .beibao {
+            width: 54px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            margin-top: 7px;
+            opacity: 1;
+            background: #748aff;
+            border-radius: 2px;
+            margin-left: 10px;
+            cursor: pointer;
+          }
           >div:first-child {
             width: 200px;
             padding: 20px 20px;
@@ -2306,7 +2249,7 @@ export default {
           >div:last-child {
             display: flex;
             align-items: center;
-            padding: 9px 16px;
+            padding: 9px 16px 3px;
             width: 77%;
             justify-content: space-between;
 

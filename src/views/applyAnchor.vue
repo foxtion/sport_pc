@@ -45,7 +45,8 @@ export default {
 
   methods: {
     async Submit() {
-      if (this.$store.state.user.isauth.is_auth == 0) {
+      console.log(this.$store.state.user.isauth)
+      if (!this.$store.state.user.isauth) {
         this.$router.push({ name: "realName" });
       } else {
         this.$message({

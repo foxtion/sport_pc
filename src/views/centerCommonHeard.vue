@@ -177,7 +177,7 @@ export default {
       }
     },
     async Submit() {
-      if (this.$store.state.user.isauth.is_auth == 0) {
+      if (!this.$store.state.user.isauth) {
         this.$router.push({ name: "realName" });
       } else {
         this.$router.push({ name: "liveSet" });
