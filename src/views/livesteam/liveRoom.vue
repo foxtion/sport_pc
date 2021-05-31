@@ -109,7 +109,7 @@
               <div style="display: flex">
                 <img
                   src="@/assets/left-arrow.png"
-                  style="height: 48px; margin-right: 10px;cursor: pointer;"
+                  style="height: 48px; margin-right: 10px; cursor: pointer"
                   @click="leftArrow"
                 />
                 <div class="time-week-main" style="display: flex">
@@ -119,10 +119,15 @@
                     :key="index"
                   >
                     <!-- {{}} -->
-                    <el-popover placement="top" trigger="hover" popper-class="gift-popover" @hide="clearGiftNum">
-                      <div class="gift-main-popover" >
+                    <el-popover
+                      placement="top"
+                      trigger="hover"
+                      popper-class="gift-popover"
+                      @hide="clearGiftNum"
+                    >
+                      <div class="gift-main-popover">
                         <div style="display: flex">
-                          <img :src="item.icon" style="width: 111px;" />
+                          <img :src="item.icon" style="width: 111px" />
                           <div>
                             <p style="font-size: 16px">
                               {{ item.name }}
@@ -136,21 +141,90 @@
                           </div>
                         </div>
                         <div style="display: flex; margin: 2px 20px 10px 20px">
-                          <div @click="getGiftNum(88, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          <div
+                            @click="getGiftNum(88, item)"
+                            style="
+                              color: #9193b4;
+                              font-size: 13px;
+                              width: 44px;
+                              height: 22px;
+                              line-height: 22px;
+                              text-align: center;
+                              border: 1px solid #e6eaf3;
+                              margin-right: 10px;
+                            "
+                          >
                             88
                           </div>
-                           <div @click="getGiftNum(100, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          <div
+                            @click="getGiftNum(100, item)"
+                            style="
+                              color: #9193b4;
+                              font-size: 13px;
+                              width: 44px;
+                              height: 22px;
+                              line-height: 22px;
+                              text-align: center;
+                              border: 1px solid #e6eaf3;
+                              margin-right: 10px;
+                            "
+                          >
                             100
                           </div>
-                           <div @click="getGiftNum(520, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          <div
+                            @click="getGiftNum(520, item)"
+                            style="
+                              color: #9193b4;
+                              font-size: 13px;
+                              width: 44px;
+                              height: 22px;
+                              line-height: 22px;
+                              text-align: center;
+                              border: 1px solid #e6eaf3;
+                              margin-right: 10px;
+                            "
+                          >
                             520
-                          </div> <div @click="getGiftNum(666, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          </div>
+                          <div
+                            @click="getGiftNum(666, item)"
+                            style="
+                              color: #9193b4;
+                              font-size: 13px;
+                              width: 44px;
+                              height: 22px;
+                              line-height: 22px;
+                              text-align: center;
+                              border: 1px solid #e6eaf3;
+                              margin-right: 10px;
+                            "
+                          >
                             666
-                          </div> <div @click="getGiftNum(1314, item)" style=" color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          </div>
+                          <div
+                            @click="getGiftNum(1314, item)"
+                            style="
+                              color: #9193b4;
+                              font-size: 13px;
+                              width: 44px;
+                              height: 22px;
+                              line-height: 22px;
+                              text-align: center;
+                              border: 1px solid #e6eaf3;
+                              margin-right: 10px;
+                            "
+                          >
                             1314
                           </div>
                         </div>
-                        <div style=" background: #ebf0fb; height: 44px; display: flex; line-height: 44px; ">
+                        <div
+                          style="
+                            background: #ebf0fb;
+                            height: 44px;
+                            display: flex;
+                            line-height: 44px;
+                          "
+                        >
                           <img
                             src="@/assets/liveNoble/balance.png"
                             width="19px"
@@ -165,9 +239,22 @@
                             size="mini"
                           ></el-input>
                           <div
-                          @click="zengsong(item)"
-                            style="width: 50px;height: 26px;line-height: 26px;border-radius: 4px;margin-top: 9px;text-align: center;font-size: 13px;
-                              background: linear-gradient(90deg,#eccbab,#dbb16f 100%);">
+                            @click="zengsong(item)"
+                            style="
+                              width: 50px;
+                              height: 26px;
+                              line-height: 26px;
+                              border-radius: 4px;
+                              margin-top: 9px;
+                              text-align: center;
+                              font-size: 13px;
+                              background: linear-gradient(
+                                90deg,
+                                #eccbab,
+                                #dbb16f 100%
+                              );
+                            "
+                          >
                             赠送
                           </div>
                         </div>
@@ -194,7 +281,7 @@
                 </div>
                 <img
                   src="@/assets/right-arrow.png"
-                  style="height: 48px;cursor: pointer;"
+                  style="height: 48px; cursor: pointer"
                   @click="rightArrow"
                 />
               </div>
@@ -312,12 +399,19 @@
               </p>
             </div>
             <div class="contribution-drop-down">
-              <div v-for="(item, index) in contributionStartFour" :key="index" class="contribution-drop-down-item">
+              <div
+                v-for="(item, index) in contributionStartFour"
+                :key="index"
+                class="contribution-drop-down-item"
+              >
                 <div style="display: flex; width: 250px">
-                  <div class="drop-down-index">{{ index + 4 }} </div>
+                  <div class="drop-down-index">{{ index + 4 }}</div>
                   <p class="name">{{ item.name }}</p>
                 </div>
-                <p class="text"><span style="color: #DBB16F"> {{ item.num }}</span>贡献值</p>
+                <p class="text">
+                  <span style="color: #dbb16f"> {{ item.num }}</span
+                  >贡献值
+                </p>
               </div>
             </div>
           </div>
@@ -413,12 +507,24 @@
               >
             </div>
             <div class="bounced" v-if="isShowBounced">
-              <img src="@/assets/level-40.png" width="50" style="margin-left: 99px"/>
-              <img src="@/assets/close.png" width="10" class="close-icon" @click="isShowBounced = false"/>
+              <img
+                src="@/assets/level-40.png"
+                width="50"
+                style="margin-left: 99px"
+              />
+              <img
+                src="@/assets/close.png"
+                width="10"
+                class="close-icon"
+                @click="isShowBounced = false"
+              />
               <div class="user-info">
-                带上草帽就是王<div class="user0info-lv">LV 88</div>
+                带上草帽就是王
+                <div class="user0info-lv">LV 88</div>
                 <div class="bounced-btn-msg" v-if="setUserType">
-                  <div v-if="setUserType == '1'"><p>确定设置 带上草帽就是王 为本直播间房管？</p></div>
+                  <div v-if="setUserType == '1'">
+                    <p>确定设置 带上草帽就是王 为本直播间房管？</p>
+                  </div>
                   <div v-if="setUserType == '2'"><p>确定提出房间？</p></div>
                   <div v-if="setUserType == '3'">
                     <p>禁言设置时间</p>
@@ -565,10 +671,7 @@
                   cursor: pointer;
                 "
               />
-              <el-popover
-                placement="top"
-                trigger="hover"
-              >
+              <el-popover placement="top" trigger="hover">
                 <p style="font-size: 12px">清空聊天</p>
                 <img
                   src="@/assets/chat-5.png"
@@ -581,14 +684,23 @@
                   "
                 />
               </el-popover>
-              <el-popover
-                placement="top"
-                trigger="hover"
-              >
+              <el-popover placement="top" trigger="hover">
                 <div class="shielding-box">屏蔽消息设置</div>
-                  <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer">屏蔽贵族特效</el-checkbox>
-                  <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer">屏蔽礼物特效</el-checkbox>
-                  <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer">屏蔽入场消息</el-checkbox>
+                <el-checkbox
+                  :label="city"
+                  style="margin-right: 14px; cursor: pointer"
+                  >屏蔽贵族特效</el-checkbox
+                >
+                <el-checkbox
+                  :label="city"
+                  style="margin-right: 14px; cursor: pointer"
+                  >屏蔽礼物特效</el-checkbox
+                >
+                <el-checkbox
+                  :label="city"
+                  style="margin-right: 14px; cursor: pointer"
+                  >屏蔽入场消息</el-checkbox
+                >
                 <el-checkbox
                   :label="city"
                   slot="reference"
@@ -639,8 +751,9 @@
           </div>
         </div>
       </div>
-      </div>
-      <liveylist />
+    </div>
+    <mytuijian />
+    <liveylist />
     <liveNoble ref="livenoble" />
   </div>
 </template>
@@ -648,12 +761,20 @@
 <script>
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
-import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat } from "@/api";
-import Liveylist from './liveylist.vue';
-const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
+import mytuijian from "./mytuijian";
+import {
+  getGiftList,
+  enterRoom,
+  sendGift,
+  liveDetail,
+  msgList,
+  enterChat,
+} from "@/api";
+import Liveylist from "./liveylist.vue";
+const cityOptions = ["屏蔽贵族特效", "屏蔽礼物特效", "屏蔽入场消息"];
 export default {
   name: "zbj",
-  components: { VBarrage, liveNoble, Liveylist },
+  components: { VBarrage, liveNoble, Liveylist, mytuijian },
   data() {
     return {
       uid: "",
@@ -818,37 +939,45 @@ export default {
       getGiftListData: [],
       giftData: [],
       clickNum: 0,
-      contributionStartFour: [{
-        name: '上帝之手上帝之手上帝之手',
-        num: '1234'
-      },{
-        name: '上帝之手22',
-        num: '1234'
-      },{
-        name: '上帝之手33',
-        num: '1234'
-      },{
-        name: '上帝之手0564689',
-        num: '1234'
-      },{
-        name: '上帝之手0564689',
-        num: '1234'
-      },{
-        name: '上帝之手0564689',
-        num: '1234'
-      },{
-        name: '上帝之手0564689',
-        num: '1234'
-      }],
+      contributionStartFour: [
+        {
+          name: "上帝之手上帝之手上帝之手",
+          num: "1234",
+        },
+        {
+          name: "上帝之手22",
+          num: "1234",
+        },
+        {
+          name: "上帝之手33",
+          num: "1234",
+        },
+        {
+          name: "上帝之手0564689",
+          num: "1234",
+        },
+        {
+          name: "上帝之手0564689",
+          num: "1234",
+        },
+        {
+          name: "上帝之手0564689",
+          num: "1234",
+        },
+        {
+          name: "上帝之手0564689",
+          num: "1234",
+        },
+      ],
       isShowBounced: false,
-      setUserType: '',
-      songNum: '',
-      giftNum: '',
+      setUserType: "",
+      songNum: "",
+      giftNum: "",
       allMoney: 0,
-      city: '',
+      city: "",
       liveDetailInfo: {},
       msgListData: [],
-      chatINfo: ''
+      chatINfo: "",
     };
   },
 
@@ -1000,40 +1129,40 @@ export default {
   },
 
   created() {
-    this.goLiveDetail()
+    this.goLiveDetail();
     setTimeout(() => {
-      this.goChatINfo()
-      this.enterRoomQuery()
-      this.msgListDataQuery()
+      this.goChatINfo();
+      this.enterRoomQuery();
+      this.msgListDataQuery();
       this.getGiftListParams();
     }, 1000);
   },
   methods: {
     goLiveDetail() {
-      const query = this.$route.query
+      const query = this.$route.query;
       const params = {
         uid: JSON.parse(window.localStorage.getItem("user")).id,
         token: window.localStorage.getItem("token"),
         live_uid: query.liveuid,
         stream: query.stream,
-        source: 'pc'
-      }
-      liveDetail(params).then(res => {
-        this.liveDetailInfo = res.info
-      })
+        source: "pc",
+      };
+      liveDetail(params).then((res) => {
+        this.liveDetailInfo = res.info;
+      });
     },
     goChatINfo() {
       const params = {
         uid: JSON.parse(window.localStorage.getItem("user")).id,
         nick_name: JSON.parse(window.localStorage.getItem("user")).nick_name,
         id: this.liveDetailInfo.game_id,
-        source: 'pc',
-        token: window.localStorage.getItem("token")
-      }
-      enterChat(params).then(res => {
-        this.chatINfo = res.info
-        console.log(res, 'res============')
-      })
+        source: "pc",
+        token: window.localStorage.getItem("token"),
+      };
+      enterChat(params).then((res) => {
+        this.chatINfo = res.info;
+        console.log(res, "res============");
+      });
     },
     toLive(val) {
       let routeData = this.$router.resolve({
@@ -1307,22 +1436,22 @@ export default {
       }
     },
     clearGiftNum() {
-      this.allMoney = 0
-       this.giftNum = ''
+      this.allMoney = 0;
+      this.giftNum = "";
     },
     getGiftNum(val, item) {
-      this.giftNum = val
-      this.allMoney = this.giftNum * item.price
+      this.giftNum = val;
+      this.allMoney = this.giftNum * item.price;
     },
     zengsong(value) {
-      this.allMoney = this.giftNum * value.price
+      this.allMoney = this.giftNum * value.price;
       if (window.localStorage.getItem("token")) {
-        this.allMoney = this.songNum
+        this.allMoney = this.songNum;
         if (value.name) {
           if (this.coin < parseInt(this.allMoney)) {
             this.$message.error("余额不足");
           } else {
-            const query = this.$route.query
+            const query = this.$route.query;
             const params = {
               uid: JSON.parse(window.localStorage.getItem("user")).id,
               token: window.localStorage.getItem("token"),
@@ -1331,34 +1460,34 @@ export default {
               gift_id: value.id,
               count: this.giftNum,
               ispack: value.type,
-              source: 'pc',
-              showid: this.liveDetailInfo.showid
-            }
+              source: "pc",
+              showid: this.liveDetailInfo.showid,
+            };
             sendGift(params).then((res) => {
-                if (res.code == 0) {
-                  // 发送礼物
-                  let broadcastObj = {};
-                  broadcastObj.msg = [];
-                  let obj = {};
-                  obj._method_ = "SendGift";
-                  obj.uhead = JSON.parse(
-                    window.localStorage.getItem("user")
-                  ).avatar;
-                  obj.uname = JSON.parse(
-                    window.localStorage.getItem("user")
-                  ).user_nicename;
-                  obj.msgtype = "2";
-                  obj.level = JSON.parse(
-                    window.localStorage.getItem("user")
-                  ).level;
-                  obj.ct = res.data.info[0].gifttoken;
-                  broadcastObj.msg.push(obj);
-                  this.$socket.emit("broadcast", broadcastObj);
-                  this.getCoin();
-                } else {
-                  this.$message.error(res.msg);
-                }
-              });
+              if (res.code == 0) {
+                // 发送礼物
+                let broadcastObj = {};
+                broadcastObj.msg = [];
+                let obj = {};
+                obj._method_ = "SendGift";
+                obj.uhead = JSON.parse(
+                  window.localStorage.getItem("user")
+                ).avatar;
+                obj.uname = JSON.parse(
+                  window.localStorage.getItem("user")
+                ).user_nicename;
+                obj.msgtype = "2";
+                obj.level = JSON.parse(
+                  window.localStorage.getItem("user")
+                ).level;
+                obj.ct = res.data.info[0].gifttoken;
+                broadcastObj.msg.push(obj);
+                this.$socket.emit("broadcast", broadcastObj);
+                this.getCoin();
+              } else {
+                this.$message.error(res.msg);
+              }
+            });
           }
         } else {
           this.$message.error("请先选择礼物");
@@ -1475,7 +1604,7 @@ export default {
     },
     // 进入主播间
     enterRoomQuery() {
-      const query = this.$route.query
+      const query = this.$route.query;
       const params = {
         source: "pc",
         uid: JSON.parse(window.localStorage.getItem("user")).id,
@@ -1483,41 +1612,41 @@ export default {
         live_uid: query.liveuid,
         stream: query.stream,
         // showid: this.liveDetailInfo.showid
-        showid: '1622391045'
+        showid: "1622391045",
       };
       enterRoom(params).then((res) => {
         this.getGiftListData = res.info;
         for (var i = 0; i < 8; i++) {
           this.giftData.push(this.getGiftListData[i]);
         }
-      })
+      });
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
-      this.isShowBounced = true
+      this.isShowBounced = true;
     },
-    // getSetUser   
+    // getSetUser
     getSetUser(val) {
-      this.setUserType = val
+      this.setUserType = val;
     },
     // 确定
     msgBtnOk() {
-      this.setUserType = ''
+      this.setUserType = "";
     },
     // 取消
     msgBtnNo() {
-      this.setUserType = ''
+      this.setUserType = "";
     },
-    // msgListData 
+    // msgListData
     msgListDataQuery() {
       const params = {
         id: this.liveDetailInfo.game_id,
-        source: 'pc'
-      }
-      msgList(params).then(res => {
-        console.log(res)
-      })
-    }
+        source: "pc",
+      };
+      msgList(params).then((res) => {
+        console.log(res);
+      });
+    },
   },
   destroyed() {
     document.removeEventListener("scroll", this.handleScroll);
@@ -2266,9 +2395,11 @@ export default {
           justify-content: space-around;
           position: relative;
           height: 145px;
+
           div {
             width: 63px;
           }
+
           .contribution-drop-down {
             z-index: 999;
             position: absolute;
@@ -2277,8 +2408,9 @@ export default {
             height: 226px;
             background: #ffffff;
             border: 1px solid #e6eaf3;
-            box-shadow: 0px 6px 12px 0px rgba(219,177,111,0.30)
+            box-shadow: 0px 6px 12px 0px rgba(219, 177, 111, 0.3);
             display: none;
+
             .contribution-drop-down-item {
               height: 28px;
               width: 100%;
@@ -2287,6 +2419,7 @@ export default {
               display: flex;
               justify-content: space-between;
               margin-bottom: 4px;
+
               .drop-down-index {
                 width: 16px;
                 height: 16px;
@@ -2298,8 +2431,10 @@ export default {
                 margin: 6px 15px;
                 text-align: center;
               }
+
               .name {
               }
+
               .text {
                 font-size: 12px;
                 color: #E6EAF3;
@@ -2307,6 +2442,7 @@ export default {
               }
             }
           }
+
           .contribution-2 {
             .contribution-bg-2 {
               margin-left: 8px;
@@ -2418,9 +2554,11 @@ export default {
             }
           }
         }
+
         .contribution-info:hover .contribution-drop-down {
           display: block;
         }
+
         .el-tabs__nav-scroll {
           display: flex;
           justify-content: center;
@@ -2443,22 +2581,25 @@ export default {
           height: 515px;
           overflow-y: overlay;
           position: relative;
+
           .bounced {
             position: absolute;
             top: 180px;
             left: 20px;
             background: #fff !important;
             border: 1px solid #e6eaf3;
-            box-shadow: 0px 6px 12px 0px rgba(219,177,111,0.30); 
+            box-shadow: 0px 6px 12px 0px rgba(219, 177, 111, 0.3);
             padding: 10px 30px;
             width: 310px;
             z-indecx: 999;
+
             .close-icon {
               position: absolute;
               cursor: pointer;
               top: 8px;
               right: 8px;
             }
+
             .user-info {
               font-size: 14px;
               color: #6E7CA0;
@@ -2467,30 +2608,35 @@ export default {
               margin-bottom: 20px;
               justify-content: center;
               position: relative;
+
               .user0info-lv {
                 margin-left: 10px;
                 color: #9193B4;
               }
+
               .bounced-btn-msg {
                 width: 260px;
                 position: absolute;
                 top: -65px;
-                left: -5px
+                left: -5px;
                 background: #fff;
                 border: 1px solid #e6eaf3;
-                box-shadow: 0px 6px 12px 0px rgba(219,177,111,0.30); 
+                box-shadow: 0px 6px 12px 0px rgba(219, 177, 111, 0.3);
                 padding: 10px;
                 text-align: center;
+
                 .select-time {
                   width: 100px;
                   border: 1px solid #e6eaf3;
                   margin-top: 10px;
                   margin-bottom: 5px;
                 }
+
                 .msg-btn {
                   display: flex;
                   justify-content: space-around;
                   margin: 10px 30px 0;
+
                   div {
                     width: 40px;
                     height: 30px;
@@ -2498,13 +2644,15 @@ export default {
                     border: 1px solid #E6EAF3;
                     cursor: pointer;
                   }
+
                   div:hover {
-                    background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+                    background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
                     color: #fff;
                   }
                 }
               }
             }
+
             .bounced-btn {
               display: flex;
               height: 30px;
@@ -2512,14 +2660,16 @@ export default {
               font-size: 14px;
               border: 1px solid #E6EAF3;
               border-right: 0;
+
               div {
                 width: 103px;
                 text-align: center;
                 border-right: 1px solid #E6EAF3;
                 cursor: pointer;
               }
+
               div:hover {
-                background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+                background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
                 color: #fff;
               }
             }
@@ -2619,9 +2769,11 @@ export default {
     }
   }
 }
+
 .shielding-box {
-  background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+  background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
 }
+
 .gift-popover {
   padding: 0 !important;
 }

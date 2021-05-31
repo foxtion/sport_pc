@@ -27,13 +27,14 @@
           我的钱包：<i class="coinlogo"></i>
           <span>龙钻 {{ $store.state.user.info.coin }} </span>
           <span class="tixian"
-            >可提现龙钻 {{ $store.state.user.info.coin }} <i class="tishi"></i
-          ></span>
+            >可提现龙钻 {{ $store.state.user.info.coin }} <i class="tishi"></i>
+            <span class="weiman">
+              提现要求最低100龙钻可提现，未满100龙钻不可提取收益
+            </span>
+          </span>
 
           <!-- <span class="paybtn" @click="$router.push({ name: 'recharge' })" -->
-          <span class="paybtn" @click="goRecharge"
-            >充值</span
-          >
+          <span class="paybtn" @click="goRecharge">充值</span>
           <!-- <span class="tixianbtn" @click="$router.push({ name: 'withDrawal' })" -->
           <span class="tixianbtn" @click="tixian">提现</span>
         </div>
@@ -74,7 +75,12 @@
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar photos" />
           <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
-          <img v-else :src="$store.state.user.info.avatar" alt="" style="width: 144px;height: 144px"/>
+          <img
+            v-else
+            :src="$store.state.user.info.avatar"
+            alt=""
+            style="width: 144px; height: 144px"
+          />
           <a class="changephoto">点击图片修改头像</a>
         </el-upload>
         <el-form-item prop="nick_name">
@@ -117,13 +123,13 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge"/>
+    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge" />
   </div>
 </template>
 
 <script>
-import { GetUserinfo,uploadPicturesBase64,changeNick } from "@/api";
-import fullMoney from './fullMoney'
+import { GetUserinfo, uploadPicturesBase64, changeNick } from "@/api";
+import fullMoney from "./fullMoney";
 export default {
   name: "myHome",
   components: {
@@ -147,7 +153,7 @@ export default {
       //   code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       // },
       dialogVisible: false,
-      rechargeShow: false
+      rechargeShow: false,
     };
   },
   mounted() {
@@ -156,20 +162,18 @@ export default {
     this.getUserinfo();
   },
   methods: {
-
     goRecharge() {
-      this.rechargeShow = true
+      this.rechargeShow = true;
       // this.$router.push({ name: 'recharge' })
     },
     closeRecharge() {
-      this.rechargeShow = false
+      this.rechargeShow = false;
     },
-    tixian(){
-      if(!true){
-        this.$router.push({ name: 'bindBankCard' })
-      }
-      else{
-        this.$router.push({ name: 'withDrawal' })
+    tixian() {
+      if (!true) {
+        this.$router.push({ name: "bindBankCard" });
+      } else {
+        this.$router.push({ name: "withDrawal" });
       }
     },
     async Submit() {
@@ -606,6 +610,27 @@ export default {
 
     .tixian {
       margin-left: 40px !important;
+      position: relative;
+
+      .weiman {
+        display: none;
+        width: 300px;
+        position: absolute;
+        height: 50px;
+        text-align: center;
+        padding: 10px;
+        top: -55px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border-radius: 20px;
+        left: -80px;
+      }
+
+      &:hover {
+        .weiman {
+          display: block;
+        }
+      }
     }
   }
 

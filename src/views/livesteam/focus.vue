@@ -132,6 +132,9 @@ export default {
 
       .isgz {
         width: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
 
         span {
           display: block;
@@ -146,7 +149,7 @@ export default {
           font-weight: 400;
           text-align: center;
           color: #76809c;
-          line-height 30px
+          line-height: 30px;
         }
       }
     }

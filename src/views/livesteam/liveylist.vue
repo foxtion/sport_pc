@@ -158,6 +158,7 @@ export default {
       this.activeIndex = index;
       console.log(item, index);
     },
+    
   },
 };
 </script>
