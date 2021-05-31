@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { UploadPictures, GetUserinfo, UserAccount } from "@/api";
+import { UploadPictures, GetUserinfo, UserAccount ,IsAuth} from "@/api";
 export default {
   name: "myHome",
   data() {
