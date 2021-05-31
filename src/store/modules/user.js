@@ -20,13 +20,13 @@ const mutations = {
         sessionStorage.setItem('isauth', JSON.stringify(param))
 
     },
-    
+
     islogin(state,param){
         state.login =param
         sessionStorage.setItem('islogin', JSON.stringify(param))
 
     },
-    
+
 }
 const actions = {}
 const getters ={}

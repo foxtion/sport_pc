@@ -13,8 +13,9 @@
           <div class="nav-item-content" :style="open? 'overflow: hidden;height: 106px;' : 'overflow: inherit'">
             <div v-for="(item, index) in football"
             :key = "index"
-            class="gamename">{{ item.name}}</div>
-          </div>
+            class="gamename"
+            @click="getmatch(item, index)">{{ item.name}}</div>
+            </div>
             <div v-if="open == true" class="unfold" @click="open = false">展开<i class="arrows"></i></div>
             <div  v-else class="put"@click="open = true">收起<i class="noarrows"></i></div>
         </div>
@@ -29,7 +30,8 @@
           <div class="nav-item-content" :style="open2? 'overflow: hidden;height: 106px;' : 'overflow: inherit'">
             <div v-for="(item, index) in basketball"
             :key = "index"
-            class="gamename">{{ item.name}}</div>
+            class="gamename"
+            @click="getmatch(item, index)">{{ item.name}}</div>
           </div>
             <div v-if="open2 == true" class="unfold" @click="open2 = false">展开<i class="arrows"></i></div>
             <div  v-else class="put"@click="open2 = true">收起<i class="noarrows"></i></div>
@@ -41,35 +43,74 @@
       <div class="time_fixturelist">
         <div class="date">
           <div class="times">
-            05月15日
+            {{ date }}
           </div>
-          <div class="match">
-            ({{ basketball.length + football.length}}场比赛)
+          <div v-if="active == 1" class="match">
+            ({{ match.length}}场比赛)
+          </div>
+          <div v-else class="match">
+            ({{ list.length}}场比赛)
           </div>
         </div>
         <div class="live">
-          <div class="living active">直播中</div>
-          <div class="all">所有</div>
+          <div :class="{active : active == 1}" @click="active = 1" class="living">直播中</div>
+          <div :class="{active : active == 2}" @click="active = 2" class="all">所有</div>
         </div>
       </div>
-      <div class="right_fixturelist">
-        <div class="game_nav">
+      <div v-if="active == 1" class="right_fixturelist">
+        <div  v-for="(item, index) in match"
+          :key = "index"
+          class="game_nav">
           <div class="left_game">
             <div class="team_top">
-              <div class="team"><img class="teamicon" src='../../assets/img/foot.png'/><div class="teams">莱斯特城</div></div>
-              <div class="score">1</div>
+              <div class="team"><img class="teamicon" :src='item.main_logo'/><div class="teams">{{ item.main_name}}</div></div>
+              <div class="score">{{ item.main_fraction}}</div>
             </div>
             <div class="team_down">
-              <div class="team"><img class="teamicon" src='../../assets/img/foot.png'/><div class="teams">莱斯特城</div></div>
-              <div class="score">10</div>
+              <div class="team"><img class="teamicon" :src='item.deputy_logo'/><div class="teams">{{ item.deputy_name}}</div></div>
+              <div class="score">{{ item.deputy_fraction }}</div>
             </div>
           </div>
           <div class="center_game">
-            <div class="playingteam">英格兰足球超级联赛</div>
-            <div class="playingtime">22:00</div>
+            <div class="playingteam">{{ item.name_zh }}</div>
+            <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
-              <!-- <div class="playover">已结束</div> -->
-              <div class="playing">去观看</div><a>直播中...</a>
+              <div v-if="item.is_live == 1" class="playing">去观看</div>
+              <div v-else class="playover">已结束</div>
+              <a v-if="item.is_live == 1">直播中...</a>
+            </div>
+          </div>
+          <div class="right_game">
+            <div class="bunko"></div>
+            <div class="bunko"></div>
+            <div class="bunko"></div>
+            <div class="bunko"></div>
+            <div class="bunko"></div>
+            <div class="bunko"></div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="right_fixturelist">
+        <div  v-for="(item, index) in list"
+          :key = "index"
+          class="game_nav">
+          <div class="left_game">
+            <div class="team_top">
+              <div class="team"><img class="teamicon" :src='item.main_logo'/><div class="teams">{{ item.main_name}}</div></div>
+              <div class="score">{{ item.main_fraction}}</div>
+            </div>
+            <div class="team_down">
+              <div class="team"><img class="teamicon" :src='item.deputy_logo'/><div class="teams">{{ item.deputy_name}}</div></div>
+              <div class="score">{{ item.deputy_fraction }}</div>
+            </div>
+          </div>
+          <div class="center_game">
+            <div class="playingteam">{{ item.name_zh }}</div>
+            <div class="playingtime">{{ item.competition_time_text }}</div>
+            <div class="playto">
+              <div v-if="item.is_live == 1" class="playing">去观看</div>
+              <div v-else class="playover">已结束</div>
+              <a v-if="item.is_live == 1">直播中...</a>
             </div>
           </div>
           <div class="right_game">
@@ -99,21 +140,29 @@ import DateWeek from '../dateWeek'
         open: true,
         open2: true,
         token: "",
+        active:1,
         balls:[],
         football: [],
+        match:[],
+        list:[],
+        date:'',
         basketball: []
       };
     },
     created() {
-      this.getfootball()
       this.getbasketball()
+      this.searchCompetitionData()
     },
     mounted() {
       this.uid = JSON.parse(window.localStorage.getItem("user"));
       this.token = window.localStorage.token;
       this.getLiveListByType();
+      this.date = this.$children[0].currentDate.date
     },
     methods: {
+      to(e){
+        this.active = e
+      },
       getLiveListByType() {
         const params = {
           uid: this.uid, //登录的uid
@@ -123,16 +172,22 @@ import DateWeek from '../dateWeek'
           source: "pc", //来源设备
         };
         GetLiveListByType(params).then((res) => {
-          console.log(res, 1111);
         });
       },
-      getfootball(){
+      getmatch(item,index) {
+        this.match = this.football[index].game
+      },
+      searchCompetitionData(val){
         const data = {
           source: 'pc'
+        }
+        if (val !== undefined) {
+          this.date = val.date
         }
         football(data).then(res => {
           if (res.code == 200 ) {
             this.football = res.info.filter
+            this.list = res.info.list
           }
         })
       },
@@ -336,8 +391,8 @@ import DateWeek from '../dateWeek'
       cursor: pointer;
     }
     .active{
-      background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
-      color:#693D12;
+      background: linear-gradient(90deg,#eccbab, #dbb16f 100%) !important;
+      color:#693D12 !important;
     }
     .all{
       width: 66px;
@@ -406,6 +461,10 @@ import DateWeek from '../dateWeek'
           float:left;
           font-size: 16px;
           padding-left: 10px;
+          width: 130px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }

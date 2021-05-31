@@ -494,7 +494,7 @@ export default {
         this.navList[2].active = true;
       }
     });
-  this.getIsAuth()
+    this.getIsAuth()
     this.init();
   },
   methods: {

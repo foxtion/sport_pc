@@ -194,7 +194,7 @@ export default {
       }
     },
     handleClose() {
-      this.$router.go(-1);
+      this.$router.push({ name: "myHome" });
     },
     xiayibu(formName) {
       this.$refs[formName].validate((valid) => {
