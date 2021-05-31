@@ -642,7 +642,6 @@
               />
               <el-popover
                 placement="top"
-                :popper-class="popper - main"
                 trigger="hover"
               >
                 <p style="font-size: 12px">清空聊天</p>
@@ -657,11 +656,21 @@
                   "
                 />
               </el-popover>
-              <el-checkbox
-                :label="city"
-                style="margin-right: 14px; cursor: pointer"
-                >屏蔽消息</el-checkbox
+              <el-popover
+                placement="top"
+                trigger="hover"
               >
+                <div class="shielding-box">屏蔽消息设置</div>
+                  <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer">屏蔽贵族特效</el-checkbox>
+                  <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer">屏蔽礼物特效</el-checkbox>
+                  <el-checkbox :label="city" style="margin-right: 14px; cursor: pointer">屏蔽入场消息</el-checkbox>
+                <el-checkbox
+                  :label="city"
+                  slot="reference"
+                  style="margin-right: 14px; cursor: pointer"
+                  >屏蔽消息</el-checkbox
+                >
+              </el-popover>
               <!-- <el-popover placement="top" trigger="hover">
                                 <div class="pingbigift">
                                     <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"  @change="handleCheckAllChange">
@@ -807,7 +816,7 @@
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import { getGiftList, enterRoom } from "@/api";
-const cityOptions = ["屏蔽礼物动画", "屏蔽进场欢迎"];
+const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
 export default {
   name: "zbj",
   components: { VBarrage, liveNoble },
@@ -2713,6 +2722,9 @@ export default {
       }
     }
   }
+}
+.shielding-box {
+  background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
 }
 .gift-popover {
   padding: 0 !important;
