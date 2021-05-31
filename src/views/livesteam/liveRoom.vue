@@ -124,7 +124,7 @@
                         <div class="gift-main-popover" >
                           <div style="display: flex">
                             <img :src="item.icon" style="width: 111px;" />
-                            <div>
+                            <div style="margin-top: 16px">
                               <p style="font-size: 16px">
                                 {{ item.name }}
                                 <span style="color: #dbb16f; font-size: 13px"
