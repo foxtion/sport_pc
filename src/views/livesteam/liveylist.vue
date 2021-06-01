@@ -5,8 +5,10 @@
         <span
           :class="{ active: activeIndex === index }"
           @click="listactive(item, index)"
-          >{{ item.name }}</span
-        >
+          >{{ item.name }}
+
+          <i></i
+        ></span>
       </div>
     </div>
     <div class="livebody" v-if="activeIndex === 1">
@@ -158,7 +160,6 @@ export default {
       this.activeIndex = index;
       console.log(item, index);
     },
-    
   },
 };
 </script>
@@ -196,6 +197,16 @@ export default {
         color: #8d94af;
         line-height: 32px;
         cursor: pointer;
+        position: relative;
+
+        i {
+          position: absolute;
+          display: block;
+          width: 12px;
+          height: 6px;
+          left: 36px;
+          top: 36px;
+        }
       }
 
       .active {
@@ -206,6 +217,10 @@ export default {
         font-weight: 500;
         text-align: center;
         color: #dbb16f;
+
+        i {
+          background: url('../../assets/img/livexjt.png');
+        }
       }
     }
   }

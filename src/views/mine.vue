@@ -28,6 +28,7 @@
 
 <script>
 import centerCommonHeard from './centerCommonHeard'
+import {  GetUserinfo } from "@/api";
 export default {
   name: "mine",
   components: {
