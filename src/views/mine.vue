@@ -87,6 +87,7 @@ export default {
         // { name: "申请主播", active: false,icon:'el-icon-thumb' },
       ],
       user: {},
+      token:''
     };
   },
   watch: {
@@ -102,9 +103,23 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(window.localStorage.getItem("user"));
+     this.token = window.localStorage.token;
+     this.getUserinfo()
   },
   methods: {
+     getUserinfo() {
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        source: "pc",
+      };
+      GetUserinfo(params).then((res) => {
+        this.$store.commit("userinfo", res.info);
+        console.log(res.info);
+      });
+    },
     tabFn(val, i) {
+      this.getUserinfo()
       switch (val) {
         /*case "我的首页":
                     this.$router.push({ name: "myProfile" });
