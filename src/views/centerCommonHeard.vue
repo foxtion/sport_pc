@@ -86,7 +86,7 @@
         <el-form-item prop="nick_name">
           用户昵称:
           <el-input
-            v-model="Form.nick_name"
+            v-model="$store.state.user.info.nick_name"
             placeholder="请输入昵称"
             style="width: 330px; margin-left: 8px"
           ></el-input>
@@ -96,7 +96,7 @@
           <el-input
             type="textarea"
             :autosize="{ minRows: 4, maxRows: 5 }"
-            v-model="Form.signature"
+            v-model="$store.state.user.info.signature"
             placeholder="输入签名"
             style="width: 330px; margin-left: 8px"
             class="sign"

@@ -46,7 +46,7 @@
                 <p class="p1" v-else>银行卡未绑定</p>
                 <p class="p2">完善银行卡信息，便于提取直播收益</p>
               </div>
-              <div class="li-r" v-if="isAccountBank">
+              <div class="li-r" v-if="isAccountBank" @click="tokefu">
                 已绑定
               </div>
               <div class="li-r" v-else @click="$router.push({ name: 'bindBankCard' })">
@@ -134,6 +134,16 @@ export default {
         this.$store.commit('isAuth',res.info)
       })
     },
+    tokefu() {
+      this.$confirm("已绑定，修改请联系在线客服", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      })
+        .then(() => {
+        })
+        .catch(() => {
+        });
+    },
      getuserAccount() {
       let user = JSON.parse(window.localStorage.getItem("user"));
       const params = {
@@ -141,11 +151,9 @@ export default {
         token: this.token,
       };
       UserAccount(params).then((res) => {
-        console.log(res, 'res-----------')
         if (res.info.account_bank) {
           this.isAccountBank = true
         }
-        console.log(res);
       });
     },
     //充值

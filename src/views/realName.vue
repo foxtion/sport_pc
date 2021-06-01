@@ -342,7 +342,7 @@ export default {
     position: relative;
   }
 
-  .changephoto {
+  /deep/.changephoto {
     position: absolute;
     bottom: 1px;
     left: 35px;
@@ -361,7 +361,7 @@ export default {
     border-color: #409EFF;
   }
 
-  .avatar-uploader-icon {
+  /deep/.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 220px;
@@ -370,7 +370,7 @@ export default {
     text-align: center;
   }
 
-  .avatar {
+  /deep/.avatar {
     width: 220px;
     height: 140px;
     display: block;

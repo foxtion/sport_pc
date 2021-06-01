@@ -688,8 +688,10 @@ export default {
           window.localStorage.removeItem("token");
           window.localStorage.removeItem("user");
           this.$emit("tcdl");
+          location.reload();
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     },
     changeimgz(type) {
       if (type == 1) {

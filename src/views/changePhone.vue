@@ -18,7 +18,7 @@
         <el-form-item prop="mobile">
           <a class="xing">*</a>当前手机号:
           <div style="width: 330px; padding-left: 12px; margin-left: 8px">
-            {{ loginForm.mobile }}
+            {{ $store.state.user.info.mobile }}
           </div>
         </el-form-item>
         <el-form-item prop="mobile">
@@ -266,7 +266,8 @@ export default {
             message: res.msg,
             type: "success",
           });
-          thhis.getUserinfo();
+          this.getUserinfo();
+          this.dialogVisible = false
           this.goBack();
         } else {
           this.$message.error(res.msg);

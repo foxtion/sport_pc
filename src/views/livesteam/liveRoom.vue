@@ -26,7 +26,7 @@
             <div class="mediatop_right">
               <div style="overflow: hidden">
                 <ul>
-                  <li><i></i><span>888</span></li>
+                  <li><i></i><span>{{follow_num}}</span></li>
                   <li><span @click="guanzhu"> + 关注</span></li>
                   <li><span>立即下载</span></li>
                 </ul>
@@ -307,7 +307,7 @@
                     height="20px"
                     style="margin-top: 4px; margin-right: 6px"
                   />
-                  <p style="line-height: 34px">我的钻石：998</p>
+                  <p style="line-height: 34px">我的钻石：{{$store.state.user.info.coin}}</p>
                   <div class="czhi" @click="goRecharge">充值</div>
                   <div class="beibao">背包</div>
                 </div>
@@ -361,8 +361,7 @@
           <div class="notice">
             <div>公告:</div>
             <marquee scrollamount="5">
-              <a href="#">我是公告11111</a>
-              <a href="#">我是公告22222</a>
+              <a href="#">{{notice}}</a>
             </marquee>
           </div>
           <div class="contribution">
@@ -819,6 +818,8 @@ export default {
   components: { VBarrage, liveNoble, Liveylist, fullMoney, mytuijian },
   data() {
     return {
+      follow_num:'',
+      notice:'',
       active_users:'',
       nick_name: "",
       name_zh: "",
@@ -1247,7 +1248,8 @@ export default {
         this.nick_name = res.info.live_user.nick_name;
         this.room_num = res.info.room_num;
         this.active_users = res.info.active_users
-
+        this.notice = res.info.notice
+        this.follow_num = res.info.follow_num
         console.log(
           res.info,
           "liveDetailInfo 直播间详情-----------------------------"
