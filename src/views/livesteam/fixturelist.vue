@@ -146,7 +146,7 @@ import DateWeek from '../dateWeek'
         match:[],
         list:[],
         date:'',
-        time:'',
+        // time:'',
         basketball: []
       };
     },
@@ -179,19 +179,19 @@ import DateWeek from '../dateWeek'
         this.match = this.football[index].game
       },
       searchCompetitionData(val){
-        const data = {
-          source: 'pc'
-        }
         var year = ''
         if (val !== undefined) {
           this.date = val.date
           year = val.year
         }
+        const data = {
+          source: 'pc',
+          time: year
+        }
         football(data).then(res => {
           if (res.code == 200 ) {
             this.football = res.info.filter
             this.list = res.info.list
-            this.time = year
           }
         })
       },
