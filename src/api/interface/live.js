@@ -102,8 +102,20 @@ export const sendGift = (params) => post({ url: 'Live.sendGift', params})
 
 // 直播详情
 export const liveDetail = (params) => post({ url: 'Live.liveDetail', params})
-// 进入聊天室
+// 进入直播聊天室
+export const enterChat = (params) => post({ url: 'Chat.LiveEnterChat', params})
+// 直播间聊天室记录
+export const msgList = (params) => post({ url: 'Chat.LivemsgList', params})
+// 直播间发送消息
+export const sendMsg = (params) => post({ url: 'Chat.sendMsg', params})
+// 设房管
+export const setHouseManage = (params) => post({ url: 'Chat.set_house_manage', params})
 
-export const enterChat = (params) => post({ url: 'Chat.enterChat', params})
-// 聊天室记录
-export const msgList = (params) => post({ url: 'Chat.msgList', params})
+// 踢出用户
+export const outUser = (params) => post({ url: 'Chat.out_user', params})
+
+// 禁言
+export const liveBanUser = (params) => post({ url: 'Chat.Chat.live_ban_user', params})
+
+// 禁言
+export const withdrawMsg = (params) => post({ url: 'Chat.withdraw_msg', params})

@@ -12,7 +12,7 @@
               ></el-avatar>
               <div>
                 <h4 style="margin-bottom: 10px">
-                  国际友谊 乌兹别克斯坦 - 加纳
+                  国际友谊 === - 加纳
                 </h4>
                 <p>{{ info.title }}</p>
                 <p>
@@ -27,7 +27,7 @@
               <div style="overflow: hidden">
                 <ul>
                   <li><i></i><span>888</span></li>
-                  <li><span> + 关注</span></li>
+                  <li><span @click="guanzhu"> + 关注</span></li>
                   <li><span>立即下载</span></li>
                 </ul>
               </div>
@@ -426,7 +426,7 @@
             </div>
             <div class="bounced" v-if="isShowBounced">
               <img
-                src="@/assets/level-40.png"
+                :src="userInfo.avatar"
                 width="50"
                 style="margin-left: 99px"
               />
@@ -437,21 +437,21 @@
                 @click="isShowBounced = false"
               />
               <div class="user-info">
-                带上草帽就是王
-                <div class="user0info-lv">LV 88</div>
+                {{userInfo.nick_name}} 
+                <div class="user0info-lv">LV {{userInfo.level}}</div>
                 <div class="bounced-btn-msg" v-if="setUserType">
                   <div v-if="setUserType == '1'">
-                    <p>确定设置 带上草帽就是王 为本直播间房管？</p>
+                    <p>确定设置 {{userInfo.nick_name}} 为本直播间房管？</p>
                   </div>
-                  <div v-if="setUserType == '2'"><p>确定提出房间？</p></div>
+                  <div v-if="setUserType == '2'"><p>确定踢出房间？</p></div>
                   <div v-if="setUserType == '3'">
-                    <p>禁言设置时间</p>
-                    <select autofocus class="select-time">
+                    <p>确定设置禁言？</p>
+                    <!-- <select autofocus class="select-time">
                       <option value="1">1小时</option>
                       <option value="2">2小时</option>
                       <option value="3">3小时</option>
                       <option value="4">4小时</option>
-                    </select>
+                    </select> -->
                   </div>
                   <div class="msg-btn">
                     <div @click="msgBtnOk()">确定</div>
@@ -667,7 +667,7 @@ import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import mytuijian from "./mytuijian";
 import fullMoney from '../fullMoney'
-import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat } from "@/api";
+import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat, sendMsg, setHouseManage, outUser, liveBanUser, withdrawMsg} from "@/api";
 import Liveylist from './liveylist.vue';
 const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
 export default {
@@ -784,18 +784,7 @@ export default {
       coin: 0,
       showgiftdonghua: false,
       giftdonghuainfo: {},
-      xiaoxilist: [
-        {
-          _method_: "SendMsg",
-          uname: "lllll紧急",
-          level: 2,
-          ct: {
-            user_nicename: "张三",
-            giftname: "hjkfdg",
-          },
-          msgtype: 1,
-        },
-      ],
+      xiaoxilist: [],
       anchorSchedulelist: [],
       yinliang: 60,
       fulldanmu: "",
@@ -877,12 +866,13 @@ export default {
       liveDetailInfo: {},
       msgListData: [],
       chatINfo: '',
-      rechargeShow: false
+      rechargeShow: false,
+      userInfo: {}
     };
   },
 
   mounted() {
-    let _this = this;
+    let _this = this
     let bfUrl = "http://ivi.bupt.edu.cn/hls/xjtv.m3u8";
     this.player = new TcPlayer("id_test_video", {
       m3u8: bfUrl, // 原画m3u8 播放URL
@@ -1029,13 +1019,8 @@ export default {
   },
 
   created() {
-    this.goLiveDetail()
-    // setTimeout(() => {
-      this.goChatINfo()
-      this.enterRoomQuery()
-      this.msgListDataQuery()
-      this.getGiftListParams();
-    // }, 2000);
+    this.goLiveDetail(),
+    this.getGiftListParams()
   },
   methods: {
     goRecharge() {
@@ -1056,6 +1041,10 @@ export default {
       };
       liveDetail(params).then((res) => {
         this.liveDetailInfo = res.info;
+        console.log(res.info, 'liveDetailInfo 直播间详情-----------------------------' )
+        this.goChatINfo()
+        this.msgListDataQuery()
+        this.enterRoomQuery()
       });
     },
     goChatINfo() {
@@ -1065,10 +1054,11 @@ export default {
         id: this.liveDetailInfo.game_id,
         source: "pc",
         token: window.localStorage.getItem("token"),
-      };
+        stream: this.liveDetailInfo.id
+      }
       enterChat(params).then((res) => {
         this.chatINfo = res.info;
-        console.log(res, "res============");
+        console.log(res, "res=进入聊天室===========");
       });
     },
     toLive(val) {
@@ -1191,29 +1181,44 @@ export default {
 
     // 发送弹幕
     sendXiaoXi(val) {
+      console.log(val, this.sendContent, 'sendContent==========')
       if (window.localStorage.getItem("token")) {
-        let broadcastObj = {};
-        broadcastObj.msg = [];
-        let obj = {};
-        obj._method_ = "SendMsg";
-        obj.msgtype = "2";
-        if (val) {
-          obj.ct = val;
-        } else {
-          obj.ct = this.sendContent;
+        // let broadcastObj = {};
+        // broadcastObj.msg = [];
+        // let obj = {};
+        // obj._method_ = "SendMsg";
+        // obj.msgtype = "2";
+        // if (val) {
+        //   obj.ct = val;
+        // } else {
+        //   obj.ct = this.sendContent;
+        // // }
+        // obj.uname = JSON.parse(
+        //   window.localStorage.getItem("user")
+        // ).user_nicename;
+        // obj.uid = JSON.parse(window.localStorage.getItem("user")).id;
+        // obj.action = "0";
+        // obj.level = JSON.parse(window.localStorage.getItem("user")).level;
+        // broadcastObj.msg.push(obj);
+        // broadcastObj.token = window.localStorage.getItem("token");
+        // this.$socket.emit("broadcast", broadcastObj)
+        // console.log(obj, 'ooooooooooooooooo')
+        const params = {
+          uid: JSON.parse(window.localStorage.getItem("user")).id,
+          id: this.liveDetailInfo.game_id,
+          source: "pc",
+          token: window.localStorage.getItem("token"),
+          type: this.liveDetailInfo.type,
+          content: this.sendContent
         }
-        obj.uname = JSON.parse(
-          window.localStorage.getItem("user")
-        ).user_nicename;
-        obj.uid = JSON.parse(window.localStorage.getItem("user")).id;
-        obj.action = "0";
-        obj.level = JSON.parse(window.localStorage.getItem("user")).level;
-        broadcastObj.msg.push(obj);
-        broadcastObj.token = window.localStorage.getItem("token");
-        this.$socket.emit("broadcast", broadcastObj);
-        if (val) {
-          document.getElementsByClassName("danmuvalue")[0].value = "";
-        }
+        sendMsg(params).then(res => {
+          this.msgListDataQuery()
+                this.$socket.emit("broadcast", ref.info); 
+          console.log(new WebSocket(ref.info), '发送聊天信息')
+        })
+        // if (val) {
+        //   document.getElementsByClassName("danmuvalue")[0].value = "";
+        // }
       } else {
         this.$emit("denglu");
       }
@@ -1273,7 +1278,7 @@ export default {
     },
 
     set() {
-      this.showset = !this.showset;
+      // this.showset = !this.showset;
       this.showBoFang = true;
     },
 
@@ -1512,14 +1517,15 @@ export default {
     // 进入主播间
     enterRoomQuery() {
       const query = this.$route.query;
+      this.userInfo = JSON.parse(window.localStorage.getItem("user"))
+      console.log(this.userInfo, 'userii--------')
       const params = {
         source: "pc",
         uid: JSON.parse(window.localStorage.getItem("user")).id,
         token: window.localStorage.getItem("token"),
         live_uid: query.liveuid,
         stream: query.stream,
-        // showid: this.liveDetailInfo.showid
-        showid: "1622391045",
+        showid: this.liveDetailInfo.showid
       };
       enterRoom(params).then((res) => {
         this.getGiftListData = res.info
@@ -1537,10 +1543,42 @@ export default {
     // getSetUser   
 
     getSetUser(val) {
-      this.setUserType = val;
+      this.setUserType = val // 1-房管 2-踢出 3-禁言
     },
     // 确定
     msgBtnOk() {
+      const query = this.$route.query;
+      if (this.setUserType == '1') {
+        const params = {
+          live_uid:  query.liveuid,
+          token: window.localStorage.getItem("token"),
+          uid: JSON.parse(window.localStorage.getItem("user")).id,
+          stream: query.stream,
+          source: 'pc'
+        }
+        setHouseManage(params).then(res => {
+          console.log(res, 'res---设为房管')
+        })
+      }
+      const data = {
+        live_uid:  query.liveuid,
+        token: window.localStorage.getItem("token"),
+        uid: JSON.parse(window.localStorage.getItem("user")).id,
+        nick_name:JSON.parse(window.localStorage.getItem("user")).nick_name,
+        stream: query.stream,
+        source: 'pc'
+      }
+      if (this.setUserType == '2') {
+        outUser(data).then(res => {
+          console.log(res, 'res---踢出房间')
+        })
+        
+      }
+      if (this.setUserType == '3') {
+        liveBanUser(data).then(res => {
+          console.log(res, 'res---禁言')
+        })
+      }
       this.setUserType = "";
     },
     // 取消
@@ -1551,16 +1589,31 @@ export default {
       this.isSserMsgBtn = false
     },
     serMsgBtnOk() {
+      const query = this.$route.query;
+      const data = {
+        live_uid:  query.liveuid,
+        token: window.localStorage.getItem("token"),
+        uid: JSON.parse(window.localStorage.getItem("user")).id,
+        nick_name:JSON.parse(window.localStorage.getItem("user")).nick_name,
+        stream: query.stream,
+        source: 'pc'
+      }
+      withdrawMsg(data).then((res) => {
+        console.log(res, '聊天消息记录');
+      })
       this.isSserMsgBtn = false
     },
     // msgListData 
     msgListDataQuery() {
       const params = {
-        id: this.liveDetailInfo.game_id,
+        stream: this.liveDetailInfo.game_id,
         source: "pc",
+        p: 1,
+        token: window.localStorage.getItem("token")
       };
       msgList(params).then((res) => {
-        console.log(res);
+        this.xiaoxilist = res.infp
+        console.log(res, '聊天消息记录');
       });
     },
   },
