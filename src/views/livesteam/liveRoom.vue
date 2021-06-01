@@ -369,7 +369,7 @@
             <div class="contribution-tab">
               <div
                 class="contribution-tab-item"
-                @click="changeContribution('day')"
+                @click="getanchorlist('day')"
               >
                 <span
                   :class="
@@ -380,7 +380,7 @@
               </div>
               <div
                 class="contribution-tab-item"
-                @click="changeContribution('week')"
+                @click="getanchorlist('week')"
               >
                 <span
                   :class="
@@ -395,48 +395,48 @@
             <div class="contribution-2">
               <div class="contribution-bg-2">
                 <img src="@/assets/ranking-2.png" class="ranking-2" />
-                <img src="@/assets/level-20.png" class="ranking-2-header" />
+                <img :src="rankList1.live_user.avatar" class="ranking-2-header" />
               </div>
-              <p class="contribution-name">石榴姐</p>
+              <p class="contribution-name">{{ rankList1.live_user.nick_name }}</p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">1508</span>贡献值
+                <span style="color: #dbb16f">{{ rankList1.live_user.coin }}</span>贡献值
               </p>
             </div>
             <div class="contribution-1">
               <div class="contribution-bg-1">
                 <img src="@/assets/ranking-1.png" class="ranking-1" />
-                <img src="@/assets/level-40.png" class="ranking-1-header" />
+                <img :src="rankList2.live_user.avatar" class="ranking-1-header" />
               </div>
-              <p class="contribution-name">石榴姐</p>
+              <p class="contribution-name">{{ rankList2.live_user.nick_name }}</p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">1508</span>贡献值
+                <span style="color: #dbb16f">{{ rankList2.live_user.coin }}</span>贡献值
               </p>
             </div>
             <div class="contribution-3">
               <div class="contribution-bg-3">
                 <img src="@/assets/ranking-3.png" class="ranking-3" />
-                <img src="@/assets/level-40.png" class="ranking-3-header" />
+                <img :src="rankList3.live_user.avatar" class="ranking-3-header" />
               </div>
-              <p class="contribution-name">石榴姐</p>
+              <p class="contribution-name">{{ rankList3.live_user.nick_name }}</p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">1508</span>贡献值
+                <span style="color: #dbb16f">{{ rankList3.live_user.coin }}</span>贡献值
               </p>
             </div>
             <div class="contribution-drop-down">
               <div
-                v-for="(item, index) in contributionStartFour"
+                v-for="(item, index) in rankList49"
                 :key="index"
                 class="contribution-drop-down-item"
               >
                 <div style="display: flex; width: 250px">
                   <div class="drop-down-index">{{ index + 4 }}</div>
-                  <p class="name">{{ item.name }}</p>
+                  <p class="name">{{ rankList3.live_user.nick_name }}</p>
                 </div>
                 <p class="text">
-                  <span style="color: #dbb16f"> {{ item.num }}</span
+                  <span style="color: #dbb16f"> {{ rankList3.live_user.coin }}</span
                   >贡献值
                 </p>
               </div>
@@ -490,21 +490,18 @@
                 type="info"
                 size="mini"
                 style="margin-left: 5px"
-                v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
               >
-                Lv.{{ item.uesr.level}}
+                Lv.{{ item.user.level}}
               </el-tag>
 
               <span
-                style="margin-left: 5px; color: red"
-                v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
+                style="margin-left: 5px; color: #4171E3"
                 @click="userInfoBtn(item)"
               >
                 {{ item.user.nick_name }}
               </span>
               <span
                 style="margin-left: 5px; color: red"
-                v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
                 @click="userMsgBtn(item)"
               >
                 {{ item.content }}
@@ -587,7 +584,7 @@
                 <div>撤回</div>
                 <div>撤回消息所有用户不可见</div>
               </div>
-              <div class="bounced-btn">
+              <div class="bounced2-btn">
                 <div @click="serMsgBtnOk()">确定</div>
                 <div @click="serMsgBtnNo()">取消</div>
               </div>
@@ -813,6 +810,7 @@ import {
   outUser,
   liveBanUser,
   withdrawMsg,
+  anchorlist,
 } from "@/api";
 import Liveylist from "./liveylist.vue";
 const cityOptions = ["屏蔽贵族特效", "屏蔽礼物特效", "屏蔽入场消息"];
@@ -979,36 +977,6 @@ export default {
       getGiftListData: [],
       giftData: [],
       clickNum: 0,
-      contributionStartFour: [
-        {
-          name: "上帝之手上帝之手上帝之手",
-          num: "1234",
-        },
-        {
-          name: "上帝之手22",
-          num: "1234",
-        },
-        {
-          name: "上帝之手33",
-          num: "1234",
-        },
-        {
-          name: "上帝之手0564689",
-          num: "1234",
-        },
-        {
-          name: "上帝之手0564689",
-          num: "1234",
-        },
-        {
-          name: "上帝之手0564689",
-          num: "1234",
-        },
-        {
-          name: "上帝之手0564689",
-          num: "1234",
-        },
-      ],
       isShowBounced: false,
       isSserMsgBtn: false,
       setUserType: "",
@@ -1021,7 +989,28 @@ export default {
       chatINfo: "",
       rechargeShow: false,
       userInfo: {},
-      urlInfo: ''
+      urlInfo: '',
+      currentUserInfo: {},
+      rankList1: {
+        live_user: {
+          coin: '',
+          avatar: '',
+          nick_name: ''
+        }
+      },
+      rankList2: {
+        live_user: {
+          coin: '',
+          avatar: '',
+          nick_name: ''
+        }},
+      rankList3: {
+        live_user: {
+          coin: '',
+          avatar: '',
+          nick_name: ''
+        }},
+      rankList49: []
     };
   },
 
@@ -1173,9 +1162,37 @@ export default {
   },
 
   created() {
-    this.goLiveDetail(), this.getGiftListParams();
+    this.getanchorlist();
+    this.goLiveDetail(), 
+    this.getGiftListParams();
   },
   methods: {
+      getanchorlist(type) {
+        this.currentContribution = type;
+        //主播榜  :日榜,week:
+        const params = {
+          uid: JSON.parse(window.localStorage.getItem("user")).id,
+          token: window.localStorage.getItem("token"),
+          sourcee: "pc",
+          type: type, // day:日榜,week:周榜:month:月榜
+        };
+        anchorlist(params).then((res) => {
+          console.log(res, "主播榜--------------");
+          if(res.code==0){
+            console.log(res.info[0], '========')
+            this.rankList1.live_user.coin = res.info[0].live_user.coin
+            this.rankList1.live_user.avatar = res.info[0].live_user.avatar
+            this.rankList1.live_user.nick_name = res.info[0].live_user.nick_name
+            this.rankList2.live_user.coin = res.info[1].live_user.coin
+            this.rankList2.live_user.avatar = res.info[1].live_user.avatar
+            this.rankList2.live_user.nick_name = res.info[1].live_user.nick_name
+            this.rankList3.live_user.coin = res.info[2].live_user.coin
+            this.rankList3.live_user.avatar = res.info[2].live_user.avatar
+            this.rankList3.live_user.nick_name = res.info[2].live_user.nick_name
+            this.rankList49.slice(4,9)
+          }
+        });
+      },
         linkSocket(){
             this.websock = new WebSocket("ws://107.148.224.65:9293");
             this.websock.onopen = this.onOpen
@@ -1639,9 +1656,6 @@ export default {
           }
         });
     },
-    changeContribution(val) {
-      this.currentContribution = val;
-    },
     getGiftListParams() {
       const params = {
         source: "pc",
@@ -1704,10 +1718,12 @@ export default {
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
+      this.currentUserInfo = item
       this.isShowBounced = true;
     },
 
     userMsgBtn(item) {
+      this.currentUserInfo = item
       this.isSserMsgBtn = true;
     },
     // getSetUser
@@ -1717,12 +1733,13 @@ export default {
     },
     // 确定
     msgBtnOk() {
+      console.log(this.currentUserInfo, 'this.currentUserInfo = item--')
       const query = this.$route.query;
       if (this.setUserType == "1") {
         const params = {
           live_uid: query.liveuid,
           token: window.localStorage.getItem("token"),
-          uid: JSON.parse(window.localStorage.getItem("user")).id,
+          uid: this.currentUserInfo.uid,
           stream: query.stream,
           source: "pc",
         };
@@ -1733,8 +1750,8 @@ export default {
       const data = {
         live_uid: query.liveuid,
         token: window.localStorage.getItem("token"),
-        uid: JSON.parse(window.localStorage.getItem("user")).id,
-        nick_name: JSON.parse(window.localStorage.getItem("user")).nick_name,
+        uid: this.currentUserInfo.uid,
+        nick_name: this.currentUserInfo.user.nick_name,
         stream: query.stream,
         source: "pc",
       };
@@ -2819,6 +2836,28 @@ export default {
 
             .bounced-btn {
               display: flex;
+              height: 30px;
+              line-height: 30px;
+              font-size: 14px;
+              border: 1px solid #E6EAF3;
+              border-right: 0;
+
+              div {
+                width: 103px;
+                text-align: center;
+                border-right: 1px solid #E6EAF3;
+                cursor: pointer;
+              }
+
+              div:hover {
+                background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
+                color: #fff;
+              }
+            }
+            .bounced2-btn {
+              display: flex;
+              margin-left: 20px;
+              margin-right: 20px;
               height: 30px;
               line-height: 30px;
               font-size: 14px;
