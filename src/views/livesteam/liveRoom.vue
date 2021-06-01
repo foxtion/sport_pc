@@ -492,7 +492,7 @@
                 style="margin-left: 5px"
                 v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
               >
-                Lv.{{ item.level ? item.level : item.ct.level }}
+                Lv.{{ item.uesr.level}}
               </el-tag>
 
               <span
@@ -500,14 +500,14 @@
                 v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
                 @click="userInfoBtn(item)"
               >
-                {{ item.ct.user_nicename }}
+                {{ item.user.nick_name }}
               </span>
               <span
                 style="margin-left: 5px; color: red"
                 v-if="item._method_ == 'SendMsg' || item._method_ == 'SendGift'"
                 @click="userMsgBtn(item)"
               >
-                {{ item.uname }}
+                {{ item.content }}
               </span>
               <span v-if="item._method_ == 'SendGift'" style="margin-left: 5px"
                 >赠送给主播</span
@@ -791,6 +791,12 @@
 </template>
 
 <script>
+
+        // var wser = new WebSocket("ws://107.148.224.65:9293");
+        // wser.onmessage = function (evt) {
+        //     var receivedmsg = evt.data;
+        //     immediater(receivedmsg);
+        // }
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import mytuijian from "./mytuijian";
@@ -1015,6 +1021,7 @@ export default {
       chatINfo: "",
       rechargeShow: false,
       userInfo: {},
+      urlInfo: ''
     };
   },
 
@@ -1169,6 +1176,36 @@ export default {
     this.goLiveDetail(), this.getGiftListParams();
   },
   methods: {
+        linkSocket(){
+            this.websock = new WebSocket("ws://107.148.224.65:9293");
+            this.websock.onopen = this.onOpen
+            this.websock.onmessage = this.onMessage;                       
+        },
+        
+        onOpen(e){
+            this.websock.send(this.urlInfo)
+            console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功")
+        },
+        onMessage(event){
+          const data = JSON.parse(event.data)
+          console.log(data , '----JSON.parse(event.data)JSON.parse(event.data)-----')
+          if (data.uid) {
+             this.xiaoxilist.push(data)
+             console.log(this.xiaoxilist, 'wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww')
+          }
+        },
+
+
+
+
+
+
+
+
+
+
+
+
     goRecharge() {
       console.log("234567876543");
       this.rechargeShow = true;
@@ -1339,26 +1376,6 @@ export default {
     sendXiaoXi(val) {
       console.log(val, this.sendContent, "sendContent==========");
       if (window.localStorage.getItem("token")) {
-        // let broadcastObj = {};
-        // broadcastObj.msg = [];
-        // let obj = {};
-        // obj._method_ = "SendMsg";
-        // obj.msgtype = "2";
-        // if (val) {
-        //   obj.ct = val;
-        // } else {
-        //   obj.ct = this.sendContent;
-        // // }
-        // obj.uname = JSON.parse(
-        //   window.localStorage.getItem("user")
-        // ).user_nicename;
-        // obj.uid = JSON.parse(window.localStorage.getItem("user")).id;
-        // obj.action = "0";
-        // obj.level = JSON.parse(window.localStorage.getItem("user")).level;
-        // broadcastObj.msg.push(obj);
-        // broadcastObj.token = window.localStorage.getItem("token");
-        // this.$socket.emit("broadcast", broadcastObj)
-        // console.log(obj, 'ooooooooooooooooo')
         const params = {
           uid: JSON.parse(window.localStorage.getItem("user")).id,
           id: this.liveDetailInfo.game_id,
@@ -1368,13 +1385,10 @@ export default {
           content: this.sendContent,
         };
         sendMsg(params).then((res) => {
-          this.msgListDataQuery();
-          this.$socket.emit("broadcast", ref.info);
-          console.log(new WebSocket(ref.info), "发送聊天信息");
+          this.urlInfo = res.info
+          this.msgListDataQuery()
+          this.linkSocket()
         });
-        // if (val) {
-        //   document.getElementsByClassName("danmuvalue")[0].value = "";
-        // }
       } else {
         this.$emit("denglu");
       }
@@ -1767,7 +1781,7 @@ export default {
         token: window.localStorage.getItem("token"),
       };
       msgList(params).then((res) => {
-        this.xiaoxilist = res.infp;
+        this.xiaoxilist = res.info;
         console.log(res, "聊天消息记录");
       });
     },
