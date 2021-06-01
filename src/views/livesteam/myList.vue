@@ -9,8 +9,8 @@
         <span
           v-for="(item, index) in list"
           :key="item.id"
-          :class="{ active: activeIndex === index }"
-          @click="listclick(item, index)"
+          :class="{ active: anchorIndex === index }"
+          @click="anchorclick(item, index)"
           >{{ item.name }}</span
         >
       </div>
@@ -52,15 +52,15 @@
           <div class="guanzhu">+关注</div>
         </div>
       </div>
-      <div class="listval">
+      <div class="listval" v-for="(item,index) in anchorlist" :key="index">
         <ul>
           <li>
             <div class="list-l">
               <div class="touxiang">
-                <img src="../../assets/img/tv.png" alt="" />
+                <img :src="item.live_user.avatar" alt="" />
               </div>
               <div class="oldsj">
-                <p class="oldname">老司机<i></i></p>
+                <p class="oldname">{{item.live_user.nick_name}}<i></i></p>
                 <p class="renqinum">人气值<span>12.5w</span></p>
               </div>
             </div>
@@ -78,8 +78,8 @@
         <span
           v-for="(item, index) in list"
           :key="item.id"
-          :class="{ active: activeIndex === index }"
-          @click="listclick(item, index)"
+          :class="{ active: goldIndex === index }"
+          @click="goldclick(item, index)"
           >{{ item.name }}</span
         >
       </div>
@@ -121,7 +121,7 @@
           <div class="guanzhu">+关注</div>
         </div>
       </div>
-      <div class="listval">
+      <div class="listval" v-for="(item,index) in goldlist" :key="index">
         <ul>
           <li>
             <div class="list-l">
@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import { anchorlist, goldmaster } from "@/api";
 export default {
   name: "myList",
   data() {
@@ -157,13 +158,70 @@ export default {
           name: "总榜",
         },
       ],
-      activeIndex: 0,
+      anchorlist:[],
+      goldlist:[],
+      anchorIndex: 0,
+      goldIndex: 0,
+      user: {},
+      token: "",
     };
   },
-  mounted() {},
+  mounted() {
+    this.user = JSON.parse(window.localStorage.getItem("user"));
+    this.token = window.localStorage.getItem("token");
+    console.log(this.token);
+    this.getanchorlist();
+    this.getgoldmaster();
+  },
   methods: {
-    listclick(item, index) {
-      this.activeIndex = index;
+    anchorclick(item, index) {
+      this.anchorIndex = index;
+      if (index === 0) {
+        this.getanchorlist("week");
+      }
+      if (index === 1) {
+        this.getanchorlist("month");
+      }
+      if (index === 2) {
+        this.getanchorlist();
+      }
+    },
+    goldclick(item, index) {
+      this.goldIndex = index;
+    },
+    getanchorlist(type) {
+      //主播榜
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        sourcee: "pc",
+        type: type, // day:日榜,week:周榜:month:月榜
+      };
+        this.anchorlist= []
+      anchorlist(params).then((res) => {
+        console.log(res, "主播榜--------------");
+        if(res.code===0){
+          this.anchorlist = res.info
+          console.log(this.anchorlist)
+        }
+      });
+    },
+    getgoldmaster(type) {
+      //豪气榜
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        sourcee: "pc",
+        type: type, // day:日榜,week:周榜:month:月榜
+      };
+      this.goldlist = []
+      goldmaster(params).then((res) => {
+        console.log(res, "豪气榜--------------");
+        if(res.code===0){
+          this.goldlist = res.info
+          console.log(this.goldlist)
+        }
+      });
     },
   },
 };

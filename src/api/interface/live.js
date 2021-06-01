@@ -107,3 +107,9 @@ export const liveDetail = (params) => post({ url: 'Live.liveDetail', params})
 export const enterChat = (params) => post({ url: 'Chat.enterChat', params})
 // 聊天室记录
 export const msgList = (params) => post({ url: 'Chat.msgList', params})
+
+// 主播傍
+export const anchorlist = (params) => post({ url: 'Live.anchor_list', params})
+
+// 聊天室记录
+export const goldmaster = (params) => post({ url: 'Live.gold_master', params})
