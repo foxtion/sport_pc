@@ -376,9 +376,9 @@ export default {
   position: relative;
 }
 
-.changephoto {
+/deep/.changephoto {
   position: absolute;
-  bottom: 1px;
+  bottom: 6px;
   left: 16px;
   z-index: 3;
 }
