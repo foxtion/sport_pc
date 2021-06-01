@@ -44,6 +44,7 @@
               var month = myDate.getMonth() + 1
               var date = myDate.getDate()
               var str = myDate.getDay()
+              var year = myDate.getFullYear()
               switch(str) {
                 case 1:
                       str = '周一';
@@ -71,7 +72,8 @@
                 label: str,
                 time: month + '/' + date,
                 showTime: ShowTime,
-                date: month + '月' + date + '日'
+                date: month + '月' + date + '日',
+                year: year + '-' + month + '-' + date,
               })
             }
             this.currentDate = this.dateData[0]

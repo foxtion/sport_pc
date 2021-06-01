@@ -191,7 +191,7 @@ export default {
   /* height :700px; */
   .content-mine {
     position: absolute;
-    top: 0;
+    top: 76px;
     height: 61px;
     width: 100%;
     background: #fff;
