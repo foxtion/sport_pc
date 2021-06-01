@@ -366,6 +366,7 @@ export default {
                     this.$router.push("/");
                     this.showLogin = false;
                     this.initLogin();
+                    location.reload();
                 }, 1000);
 
             }else{
@@ -421,11 +422,9 @@ export default {
                 window.localStorage.setItem("user",JSON.stringify(res.info));
                 setTimeout(() => {
                     this.showRegister = false;
-                    this.$router.push("/");
                     this.showLogin = false;
                     this.initLogin();
                 }, 1000);
-
             }else{
                 this.$message({
                     message: res.msg,
