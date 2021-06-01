@@ -12,13 +12,13 @@
               ></el-avatar>
               <div>
                 <h4 style="margin-bottom: 10px">
-                  国际友谊 === - 加纳
+                  {{name_zh}}   {{main_name}} -  {{deputy_name}}
                 </h4>
                 <p>{{ info.title }}</p>
                 <p>
                   <span>{{ anchor.user_nicename }}</span>
-                  <span>呆萌的小小 房间号:{{ info.liveclassid }}</span>
-                  <span>{{ info.room_num }}</span>
+                  <span>{{nick_name}} 房间号:{{ room_num }}</span>
+                  <span>{{ active_users }}</span>
                 </p>
               </div>
             </div>
@@ -110,7 +110,7 @@
                 <div style="display: flex">
                   <img
                     src="@/assets/left-arrow.png"
-                    style="height: 48px; margin-right: 10px;cursor: pointer;"
+                    style="height: 48px; margin-right: 10px; cursor: pointer"
                     @click="leftArrow"
                   />
                   <div class="time-week-main" style="display: flex">
@@ -120,10 +120,15 @@
                       :key="index"
                     >
                       <!-- {{}} -->
-                      <el-popover placement="top" trigger="hover" popper-class="gift-popover" @hide="clearGiftNum">
-                        <div class="gift-main-popover" >
+                      <el-popover
+                        placement="top"
+                        trigger="hover"
+                        popper-class="gift-popover"
+                        @hide="clearGiftNum"
+                      >
+                        <div class="gift-main-popover">
                           <div style="display: flex">
-                            <img :src="item.icon" style="width: 111px;" />
+                            <img :src="item.icon" style="width: 111px" />
                             <div style="margin-top: 16px">
                               <p style="font-size: 16px">
                                 {{ item.name }}
@@ -136,22 +141,98 @@
                               </p>
                             </div>
                           </div>
-                          <div style="display: flex; margin: 2px 20px 10px 20px">
-                            <div @click="getGiftNum(88, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                          <div
+                            style="display: flex; margin: 2px 20px 10px 20px"
+                          >
+                            <div
+                              @click="getGiftNum(88, item)"
+                              style="
+                                cursor: pointer;
+                                color: #9193b4;
+                                font-size: 13px;
+                                width: 44px;
+                                height: 22px;
+                                line-height: 22px;
+                                text-align: center;
+                                border: 1px solid #e6eaf3;
+                                margin-right: 10px;
+                              "
+                            >
                               88
                             </div>
-                            <div @click="getGiftNum(100, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                            <div
+                              @click="getGiftNum(100, item)"
+                              style="
+                                cursor: pointer;
+                                color: #9193b4;
+                                font-size: 13px;
+                                width: 44px;
+                                height: 22px;
+                                line-height: 22px;
+                                text-align: center;
+                                border: 1px solid #e6eaf3;
+                                margin-right: 10px;
+                              "
+                            >
                               100
                             </div>
-                            <div @click="getGiftNum(520, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                            <div
+                              @click="getGiftNum(520, item)"
+                              style="
+                                cursor: pointer;
+                                color: #9193b4;
+                                font-size: 13px;
+                                width: 44px;
+                                height: 22px;
+                                line-height: 22px;
+                                text-align: center;
+                                border: 1px solid #e6eaf3;
+                                margin-right: 10px;
+                              "
+                            >
                               520
-                            </div> <div @click="getGiftNum(666, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                            </div>
+                            <div
+                              @click="getGiftNum(666, item)"
+                              style="
+                                cursor: pointer;
+                                color: #9193b4;
+                                font-size: 13px;
+                                width: 44px;
+                                height: 22px;
+                                line-height: 22px;
+                                text-align: center;
+                                border: 1px solid #e6eaf3;
+                                margin-right: 10px;
+                              "
+                            >
                               666
-                            </div> <div @click="getGiftNum(1314, item)" style="cursor: pointer;color: #9193b4; font-size: 13px; width: 44px; height: 22px; line-height: 22px; text-align: center;border: 1px solid #e6eaf3;margin-right: 10px;">
+                            </div>
+                            <div
+                              @click="getGiftNum(1314, item)"
+                              style="
+                                cursor: pointer;
+                                color: #9193b4;
+                                font-size: 13px;
+                                width: 44px;
+                                height: 22px;
+                                line-height: 22px;
+                                text-align: center;
+                                border: 1px solid #e6eaf3;
+                                margin-right: 10px;
+                              "
+                            >
                               1314
                             </div>
                           </div>
-                          <div style=" background: #ebf0fb; height: 44px; display: flex; line-height: 44px; ">
+                          <div
+                            style="
+                              background: #ebf0fb;
+                              height: 44px;
+                              display: flex;
+                              line-height: 44px;
+                            "
+                          >
                             <img
                               src="@/assets/liveNoble/balance.png"
                               width="19px"
@@ -166,9 +247,22 @@
                               size="mini"
                             ></el-input>
                             <div
-                            @click="zengsong(item)"
-                              style="width: 50px;height: 26px;line-height: 26px;border-radius: 4px;margin-top: 9px;text-align: center;font-size: 13px;
-                                background: linear-gradient(90deg,#eccbab,#dbb16f 100%);">
+                              @click="zengsong(item)"
+                              style="
+                                width: 50px;
+                                height: 26px;
+                                line-height: 26px;
+                                border-radius: 4px;
+                                margin-top: 9px;
+                                text-align: center;
+                                font-size: 13px;
+                                background: linear-gradient(
+                                  90deg,
+                                  #eccbab,
+                                  #dbb16f 100%
+                                );
+                              "
+                            >
                               赠送
                             </div>
                           </div>
@@ -179,7 +273,11 @@
                                                   </li>
                                               </ul> -->
                         </div>
-                        <img :src="item.icon" slot="reference" class="gift-main-item"/>
+                        <img
+                          :src="item.icon"
+                          slot="reference"
+                          class="gift-main-item"
+                        />
                       </el-popover>
                       <!-- <img :src="item.icon" /> -->
                       <!-- <div :class="currentDate.time === item.time ? 'current-date' : ''">
@@ -191,12 +289,24 @@
                   </div>
                   <img
                     src="@/assets/right-arrow.png"
-                    style="height: 48px;cursor: pointer;"
+                    style="height: 48px; cursor: pointer"
                     @click="rightArrow"
                   />
                 </div>
-                <div style="display: flex;justify-content: flex-end;color:#333333; font-size: 13px;">
-                  <img src="@/assets/liveNoble/balance.png" width="19px" height="20px" style="margin-top:4px; margin-right: 6px" />
+                <div
+                  style="
+                    display: flex;
+                    justify-content: flex-end;
+                    color: #333333;
+                    font-size: 13px;
+                  "
+                >
+                  <img
+                    src="@/assets/liveNoble/balance.png"
+                    width="19px"
+                    height="20px"
+                    style="margin-top: 4px; margin-right: 6px"
+                  />
                   <p style="line-height: 34px">我的钻石：998</p>
                   <div class="czhi" @click="goRecharge">充值</div>
                   <div class="beibao">背包</div>
@@ -437,11 +547,11 @@
                 @click="isShowBounced = false"
               />
               <div class="user-info">
-                {{userInfo.nick_name}} 
-                <div class="user0info-lv">LV {{userInfo.level}}</div>
+                {{ userInfo.nick_name }}
+                <div class="user0info-lv">LV {{ userInfo.level }}</div>
                 <div class="bounced-btn-msg" v-if="setUserType">
                   <div v-if="setUserType == '1'">
-                    <p>确定设置 {{userInfo.nick_name}} 为本直播间房管？</p>
+                    <p>确定设置 {{ userInfo.nick_name }} 为本直播间房管？</p>
                   </div>
                   <div v-if="setUserType == '2'"><p>确定踢出房间？</p></div>
                   <div v-if="setUserType == '3'">
@@ -465,9 +575,14 @@
                 <div @click="getSetUser('3')">禁言</div>
               </div>
             </div>
-            
+
             <div class="bounced" v-if="isSserMsgBtn">
-              <img src="@/assets/close.png" width="10" class="close-icon" @click="isSserMsgBtn = false"/>
+              <img
+                src="@/assets/close.png"
+                width="10"
+                class="close-icon"
+                @click="isSserMsgBtn = false"
+              />
               <div class="user-info">
                 <div>撤回</div>
                 <div>撤回消息所有用户不可见</div>
@@ -512,8 +627,8 @@
                     <li
                       data-id="grinning"
                       style="font-size: 24px"
-                      v-for="item in emojilist"
-                      :key="item"
+                      v-for="(item, index) in emojilist"
+                      :key="index"
                       @click="addemoji(item)"
                     >
                       {{ item }}
@@ -545,8 +660,8 @@
                   >
                     <li
                       data-id="grinning"
-                      v-for="item in levellist"
-                      :key="item"
+                      v-for="(item, index) in levellist"
+                      :key="index"
                       @click="addemoji(item)"
                     >
                       <div
@@ -615,12 +730,25 @@
                 />
               </el-popover>
               <el-popover placement="top" trigger="hover">
-                  <div class="pingbigift">
-                      <el-checkbox-group  v-model="checkedCities" @change="handleCheckedCitiesChange">
-                          <el-checkbox  v-for="city in cities" :label="city" :key="city">{{ city }}</el-checkbox>
-                      </el-checkbox-group>
-                  </div>
-                  <el-checkbox :label="city" slot="reference" style="margin-right: 14px; cursor: pointer" >屏蔽消息</el-checkbox>
+                <div class="pingbigift">
+                  <el-checkbox-group
+                    v-model="checkedCities"
+                    @change="handleCheckedCitiesChange"
+                  >
+                    <el-checkbox
+                      v-for="(city, index) in cities"
+                      :label="city"
+                      :key="index"
+                      >{{ city }}</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </div>
+                <el-checkbox
+                  :label="city"
+                  slot="reference"
+                  style="margin-right: 14px; cursor: pointer"
+                  >屏蔽消息</el-checkbox
+                >
               </el-popover>
             </div>
             <div
@@ -658,7 +786,7 @@
     <mytuijian />
     <liveylist />
     <liveNoble ref="livenoble" />
-    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge"/>
+    <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge" />
   </div>
 </template>
 
@@ -666,15 +794,34 @@
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import mytuijian from "./mytuijian";
-import fullMoney from '../fullMoney'
-import { getGiftList, enterRoom, sendGift, liveDetail, msgList, enterChat, sendMsg, setHouseManage, outUser, liveBanUser, withdrawMsg} from "@/api";
-import Liveylist from './liveylist.vue';
-const cityOptions = ["屏蔽贵族特效","屏蔽礼物特效", "屏蔽入场消息"];
+import fullMoney from "../fullMoney";
+import {
+  getGiftList,
+  enterRoom,
+  sendGift,
+  liveDetail,
+  msgList,
+  enterChat,
+  sendMsg,
+  setHouseManage,
+  outUser,
+  liveBanUser,
+  withdrawMsg,
+} from "@/api";
+import Liveylist from "./liveylist.vue";
+const cityOptions = ["屏蔽贵族特效", "屏蔽礼物特效", "屏蔽入场消息"];
 export default {
   name: "zbj",
-  components: { VBarrage, liveNoble, Liveylist, fullMoney ,mytuijian},
+  components: { VBarrage, liveNoble, Liveylist, fullMoney, mytuijian },
   data() {
     return {
+      active_users:'',
+      nick_name: "",
+      name_zh: "",
+      main_name: "",
+      deputy_name: "",
+      nick_name: "",
+      room_num: "",
       uid: "",
       iszb: "0",
       sysnotic2: require("../../assets/img/sys-notic2.png"),
@@ -858,21 +1005,21 @@ export default {
       ],
       isShowBounced: false,
       isSserMsgBtn: false,
-      setUserType: '',
-      songNum: '',
-      giftNum: '',
+      setUserType: "",
+      songNum: "",
+      giftNum: "",
       allMoney: 0,
       city: "",
       liveDetailInfo: {},
       msgListData: [],
-      chatINfo: '',
+      chatINfo: "",
       rechargeShow: false,
-      userInfo: {}
+      userInfo: {},
     };
   },
 
   mounted() {
-    let _this = this
+    let _this = this;
     let bfUrl = "http://ivi.bupt.edu.cn/hls/xjtv.m3u8";
     this.player = new TcPlayer("id_test_video", {
       m3u8: bfUrl, // 原画m3u8 播放URL
@@ -1019,16 +1166,15 @@ export default {
   },
 
   created() {
-    this.goLiveDetail(),
-    this.getGiftListParams()
+    this.goLiveDetail(), this.getGiftListParams();
   },
   methods: {
     goRecharge() {
-      console.log('234567876543')
-      this.rechargeShow = true
+      console.log("234567876543");
+      this.rechargeShow = true;
     },
     closeRecharge() {
-      this.rechargeShow = false
+      this.rechargeShow = false;
     },
     goLiveDetail() {
       const query = this.$route.query;
@@ -1041,10 +1187,20 @@ export default {
       };
       liveDetail(params).then((res) => {
         this.liveDetailInfo = res.info;
-        console.log(res.info, 'liveDetailInfo 直播间详情-----------------------------' )
-        this.goChatINfo()
-        this.msgListDataQuery()
-        this.enterRoomQuery()
+        this.name_zh = res.info.game_details.name_zh;
+        this.main_name = res.info.game_details.main_name;
+        this.deputy_name = res.info.game_details.deputy_name;
+        this.nick_name = res.info.live_user.nick_name;
+        this.room_num = res.info.room_num;
+        this.active_users = res.info.active_users
+
+        console.log(
+          res.info,
+          "liveDetailInfo 直播间详情-----------------------------"
+        );
+        this.goChatINfo();
+        this.msgListDataQuery();
+        this.enterRoomQuery();
       });
     },
     goChatINfo() {
@@ -1054,8 +1210,8 @@ export default {
         id: this.liveDetailInfo.game_id,
         source: "pc",
         token: window.localStorage.getItem("token"),
-        stream: this.liveDetailInfo.id
-      }
+        stream: this.liveDetailInfo.id,
+      };
       enterChat(params).then((res) => {
         this.chatINfo = res.info;
         console.log(res, "res=进入聊天室===========");
@@ -1181,7 +1337,7 @@ export default {
 
     // 发送弹幕
     sendXiaoXi(val) {
-      console.log(val, this.sendContent, 'sendContent==========')
+      console.log(val, this.sendContent, "sendContent==========");
       if (window.localStorage.getItem("token")) {
         // let broadcastObj = {};
         // broadcastObj.msg = [];
@@ -1209,13 +1365,13 @@ export default {
           source: "pc",
           token: window.localStorage.getItem("token"),
           type: this.liveDetailInfo.type,
-          content: this.sendContent
-        }
-        sendMsg(params).then(res => {
-          this.msgListDataQuery()
-                this.$socket.emit("broadcast", ref.info); 
-          console.log(new WebSocket(ref.info), '发送聊天信息')
-        })
+          content: this.sendContent,
+        };
+        sendMsg(params).then((res) => {
+          this.msgListDataQuery();
+          this.$socket.emit("broadcast", ref.info);
+          console.log(new WebSocket(ref.info), "发送聊天信息");
+        });
         // if (val) {
         //   document.getElementsByClassName("danmuvalue")[0].value = "";
         // }
@@ -1517,20 +1673,20 @@ export default {
     // 进入主播间
     enterRoomQuery() {
       const query = this.$route.query;
-      this.userInfo = JSON.parse(window.localStorage.getItem("user"))
-      console.log(this.userInfo, 'userii--------')
+      this.userInfo = JSON.parse(window.localStorage.getItem("user"));
+      console.log(this.userInfo, "userii--------");
       const params = {
         source: "pc",
         uid: JSON.parse(window.localStorage.getItem("user")).id,
         token: window.localStorage.getItem("token"),
         live_uid: query.liveuid,
         stream: query.stream,
-        showid: this.liveDetailInfo.showid
+        showid: this.liveDetailInfo.showid,
       };
       enterRoom(params).then((res) => {
-        this.getGiftListData = res.info
-        this.giftData = res.info.slice(0,9)
-      })
+        this.getGiftListData = res.info;
+        this.giftData = res.info.slice(0, 9);
+      });
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
@@ -1538,46 +1694,45 @@ export default {
     },
 
     userMsgBtn(item) {
-      this.isSserMsgBtn = true
+      this.isSserMsgBtn = true;
     },
-    // getSetUser   
+    // getSetUser
 
     getSetUser(val) {
-      this.setUserType = val // 1-房管 2-踢出 3-禁言
+      this.setUserType = val; // 1-房管 2-踢出 3-禁言
     },
     // 确定
     msgBtnOk() {
       const query = this.$route.query;
-      if (this.setUserType == '1') {
+      if (this.setUserType == "1") {
         const params = {
-          live_uid:  query.liveuid,
+          live_uid: query.liveuid,
           token: window.localStorage.getItem("token"),
           uid: JSON.parse(window.localStorage.getItem("user")).id,
           stream: query.stream,
-          source: 'pc'
-        }
-        setHouseManage(params).then(res => {
-          console.log(res, 'res---设为房管')
-        })
+          source: "pc",
+        };
+        setHouseManage(params).then((res) => {
+          console.log(res, "res---设为房管");
+        });
       }
       const data = {
-        live_uid:  query.liveuid,
+        live_uid: query.liveuid,
         token: window.localStorage.getItem("token"),
         uid: JSON.parse(window.localStorage.getItem("user")).id,
-        nick_name:JSON.parse(window.localStorage.getItem("user")).nick_name,
+        nick_name: JSON.parse(window.localStorage.getItem("user")).nick_name,
         stream: query.stream,
-        source: 'pc'
+        source: "pc",
+      };
+      if (this.setUserType == "2") {
+        outUser(data).then((res) => {
+          console.log(res, "res---踢出房间");
+        });
       }
-      if (this.setUserType == '2') {
-        outUser(data).then(res => {
-          console.log(res, 'res---踢出房间')
-        })
-        
-      }
-      if (this.setUserType == '3') {
-        liveBanUser(data).then(res => {
-          console.log(res, 'res---禁言')
-        })
+      if (this.setUserType == "3") {
+        liveBanUser(data).then((res) => {
+          console.log(res, "res---禁言");
+        });
       }
       this.setUserType = "";
     },
@@ -1586,34 +1741,34 @@ export default {
       this.setUserType = "";
     },
     serMsgBtnNo() {
-      this.isSserMsgBtn = false
+      this.isSserMsgBtn = false;
     },
     serMsgBtnOk() {
       const query = this.$route.query;
       const data = {
-        live_uid:  query.liveuid,
+        live_uid: query.liveuid,
         token: window.localStorage.getItem("token"),
         uid: JSON.parse(window.localStorage.getItem("user")).id,
-        nick_name:JSON.parse(window.localStorage.getItem("user")).nick_name,
+        nick_name: JSON.parse(window.localStorage.getItem("user")).nick_name,
         stream: query.stream,
-        source: 'pc'
-      }
+        source: "pc",
+      };
       withdrawMsg(data).then((res) => {
-        console.log(res, '聊天消息记录');
-      })
-      this.isSserMsgBtn = false
+        console.log(res, "聊天消息记录");
+      });
+      this.isSserMsgBtn = false;
     },
-    // msgListData 
+    // msgListData
     msgListDataQuery() {
       const params = {
         stream: this.liveDetailInfo.game_id,
         source: "pc",
         p: 1,
-        token: window.localStorage.getItem("token")
+        token: window.localStorage.getItem("token"),
       };
       msgList(params).then((res) => {
-        this.xiaoxilist = res.infp
-        console.log(res, '聊天消息记录');
+        this.xiaoxilist = res.infp;
+        console.log(res, "聊天消息记录");
       });
     },
   },
@@ -2256,18 +2411,20 @@ export default {
         .mediabtm {
           display: flex;
           height: 98px;
+
           .czhi {
             width: 54px;
             line-height: 20px;
             text-align: center;
             height: 20px;
             opacity: 1;
-            background: linear-gradient(90deg,#f27a2e, #f15b43 100%);
+            background: linear-gradient(90deg, #f27a2e, #f15b43 100%);
             border-radius: 2px;
             margin-left: 30px;
             margin-top: 7px;
             cursor: pointer;
           }
+
           .beibao {
             width: 54px;
             height: 20px;
@@ -2280,6 +2437,7 @@ export default {
             margin-left: 10px;
             cursor: pointer;
           }
+
           >div:first-child {
             width: 200px;
             padding: 20px 20px;
