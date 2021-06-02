@@ -120,7 +120,6 @@ export default {
     this.getuserAccount()
   },
   created() {
-    console.log(this.$store.state.user, 88888)
   },
   methods: {
      getIsAuth(){

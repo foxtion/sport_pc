@@ -1332,7 +1332,6 @@ export default {
             }
           }
           if (data.gift) {
-            console.log('0000000000000000000000000000')
             this.xiaoxilistShow.push(data)
             this.gitfUrl = data.gift.swf
             this.giftShow = true

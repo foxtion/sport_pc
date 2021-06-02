@@ -55,3 +55,6 @@ export const UserRecharge = (params) => post({ url: 'Pay.UserRecharge', params})
 
 // 充值记录
 export const rechargeList = (params) => post({ url: 'User.rechargeList', params})
+
+// 申请主播
+export const live_auth_info = (params) => post({ url: 'User.live_auth_info', params})

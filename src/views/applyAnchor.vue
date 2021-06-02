@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { UserBindAccount } from "@/api";
+import { UserApplyAnchor,live_auth_info } from "@/api";
 export default {
   name: "bindBankCard",
   data() {
@@ -45,14 +45,15 @@ export default {
 
   methods: {
     async Submit() {
-      console.log(this.$store.state.user.isauth)
-      if (!this.$store.state.user.isauth) {
+      if (!this.$store.state.user.isauth && this.$store.state.user.info.is_live == 0) {
         this.$router.push({ name: "realName" });
-      } else {
+      } else if(this.$store.state.user.info.is_live == 1) {
         this.$message({
           message: "您已经是主播，无需再次申请。",
           type: "success",
         });
+      } else{
+        this.$router.push({ name: "anchor" });
       }
     },
   },

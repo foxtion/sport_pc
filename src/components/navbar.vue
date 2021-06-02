@@ -503,10 +503,12 @@ export default {
   },
   methods: {
     async Submit() {
-      if (!this.$store.state.user.isauth) {
+      if (!this.$store.state.user.isauth && this.$store.state.user.info.is_live == 0) {
         this.$router.push({ name: "realName" });
-      } else {
+      } else if(this.$store.state.user.info.is_live == 1) {
         this.$router.push({ name: "liveSet" });
+      } else{
+        this.$router.push({ name: "applyAnchor" });
       }
     },
     closeRecharge() {
