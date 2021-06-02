@@ -7,8 +7,8 @@
             <div>
               <el-avatar
                 size="large"
-                :src="anchor.avatar"
-                style="width: 60px; height: 60px; margin-right: 12px"
+                :src="events_logo"
+                style="width: 60px; height: 60px; margin-right: 12px;background:#fff"
               ></el-avatar>
               <div>
                 <h4 style="margin-bottom: 10px">
@@ -60,7 +60,7 @@
             </div>
           </div>
           <!---视频播放-->
-          <div style="position: relative">
+          <div style="position: relative;">
             <div id="id_test_video">
               <!--                            <el-switch v-model="dmisShow"  inactive-text="弹幕开关" active-color="#f8c21b" style="position: absolute; top: 4px; right: 10px; z-index: 999">-->
               <!--                            </el-switch>-->
@@ -394,7 +394,7 @@
             <div class="contribution-2">
               <div class="contribution-bg-2">
                 <img src="@/assets/ranking-2.png" class="ranking-2" />
-                <img :src="rankList1.live_user.avatar" class="ranking-2-header" />
+                <img :src="rankList1.live_user.level_icon" class="ranking-2-header" />
               </div>
               <p class="contribution-name">{{ rankList1.live_user.nick_name }}</p>
               <p></p>
@@ -405,7 +405,7 @@
             <div class="contribution-1">
               <div class="contribution-bg-1">
                 <img src="@/assets/ranking-1.png" class="ranking-1" />
-                <img :src="rankList2.live_user.avatar" class="ranking-1-header" />
+                <img :src="rankList2.live_user.level_icon" class="ranking-1-header" />
               </div>
               <p class="contribution-name">{{ rankList2.live_user.nick_name }}</p>
               <p></p>
@@ -416,7 +416,7 @@
             <div class="contribution-3">
               <div class="contribution-bg-3">
                 <img src="@/assets/ranking-3.png" class="ranking-3" />
-                <img :src="rankList3.live_user.avatar" class="ranking-3-header" />
+                <img :src="rankList3.live_user.level_icon" class="ranking-3-header" />
               </div>
               <p class="contribution-name">{{ rankList3.live_user.nick_name }}</p>
               <p></p>
@@ -432,10 +432,10 @@
               >
                 <div style="display: flex; width: 250px">
                   <div class="drop-down-index">{{ index + 4 }}</div>
-                  <p class="name">{{ rankList3.live_user.nick_name }}</p>
+                  <p class="name">{{ item.live_user.nick_name }}</p>
                 </div>
                 <p class="text">
-                  <span style="color: #dbb16f"> {{ rankList3.live_user.coin }}</span
+                  <span style="color: #dbb16f"> {{ item.live_user.coin }}</span
                   >贡献值
                 </p>
               </div>
@@ -616,7 +616,7 @@
                         </el-tab-pane>                    -->
           <!-- </el-tabs> -->
           <div style="padding: 5px 0">
-            <div style="padding: 0 10px; display: flex; align-items: center">
+            <div style="padding: 0 10px; display: flex; align-items: center" v-if="!isShowLaba">
               <el-popover placement="top" trigger="hover">
                 <div>
                   <ul style="display: flex; width: 330px; flex-wrap: wrap">
@@ -711,6 +711,7 @@
                   margin-right: 14px;
                   cursor: pointer;
                 "
+                @click="isShowLaba = true"
               />
               <el-popover placement="top" trigger="hover">
                 <p style="font-size: 12px">清空聊天</p>
@@ -747,6 +748,12 @@
                 >
               </el-popover>
             </div>
+            <div v-else style="color: #9193B4;font-size:12px;line-height:16px; margin: 2px 12px;position: relative">
+              <div style="position: absolute;height:32px;background: #EBF0FB;line-height: 32px; text-align: center;width:350px;left: -12px;top:-40px;color:#434A66">
+                <p>全局喇叭</p>
+              </div>
+              <p>全局喇叭剩余：<span style="color: #DBB16F">6</span>个，开通<span style="color: #FFF4DC">皇帝</span>可获得喇叭</p>
+            </div>
             <div
               style="
                 display: flex;
@@ -781,7 +788,7 @@
     </div>
     <mytuijian />
     <liveylist />
-    <liveNoble ref="livenoble" />
+    <liveNoble ref="livenoble" :nick_name="nick_name"/>
     <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge" />
   </div>
 </template>
@@ -827,6 +834,7 @@ export default {
       deputy_name: "",
       nick_name: "",
       room_num: "",
+      events_logo: '',
       uid: "",
       iszb: "0",
       sysnotic2: require("../../assets/img/sys-notic2.png"),
@@ -1011,7 +1019,8 @@ export default {
           avatar: '',
           nick_name: ''
         }},
-      rankList49: []
+      rankList49: [],
+      isShowLaba: false
     };
   },
 
@@ -1180,7 +1189,6 @@ export default {
         anchorlist(params).then((res) => {
           console.log(res, "主播榜--------------");
           if(res.code==0){
-            console.log(res.info[0], '========')
             this.rankList1.live_user.coin = res.info[0].live_user.coin
             this.rankList1.live_user.avatar = res.info[0].live_user.avatar
             this.rankList1.live_user.nick_name = res.info[0].live_user.nick_name
@@ -1190,7 +1198,8 @@ export default {
             this.rankList3.live_user.coin = res.info[2].live_user.coin
             this.rankList3.live_user.avatar = res.info[2].live_user.avatar
             this.rankList3.live_user.nick_name = res.info[2].live_user.nick_name
-            this.rankList49.slice(4,9)
+            this.rankList49 = res.info.slice(2)
+            console.log(this.rankList49, '000000000000000000000000000000000')
           }
         });
       },
@@ -1245,6 +1254,7 @@ export default {
         this.name_zh = res.info.game_details.name_zh;
         this.main_name = res.info.game_details.main_name;
         this.deputy_name = res.info.game_details.deputy_name;
+        this.events_logo = res.info.game_details.events_logo;
         this.nick_name = res.info.live_user.nick_name;
         this.room_num = res.info.room_num;
         this.active_users = res.info.active_users
@@ -2356,7 +2366,6 @@ export default {
             align-items: center;
 
             >span {
-              background: url('../../assets/img/footballheade.svg');
             }
 
             p:first-child {
@@ -2584,7 +2593,7 @@ export default {
           }
 
           .contribution-drop-down {
-            z-index: 999;
+            z-index: 9999;
             position: absolute;
             bottom: -225px;
             width: 350px;
