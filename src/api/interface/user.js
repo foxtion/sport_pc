@@ -43,8 +43,15 @@ export const AppointmentList = (params) => post({ url: 'Make.appointmentList', p
 
 //用户预约
 export const Appointment = (params) => post({ url: 'Make.appointment', params})
+
 // 更换昵称
 export const changeNick = (params) => post({ url: 'User.changeNick', params})
 
 // 头像
 export const uploadPicturesBase64 = (params) => post({ url: 'Upload.uploadPicturesBase64', params})
+
+// 充值
+export const UserRecharge = (params) => post({ url: 'Pay.UserRecharge', params})
+
+// 充值记录
+export const rechargeList = (params) => post({ url: 'User.rechargeList', params})

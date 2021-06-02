@@ -1,5 +1,5 @@
 <template>
-    <div id="myProfile">
+    <div id="recharge">
         <h4>用户充值</h4>
         <div>
             <p>充值金额:</p>
@@ -218,7 +218,7 @@
 </script>
 
 <style lang="stylus">
-    #myProfile {
+    #recharge {
         padding: 32px 0 0 47px;
 
     h4 {

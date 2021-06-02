@@ -127,6 +127,45 @@
               </div>
             </div>
           </el-tab-pane>
+          <el-tab-pane label="充值记录" name="recharge">
+            <div v-if="tableData.length">
+              <div class="tab-item">
+                <el-row :gutter="5" class="input-box">
+                  <el-form :inline="true" :model="queryInfo" ref="queryInfoRef" size="small">
+                    <el-form-item label="状态:" prop="type">
+                      <el-select v-model="queryInfo.type" clearable>
+                          <el-option label="审核中" value="0"></el-option>
+                          <el-option label="审核通过" value="1"></el-option>
+                          <el-option label="拒绝" value="2"></el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="消费时间:" prop="time">
+                      <el-date-picker v-model="time" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期" ></el-date-picker>
+                    </el-form-item>
+                  </el-form>
+                </el-row>
+                <div class="search" @click="serchData">查询</div>
+              </div>
+              <el-table :data="tableData" style="width: 94%; margin-left:30px" class="table-data-box" height="440" border>
+                <el-table-column prop="addtime" label="充值时间" width="140" align="center"> </el-table-column>
+                <el-table-column prop="orderno" label="订单号" width="200" align="center"> </el-table-column>
+                <el-table-column prop="type_text" label="充值方式" width="90" align="center"> </el-table-column>
+                <el-table-column prop="money" label="充值金额" width="80" align="center"> </el-table-column>
+                <el-table-column prop="status_text" label="支付状态" width="80" align="center"> </el-table-column>
+                <el-table-column prop="account" label="详情"  width="285" align="center"> </el-table-column>
+              </el-table>
+              <div style="display: flex; justify-content: center;margin-top: 16px;" v-if="total">
+                <el-pagination background :page-size="20" layout="prev, pager, next" :total="total" @current-change="handleCurrentChange"></el-pagination>
+              </div>
+              <div v-else style="height: 48px"></div>
+            </div>
+            <div v-else style="height: 558px;display: flex; justify-content: center;align-items: center">
+              <div>
+                <img src="@/assets/no-data.png" height="146px" />
+                <div style="font-size: 14px; color: #999999;text-align: center;">暂无数据</div>
+              </div>
+            </div>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -135,7 +174,7 @@
 
 <script>
 import noData from "@/components/noData.vue";
-import { incomeDetails, rewardRecord,  extracCashList} from '@/api'
+import { incomeDetails, rewardRecord,  extracCashList, rechargeList} from '@/api'
 export default {
   name: "myMoney",
   components: {
@@ -202,6 +241,21 @@ export default {
           source: 'pc'
         }
         extracCashList(params).then(res => {
+          this.tableData = res.info.list
+          this.total = Number(res.info.total)
+        })
+      }
+      if (this.activeName == 'recharge') { // 提现记录
+        const params = {
+          uid: this.user.id,
+          token: this.token,
+          status: this.queryInfo.type,
+          starttime: this.time[0],
+          endtime: this.time[1],
+          p: this.currentPage,
+          source: 'pc'
+        }
+        rechargeList(params).then(res => {
           this.tableData = res.info.list
           this.total = Number(res.info.total)
         })

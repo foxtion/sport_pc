@@ -7,7 +7,7 @@
     :close-on-click-modal="false"
     :before-close="handleClose"
   >
-    <div id="myProfile">
+    <div id="realname">
       <el-form
         :model="registerForm"
         :rules="registerRule"
@@ -320,7 +320,6 @@ export default {
 
 /deep/.el-form-item {
   display: flex;
-  // justify-content: center;
   color: #434A66;
 
   .xing {
@@ -330,7 +329,7 @@ export default {
 }
 </style>
 <style lang="stylus">
-#myProfile {
+#realname {
   .el-dialog--center .el-dialog__body {
     padding: 0px 25px 4px;
   }
