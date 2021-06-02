@@ -1187,7 +1187,6 @@ export default {
           type: type, // day:日榜,week:周榜:month:月榜
         };
         anchorlist(params).then((res) => {
-          console.log(res, "主播榜--------------");
           if(res.code==0){
             this.rankList1.live_user.coin = res.info[0].live_user.coin
             this.rankList1.live_user.avatar = res.info[0].live_user.avatar
@@ -1198,7 +1197,7 @@ export default {
             this.rankList3.live_user.coin = res.info[2].live_user.coin
             this.rankList3.live_user.avatar = res.info[2].live_user.avatar
             this.rankList3.live_user.nick_name = res.info[2].live_user.nick_name
-            this.rankList49 = res.info.slice(2)
+            this.rankList49 = res.info.slice(3)
             console.log(this.rankList49, '000000000000000000000000000000000')
           }
         });
@@ -1403,7 +1402,7 @@ export default {
 
     // 发送弹幕
     sendXiaoXi(val) {
-      console.log(val, this.sendContent, "sendContent==========");
+      console.log(this.sendContent, "sendContent==========");
       if (window.localStorage.getItem("token")) {
         const params = {
           uid: JSON.parse(window.localStorage.getItem("user")).id,
@@ -1414,6 +1413,7 @@ export default {
           content: this.sendContent,
         };
         sendMsg(params).then((res) => {
+          console.log(res, '发送消息成功')
           this.urlInfo = res.info
           this.msgListDataQuery()
           this.linkSocket()
