@@ -387,7 +387,8 @@ export default {
         };
         GetUserinfo(params).then((res) => {
           this.$store.commit("userinfo", res.info);
-          console.log(res.info, 'info----------------------------');
+          window.localStorage.setItem("user",JSON.stringify(res.info));
+          console.log(res.info, 'info--------------8888--------------');
         });
       },
     } 

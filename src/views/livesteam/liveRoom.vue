@@ -142,22 +142,22 @@
                       <!-- {{}} -->
                       <el-popover
                         placement="top"
-                        trigger="hover"
+                        trigger="click"
                         popper-class="gift-popover"
                         @hide="clearGiftNum"
                       >
                         <div class="gift-main-popover">
                           <div style="display: flex">
-                            <img :src="item.icon" style="width: 111px" />
+                            <img :src="getGiftInfo.icon" style="width: 111px" />
                             <div style="margin-top: 16px">
                               <p style="font-size: 16px">
-                                {{ item.name }}
+                                {{ getGiftInfo.name }}
                                 <span style="color: #dbb16f; font-size: 13px"
-                                  >({{ item.price }} 钻石)</span
+                                  >({{ getGiftInfo.price }} 钻石)</span
                                 >
                               </p>
                               <p style="color: #9193b4; font-size: 13px">
-                                {{ item.description }}
+                                {{ getGiftInfo.description }}
                               </p>
                             </div>
                           </div>
@@ -165,7 +165,7 @@
                             style="display: flex; margin: 2px 20px 10px 20px"
                           >
                             <div
-                              @click="getGiftNum(88, item)"
+                              @click="getGiftNum(88, getGiftInfo)"
                               style="
                                 cursor: pointer;
                                 color: #9193b4;
@@ -181,7 +181,7 @@
                               88
                             </div>
                             <div
-                              @click="getGiftNum(100, item)"
+                              @click="getGiftNum(100, getGiftInfo)"
                               style="
                                 cursor: pointer;
                                 color: #9193b4;
@@ -197,7 +197,7 @@
                               100
                             </div>
                             <div
-                              @click="getGiftNum(520, item)"
+                              @click="getGiftNum(520, getGiftInfo)"
                               style="
                                 cursor: pointer;
                                 color: #9193b4;
@@ -213,7 +213,7 @@
                               520
                             </div>
                             <div
-                              @click="getGiftNum(666, item)"
+                              @click="getGiftNum(666, getGiftInfo)"
                               style="
                                 cursor: pointer;
                                 color: #9193b4;
@@ -229,7 +229,7 @@
                               666
                             </div>
                             <div
-                              @click="getGiftNum(1314, item)"
+                              @click="getGiftNum(1314, getGiftInfo)"
                               style="
                                 cursor: pointer;
                                 color: #9193b4;
@@ -262,12 +262,12 @@
                             <p>共需要{{ allMoney }}钻石</p>
                             <el-input
                               style="width: 66px; margin: 0 10px 0 44px"
-                              @change="getGiftNum(giftNum, item)"
+                              @change="getGiftNum(giftNum, getGiftInfo)"
                               v-model="giftNum"
                               size="mini"
                             ></el-input>
                             <div
-                              @click="zengsong(item)"
+                              @click="zengsong(getGiftInfo)"
                               style="
                                 width: 50px;
                                 height: 26px;
@@ -297,6 +297,7 @@
                           :src="item.icon"
                           slot="reference"
                           class="gift-main-item"
+                          @click="getCurrentGift(item)"
                         />
                       </el-popover>
                       <!-- <img :src="item.icon" /> -->
@@ -484,11 +485,13 @@
           <!-- <el-tabs v-model="activeName">
                         <el-tab-pane label="聊天室" name="0"> -->
           <div class="scoller chatroom">
+            <img :src="gitfUrl" class="gift-show"  v-if="giftShow" />
             <img src="@/assets/chat-new.png" class="chat-new" />
             <div
-              style="margin-bottom: 8px; font-size: 14px"
+              style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex"
               v-for="(item, i) in xiaoxilist"
               :key="i"
+              :class="item.user.noble_name == '皇帝'? 'huangdi' : item.user.noble_name == '公爵' ? 'gongjue' : item.user.noble_name == '侯爵' ? 'houjue' : item.user.noble_name == '子爵' ? 'zijue' : item.user.noble_name == '骑士' ? 'qishi' : 'mianfei'"
             >
               <van-image
                 width="18px"
@@ -525,10 +528,18 @@
                 v-if="iszb == '1'"
                 >主播</el-tag
               >
-              <el-tag type="info" size="mini" style="margin-left: 5px">
-                Lv.{{ item.user.level }}
-              </el-tag>
-
+              <!-- <el-tag
+                type="info"
+                size="mini"
+                style="margin-left: 5px"
+              >
+                 Lv.{{ item.user.level}} 
+                
+               
+              </el-tag> -->
+              <div>
+              <img :src="item.user.noble_icon" width="20px" style="margin:5px 3px 5px 2px"/>
+              </div>
               <span
                 style="margin-left: 5px; color: #4171e3"
                 @click="userInfoBtn(item)"
@@ -536,7 +547,7 @@
                 {{ item.user.nick_name }}
               </span>
               <span
-                style="margin-left: 5px; color: red"
+                style="margin-left: 5px;"
                 @click="userMsgBtn(item)"
               >
                 {{ item.content }}
@@ -1095,12 +1106,22 @@ export default {
       },
       rankList49: [],
       isShowLaba: false,
+      flagNUm: 0,
+      getGiftInfo: {
+        icon: '',
+        name: '', 
+        price: '', 
+        description: ''
+      },
+      gitfUrl:'',
+      giftShow: false,
+      giftImg: null,
+      setIntervalNum: 0
     };
   },
 
   mounted() {
     this.addToList()
-    
     let _this = this;
     let bfUrl = "http://ivi.bupt.edu.cn/hls/xjtv.m3u8";
     this.player = new TcPlayer("id_test_video", {
@@ -1293,23 +1314,23 @@ export default {
         }
       });
     },
-    linkSocket() {
-      this.websock = new WebSocket("ws://107.148.224.65:9293");
-      this.websock.onopen = this.onOpen;
-      this.websock.onmessage = this.onMessage;
-    },
 
-    onOpen(e) {
-      this.websock.send(this.urlInfo);
-      console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功");
-    },
-    onMessage(event) {
-      const data = JSON.parse(event.data);
-      console.log(
-        data,
-        "----JSON.parse(event.data)JSON.parse(event.data)-----"
-      );
-      if (data.uid) {
+ 
+        linkSocket(){
+            this.websock = new WebSocket("ws://107.148.224.65:9293");
+            this.websock.onopen = this.onOpen
+            this.websock.onmessage = this.onMessage;
+            this.websock.onclose = this.onclose;                       
+        },
+        
+        onOpen(e){
+            this.websock.send(this.urlInfo)
+            console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功")
+        },
+        onMessage(event){
+          const data = JSON.parse(event.data)
+          console.log(data , '----socket-socketsocketsocketsocketsocketsocketsocketsocketsocket----')
+          if (data.uid) {
         this.xiaoxilist.push(data);
         this.barrageList.push({
               id: data.uid,
@@ -1318,13 +1339,42 @@ export default {
               time: 6,
               barrageStyle: 'red'
               });
-        console.log(
-          this.xiaoxilist,
-          "wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww"
-        );
-      }
-    },
+             console.log(this.xiaoxilist, 'wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww')
+          }
+          if (data.gift) {
+            this.gitfUrl = data.gift.swf
+            this.giftShow = true
+            const that = this
+            const countTime = function() {
+              that.giftShow = false
+              that.setIntervalNum ++
+              console.log(that.setIntervalNum, 'setIntervalNum')
+              if (that.setIntervalNum == 4) {
+                clearTimeout(that.giftImg)
+              }
+19          }
+           this.giftImg = window.setInterval(countTime,4000);
+          }
+        },
+        onclose () {
+          console.log('断开断开断开断开断开断开断开断开断开断开断开断开断开断开断开断开')
+          this.websock.send(this.urlInfo)
+        },
 
+
+
+
+
+
+
+
+
+
+
+    getCurrentGift(val){
+      console.log(val, 'valoooooooooooooooooooooooo')
+      this.getGiftInfo = val
+    },
     goRecharge() {
       console.log("234567876543");
       this.rechargeShow = true;
@@ -1496,6 +1546,7 @@ export default {
     // 发送弹幕
     sendXiaoXi(val) {
       console.log(this.sendContent, "sendContent==========");
+      console.log(JSON.parse(window.localStorage.getItem("user")), "11111111111111111111111111111111111111==========");
       if (window.localStorage.getItem("token")) {
         const params = {
           uid: JSON.parse(window.localStorage.getItem("user")).id,
@@ -1506,11 +1557,15 @@ export default {
           content: this.sendContent,
         };
         sendMsg(params).then((res) => {
-          console.log(res, "发送消息成功");
-          this.urlInfo = res.info;
-          this.msgListDataQuery();
-          this.linkSocket();
-          this.sendContent = "";
+          this.sendContent = ''
+          console.log(res, '发送消息成功')
+          this.urlInfo = res.info
+          this.msgListDataQuery()
+          this.flagNUm ++
+          // if (this.flagNUm == 1) {
+            this.linkSocket()
+          // }
+          this.sendContent=''
         });
       } else {
         this.$emit("denglu");
@@ -1664,12 +1719,16 @@ export default {
               stream: query.stream,
               gift_id: value.id,
               count: this.giftNum,
-              ispack: "0",
+              ispack: 0,
               source: "pc",
               showid: this.liveDetailInfo.showid,
             };
             sendGift(params).then((res) => {
+              console.log(res,'--------------------------------')
               if (res.code == 0) {
+                this.urlInfo = res.info
+                this.linkSocket()
+                this.giftNum = ''
                 // 发送礼物
                 let broadcastObj = {};
                 broadcastObj.msg = [];
@@ -1685,10 +1744,10 @@ export default {
                 obj.level = JSON.parse(
                   window.localStorage.getItem("user")
                 ).level;
-                obj.ct = res.data.info[0].gifttoken;
-                broadcastObj.msg.push(obj);
-                this.$socket.emit("broadcast", broadcastObj);
-                this.getCoin();
+                // obj.ct = res.data.info[0].gifttoken;
+                // broadcastObj.msg.push(obj);
+                // this.$socket.emit("broadcast", broadcastObj);
+                // this.getCoin();
               } else {
                 this.$message.error(res.msg);
               }
@@ -1824,13 +1883,17 @@ export default {
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
-      this.currentUserInfo = item;
-      this.isShowBounced = true;
+       if (this.liveDetailInfo.uid == JSON.parse(window.localStorage.getItem("user")).uid) {
+        this.currentUserInfo = item
+        this.isShowBounced = true;
+       }
     },
 
     userMsgBtn(item) {
-      this.currentUserInfo = item;
-      this.isSserMsgBtn = true;
+      if (this.liveDetailInfo.uid == JSON.parse(window.localStorage.getItem("user")).uid) {
+        this.currentUserInfo = item
+        this.isSserMsgBtn = true;
+      }
     },
     // getSetUser
 
@@ -1854,7 +1917,7 @@ export default {
         });
       }
       const data = {
-        live_uid: query.liveuid,
+        live_uid: JSON.parse(window.localStorage.getItem("user")).id,
         token: window.localStorage.getItem("token"),
         uid: this.currentUserInfo.uid,
         nick_name: this.currentUserInfo.user.nick_name,
@@ -1863,11 +1926,15 @@ export default {
       };
       if (this.setUserType == "2") {
         outUser(data).then((res) => {
+          this.urlInfo = res.info
+          this.linkSocket()  
           console.log(res, "res---踢出房间");
         });
       }
       if (this.setUserType == "3") {
         liveBanUser(data).then((res) => {
+          this.urlInfo = res.info
+          this.linkSocket()  
           console.log(res, "res---禁言");
         });
       }
@@ -1883,15 +1950,17 @@ export default {
     serMsgBtnOk() {
       const query = this.$route.query;
       const data = {
-        live_uid: query.liveuid,
+        live_uid: JSON.parse(window.localStorage.getItem("user")).id,
         token: window.localStorage.getItem("token"),
-        uid: JSON.parse(window.localStorage.getItem("user")).id,
-        nick_name: JSON.parse(window.localStorage.getItem("user")).nick_name,
+        uid: this.currentUserInfo.uid,
+        nick_name: this.currentUserInfo.user.nick_name,
         stream: query.stream,
         source: "pc",
       };
       withdrawMsg(data).then((res) => {
-        console.log(res, "聊天消息记录");
+        this.urlInfo = res.info
+        this.linkSocket()  
+        console.log(res, "cehui消息");
       });
       this.isSserMsgBtn = false;
     },
@@ -3026,12 +3095,35 @@ export default {
         }
 
         .chatroom {
+          .huangdi {
+            background: #FFB71C;
+          }
+          .gongjue {
+            background: #A051EB;
+          }
+          .houjue {
+            background: #5C8DFF;
+          }
+          .zijue {
+            background: #47CC6C;
+          }
+          .qishi {
+            background: #9193B4;
+          }
+          .mianfei {
+            background: #DBB16F;
+          }
           border: 1px solid #E6EAF3;
           border-top: 0;
           background: #fff;
           padding: 5px 14px;
           position: relative;
-
+          .gift-show {
+            position:absolute;
+            top: 200px;
+            left: 70px;
+            width: 210px
+          }
           .chat-new {
             position: absolute;
             bottom: 70px;
