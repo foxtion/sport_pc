@@ -8,16 +8,21 @@
               <el-avatar
                 size="large"
                 :src="events_logo"
-                style="width: 60px; height: 60px; margin-right: 12px;background:#fff"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  margin-right: 12px;
+                  background: #fff;
+                "
               ></el-avatar>
               <div>
                 <h4 style="margin-bottom: 10px">
-                  {{name_zh}}   {{main_name}} -  {{deputy_name}}
+                  {{ name_zh }} {{ main_name }} - {{ deputy_name }}
                 </h4>
                 <p>{{ info.title }}</p>
                 <p>
                   <span>{{ anchor.user_nicename }}</span>
-                  <span>{{nick_name}} 房间号:{{ room_num }}</span>
+                  <span>{{ nick_name }} 房间号:{{ room_num }}</span>
                   <span>{{ active_users }}</span>
                 </p>
               </div>
@@ -26,7 +31,9 @@
             <div class="mediatop_right">
               <div style="overflow: hidden">
                 <ul>
-                  <li><i></i><span>{{follow_num}}</span></li>
+                  <li>
+                    <i></i><span>{{ follow_num }}</span>
+                  </li>
                   <li><span @click="guanzhu"> + 关注</span></li>
                   <li><span>立即下载</span></li>
                 </ul>
@@ -60,7 +67,20 @@
             </div>
           </div>
           <!---视频播放-->
-          <div style="position: relative;">
+          <div style="position: relative">
+            <!-- 弹幕 -->
+              <div class="barrages-drop" style="z-index:1000">
+                <vue-baberrage
+                  :isShow="barrageIsShow"
+                  :barrageList="barrageList"
+                  :maxWordCount="maxWordCount"
+                  :throttleGap="throttleGap"
+                  :loop="barrageLoop"
+                  :boxHeight="boxHeight"
+                  :messageHeight="messageHeight"
+                >
+                </vue-baberrage>
+              </div>
             <div id="id_test_video">
               <!--                            <el-switch v-model="dmisShow"  inactive-text="弹幕开关" active-color="#f8c21b" style="position: absolute; top: 4px; right: 10px; z-index: 999">-->
               <!--                            </el-switch>-->
@@ -307,7 +327,9 @@
                     height="20px"
                     style="margin-top: 4px; margin-right: 6px"
                   />
-                  <p style="line-height: 34px">我的钻石：{{$store.state.user.info.coin}}</p>
+                  <p style="line-height: 34px">
+                    我的钻石：{{ $store.state.user.info.coin }}
+                  </p>
                   <div class="czhi" @click="goRecharge">充值</div>
                   <div class="beibao">背包</div>
                 </div>
@@ -361,15 +383,12 @@
           <div class="notice">
             <div>公告:</div>
             <marquee scrollamount="5">
-              <a href="#">{{notice}}</a>
+              <a href="#">{{ notice }}</a>
             </marquee>
           </div>
           <div class="contribution">
             <div class="contribution-tab">
-              <div
-                class="contribution-tab-item"
-                @click="getanchorlist('day')"
-              >
+              <div class="contribution-tab-item" @click="getanchorlist('day')">
                 <span
                   :class="
                     currentContribution == 'day' ? 'currentContribution' : ''
@@ -377,10 +396,7 @@
                   >贡献日榜</span
                 >
               </div>
-              <div
-                class="contribution-tab-item"
-                @click="getanchorlist('week')"
-              >
+              <div class="contribution-tab-item" @click="getanchorlist('week')">
                 <span
                   :class="
                     currentContribution == 'week' ? 'currentContribution' : ''
@@ -394,34 +410,58 @@
             <div class="contribution-2">
               <div class="contribution-bg-2">
                 <img src="@/assets/ranking-2.png" class="ranking-2" />
-                <img :src="rankList1.live_user.level_icon" class="ranking-2-header" />
+                <img
+                  :src="rankList1.live_user.level_icon"
+                  class="ranking-2-header"
+                />
               </div>
-              <p class="contribution-name">{{ rankList1.live_user.nick_name }}</p>
+              <p class="contribution-name">
+                {{ rankList1.live_user.nick_name }}
+              </p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">{{ rankList1.live_user.coin }}</span>贡献值
+                <span style="color: #dbb16f">{{
+                  rankList1.live_user.coin
+                }}</span
+                >贡献值
               </p>
             </div>
             <div class="contribution-1">
               <div class="contribution-bg-1">
                 <img src="@/assets/ranking-1.png" class="ranking-1" />
-                <img :src="rankList2.live_user.level_icon" class="ranking-1-header" />
+                <img
+                  :src="rankList2.live_user.level_icon"
+                  class="ranking-1-header"
+                />
               </div>
-              <p class="contribution-name">{{ rankList2.live_user.nick_name }}</p>
+              <p class="contribution-name">
+                {{ rankList2.live_user.nick_name }}
+              </p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">{{ rankList2.live_user.coin }}</span>贡献值
+                <span style="color: #dbb16f">{{
+                  rankList2.live_user.coin
+                }}</span
+                >贡献值
               </p>
             </div>
             <div class="contribution-3">
               <div class="contribution-bg-3">
                 <img src="@/assets/ranking-3.png" class="ranking-3" />
-                <img :src="rankList3.live_user.level_icon" class="ranking-3-header" />
+                <img
+                  :src="rankList3.live_user.level_icon"
+                  class="ranking-3-header"
+                />
               </div>
-              <p class="contribution-name">{{ rankList3.live_user.nick_name }}</p>
+              <p class="contribution-name">
+                {{ rankList3.live_user.nick_name }}
+              </p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">{{ rankList3.live_user.coin }}</span>贡献值
+                <span style="color: #dbb16f">{{
+                  rankList3.live_user.coin
+                }}</span
+                >贡献值
               </p>
             </div>
             <div class="contribution-drop-down">
@@ -485,16 +525,12 @@
                 v-if="iszb == '1'"
                 >主播</el-tag
               >
-              <el-tag
-                type="info"
-                size="mini"
-                style="margin-left: 5px"
-              >
-                Lv.{{ item.user.level}}
+              <el-tag type="info" size="mini" style="margin-left: 5px">
+                Lv.{{ item.user.level }}
               </el-tag>
 
               <span
-                style="margin-left: 5px; color: #4171E3"
+                style="margin-left: 5px; color: #4171e3"
                 @click="userInfoBtn(item)"
               >
                 {{ item.user.nick_name }}
@@ -616,7 +652,10 @@
                         </el-tab-pane>                    -->
           <!-- </el-tabs> -->
           <div style="padding: 5px 0">
-            <div style="padding: 0 10px; display: flex; align-items: center" v-if="!isShowLaba">
+            <div
+              style="padding: 0 10px; display: flex; align-items: center"
+              v-if="!isShowLaba"
+            >
               <el-popover placement="top" trigger="hover">
                 <div>
                   <ul style="display: flex; width: 330px; flex-wrap: wrap">
@@ -748,11 +787,37 @@
                 >
               </el-popover>
             </div>
-            <div v-else style="color: #9193B4;font-size:12px;line-height:16px; margin: 2px 12px;position: relative">
-              <div style="position: absolute;height:32px;background: #EBF0FB;line-height: 32px; text-align: center;width:350px;left: -12px;top:-40px;color:#434A66">
+            <div
+              v-else
+              style="
+                color: #9193b4;
+                font-size: 12px;
+                line-height: 16px;
+                margin: 2px 12px;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  height: 32px;
+                  background: #ebf0fb;
+                  line-height: 32px;
+                  text-align: center;
+                  width: 350px;
+                  left: -12px;
+                  top: -40px;
+                  color: #434a66;
+                "
+              >
                 <p>全局喇叭</p>
               </div>
-              <p>全局喇叭剩余：<span style="color: #DBB16F">6</span>个，开通<span style="color: #FFF4DC">皇帝</span>可获得喇叭</p>
+              <p>
+                全局喇叭剩余：<span style="color: #dbb16f">6</span>个，开通<span
+                  style="color: #fff4dc"
+                  >皇帝</span
+                >可获得喇叭
+              </p>
             </div>
             <div
               style="
@@ -788,18 +853,17 @@
     </div>
     <mytuijian />
     <liveylist :datadetail="liveDetailInfo" />
-    <liveNoble ref="livenoble" :nick_name="nick_name"/>
+    <liveNoble ref="livenoble" :nick_name="nick_name" />
     <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge" />
   </div>
 </template>
 
 <script>
-
-        // var wser = new WebSocket("ws://107.148.224.65:9293");
-        // wser.onmessage = function (evt) {
-        //     var receivedmsg = evt.data;
-        //     immediater(receivedmsg);
-        // }
+// var wser = new WebSocket("ws://107.148.224.65:9293");
+// wser.onmessage = function (evt) {
+//     var receivedmsg = evt.data;
+//     immediater(receivedmsg);
+// }
 import VBarrage from "@/components/VBarrage/index.vue"; //弹幕
 import liveNoble from "./liveNoble";
 import mytuijian from "./mytuijian";
@@ -825,16 +889,24 @@ export default {
   components: { VBarrage, liveNoble, Liveylist, fullMoney, mytuijian },
   data() {
     return {
-      follow_num:'',
-      notice:'',
-      active_users:'',
+      msg: '马优晨就是个辣鸡~',
+  barrageIsShow: true,
+  messageHeight: 3,
+  boxHeight: 150,
+  barrageLoop: true,
+  maxWordCount: 3,
+  throttleGap: 5000,
+  barrageList: [],
+      follow_num: "",
+      notice: "",
+      active_users: "",
       nick_name: "",
       name_zh: "",
       main_name: "",
       deputy_name: "",
       nick_name: "",
       room_num: "",
-      events_logo: '',
+      events_logo: "",
       uid: "",
       iszb: "0",
       sysnotic2: require("../../assets/img/sys-notic2.png"),
@@ -998,33 +1070,37 @@ export default {
       chatINfo: "",
       rechargeShow: false,
       userInfo: {},
-      urlInfo: '',
+      urlInfo: "",
       currentUserInfo: {},
       rankList1: {
         live_user: {
-          coin: '',
-          avatar: '',
-          nick_name: ''
-        }
+          coin: "",
+          avatar: "",
+          nick_name: "",
+        },
       },
       rankList2: {
         live_user: {
-          coin: '',
-          avatar: '',
-          nick_name: ''
-        }},
+          coin: "",
+          avatar: "",
+          nick_name: "",
+        },
+      },
       rankList3: {
         live_user: {
-          coin: '',
-          avatar: '',
-          nick_name: ''
-        }},
+          coin: "",
+          avatar: "",
+          nick_name: "",
+        },
+      },
       rankList49: [],
-      isShowLaba: false
+      isShowLaba: false,
     };
   },
 
   mounted() {
+    this.addToList()
+    
     let _this = this;
     let bfUrl = "http://ivi.bupt.edu.cn/hls/xjtv.m3u8";
     this.player = new TcPlayer("id_test_video", {
@@ -1173,64 +1249,81 @@ export default {
 
   created() {
     this.getanchorlist();
-    this.goLiveDetail(), 
-    this.getGiftListParams();
+    this.goLiveDetail(), this.getGiftListParams();
   },
   methods: {
-      getanchorlist(type) {
-        this.currentContribution = type;
-        //主播榜  :日榜,week:
-        const params = {
-          uid: JSON.parse(window.localStorage.getItem("user")).id,
-          token: window.localStorage.getItem("token"),
-          sourcee: "pc",
-          type: type, // day:日榜,week:周榜:month:月榜
-        };
-        anchorlist(params).then((res) => {
-          if(res.code==0){
-            this.rankList1.live_user.coin = res.info[0].live_user.coin
-            this.rankList1.live_user.avatar = res.info[0].live_user.avatar
-            this.rankList1.live_user.nick_name = res.info[0].live_user.nick_name
-            this.rankList2.live_user.coin = res.info[1].live_user.coin
-            this.rankList2.live_user.avatar = res.info[1].live_user.avatar
-            this.rankList2.live_user.nick_name = res.info[1].live_user.nick_name
-            this.rankList3.live_user.coin = res.info[2].live_user.coin
-            this.rankList3.live_user.avatar = res.info[2].live_user.avatar
-            this.rankList3.live_user.nick_name = res.info[2].live_user.nick_name
-            this.rankList49 = res.info.slice(3)
-            console.log(this.rankList49, '000000000000000000000000000000000')
-          }
-        });
-      },
-        linkSocket(){
-            this.websock = new WebSocket("ws://107.148.224.65:9293");
-            this.websock.onopen = this.onOpen
-            this.websock.onmessage = this.onMessage;                       
-        },
-        
-        onOpen(e){
-            this.websock.send(this.urlInfo)
-            console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功")
-        },
-        onMessage(event){
-          const data = JSON.parse(event.data)
-          console.log(data , '----JSON.parse(event.data)JSON.parse(event.data)-----')
-          if (data.uid) {
-             this.xiaoxilist.push(data)
-             console.log(this.xiaoxilist, 'wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww')
-          }
-        },
+    addToList() {
+      console.log('11111111111111111111111111111')
+  let list = [
 
+  ];
+  list.forEach((v) => {
+  this.barrageList.push({
+   id: v.id,
+   avatar: v.avatar,
+   msg: v.msg,
+   time: v.time,
+  //  type: MESSAGE_TYPE.NORMAL,
+   barrageStyle: v.barrageStyle
+  });
+  });
+ },
+    getanchorlist(type) {
+      this.currentContribution = type;
+      //主播榜  :日榜,week:
+      const params = {
+        uid: JSON.parse(window.localStorage.getItem("user")).id,
+        token: window.localStorage.getItem("token"),
+        sourcee: "pc",
+        type: type, // day:日榜,week:周榜:month:月榜
+      };
+      anchorlist(params).then((res) => {
+        if (res.code == 0) {
+          this.rankList1.live_user.coin = res.info[0].live_user.coin;
+          this.rankList1.live_user.avatar = res.info[0].live_user.avatar;
+          this.rankList1.live_user.nick_name = res.info[0].live_user.nick_name;
+          this.rankList2.live_user.coin = res.info[1].live_user.coin;
+          this.rankList2.live_user.avatar = res.info[1].live_user.avatar;
+          this.rankList2.live_user.nick_name = res.info[1].live_user.nick_name;
+          this.rankList3.live_user.coin = res.info[2].live_user.coin;
+          this.rankList3.live_user.avatar = res.info[2].live_user.avatar;
+          this.rankList3.live_user.nick_name = res.info[2].live_user.nick_name;
+          this.rankList49 = res.info.slice(3);
+          console.log(this.rankList49, "000000000000000000000000000000000");
+        }
+      });
+    },
+    linkSocket() {
+      this.websock = new WebSocket("ws://107.148.224.65:9293");
+      this.websock.onopen = this.onOpen;
+      this.websock.onmessage = this.onMessage;
+    },
 
-
-
-
-
-
-
-
-
-
+    onOpen(e) {
+      this.websock.send(this.urlInfo);
+      console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功");
+    },
+    onMessage(event) {
+      const data = JSON.parse(event.data);
+      console.log(
+        data,
+        "----JSON.parse(event.data)JSON.parse(event.data)-----"
+      );
+      if (data.uid) {
+        this.xiaoxilist.push(data);
+        this.barrageList.push({
+              id: data.uid,
+              avatar: data.user.avatar,
+              msg: data.content,
+              time: 6,
+              barrageStyle: 'red'
+              });
+        console.log(
+          this.xiaoxilist,
+          "wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww"
+        );
+      }
+    },
 
     goRecharge() {
       console.log("234567876543");
@@ -1256,9 +1349,9 @@ export default {
         this.events_logo = res.info.game_details.events_logo;
         this.nick_name = res.info.live_user.nick_name;
         this.room_num = res.info.room_num;
-        this.active_users = res.info.active_users
-        this.notice = res.info.notice
-        this.follow_num = res.info.follow_num
+        this.active_users = res.info.active_users;
+        this.notice = res.info.notice;
+        this.follow_num = res.info.follow_num;
         console.log(
           res.info,
           "liveDetailInfo 直播间详情-----------------------------"
@@ -1413,11 +1506,11 @@ export default {
           content: this.sendContent,
         };
         sendMsg(params).then((res) => {
-          console.log(res, '发送消息成功')
-          this.urlInfo = res.info
-          this.msgListDataQuery()
-          this.linkSocket()
-          this.sendContent=''
+          console.log(res, "发送消息成功");
+          this.urlInfo = res.info;
+          this.msgListDataQuery();
+          this.linkSocket();
+          this.sendContent = "";
         });
       } else {
         this.$emit("denglu");
@@ -1571,7 +1664,7 @@ export default {
               stream: query.stream,
               gift_id: value.id,
               count: this.giftNum,
-              ispack: '0',
+              ispack: "0",
               source: "pc",
               showid: this.liveDetailInfo.showid,
             };
@@ -1731,12 +1824,12 @@ export default {
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
-      this.currentUserInfo = item
+      this.currentUserInfo = item;
       this.isShowBounced = true;
     },
 
     userMsgBtn(item) {
-      this.currentUserInfo = item
+      this.currentUserInfo = item;
       this.isSserMsgBtn = true;
     },
     // getSetUser
@@ -1746,7 +1839,7 @@ export default {
     },
     // 确定
     msgBtnOk() {
-      console.log(this.currentUserInfo, 'this.currentUserInfo = item--')
+      console.log(this.currentUserInfo, "this.currentUserInfo = item--");
       const query = this.$route.query;
       if (this.setUserType == "1") {
         const params = {
@@ -2866,6 +2959,7 @@ export default {
                 color: #fff;
               }
             }
+
             .bounced2-btn {
               display: flex;
               margin-left: 20px;
@@ -2991,5 +3085,36 @@ export default {
 
 .gift-popover {
   padding: 0 !important;
+}
+.barrages-drop {
+ .blue {
+ border-radius: 100px;
+ background: #e6ff75;
+ color: #fff;
+ }
+ .green {
+ border-radius: 100px;
+ background: #75ffcd;
+ color: #fff;
+ }
+ .red {
+ border-radius: 100px;
+ background: #e68fba;
+ color: #fff;
+ }
+ .yellow {
+ border-radius: 100px;
+ background: #dfc795;
+ color: #fff;
+ }
+ .baberrage-stage {
+ position: absolute;
+ width: 100%;
+ height: 212px;
+ z-index:1000
+ overflow: hidden;
+ top: 0;
+ margin-top: 130px;
+ }
 }
 </style>

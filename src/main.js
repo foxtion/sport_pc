@@ -21,9 +21,6 @@ import swiper from './components/swiper.vue'
 //import 'vue-video-player/src/custom-theme.css' 
 //import VueSocketIO from 'vue-socket.io'
 
-
-
-
 Vue.component('public-swiper',swiper)
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
