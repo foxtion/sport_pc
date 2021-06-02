@@ -484,12 +484,12 @@
           </div>
           <!-- <el-tabs v-model="activeName">
                         <el-tab-pane label="聊天室" name="0"> -->
-          <div class="scoller chatroom">
+          <div class="scoller chatroom" id="xiaoxi">
             <img :src="gitfUrl" class="gift-show"  v-if="giftShow" />
-            <img src="@/assets/chat-new.png" class="chat-new" />
+            <!-- <img src="@/assets/chat-new.png" class="chat-new" @click="getNewChatNew" v-if="xiaoxilistShow.length >= 14 && !inshwogundtiao" /> -->
             <div
               style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex"
-              v-for="(item, i) in xiaoxilist"
+              v-for="(item, i) in xiaoxilistShow"
               :key="i"
               :class="item.user.noble_name == '皇帝'? 'huangdi' : item.user.noble_name == '公爵' ? 'gongjue' : item.user.noble_name == '侯爵' ? 'houjue' : item.user.noble_name == '子爵' ? 'zijue' : item.user.noble_name == '骑士' ? 'qishi' : 'mianfei'"
             >
@@ -544,7 +544,7 @@
                 style="margin-left: 5px; color: #4171e3"
                 @click="userInfoBtn(item)"
               >
-                {{ item.user.nick_name }}
+                {{ item.user.nick_name }} :
               </span>
               <span
                 style="margin-left: 5px;"
@@ -1028,6 +1028,8 @@ export default {
       showgiftdonghua: false,
       giftdonghuainfo: {},
       xiaoxilist: [],
+      xiaoxilistShow: [],
+      isHav: false,
       anchorSchedulelist: [],
       yinliang: 60,
       fulldanmu: "",
@@ -1116,7 +1118,10 @@ export default {
       gitfUrl:'',
       giftShow: false,
       giftImg: null,
-      setIntervalNum: 0
+      setIntervalNum: 0,
+      gundong: null,
+      gundongNum: 0,
+      inshwogundtiao: false
     };
   },
 
@@ -1273,6 +1278,19 @@ export default {
     this.goLiveDetail(), this.getGiftListParams();
   },
   methods: {
+    getNewChatNew() {
+      this.inshwogundtiao = true
+      // var gotop = document.getElementById('xiaoxi')
+
+      this.gundong = setInterval(() => {
+        const preScrollTop =  5000
+        // 34*this.xiaoxilistShow.length
+        document.getElementById('xiaoxi').scrollTop += 5
+        if (document.getElementById('xiaoxi').scrollTop >= preScrollTop) {
+          clearInterval(this.gundong)
+        }
+      })
+    },
     addToList() {
       console.log('11111111111111111111111111111')
   let list = [
@@ -1329,9 +1347,22 @@ export default {
         },
         onMessage(event){
           const data = JSON.parse(event.data)
-          console.log(data , '----socket-socketsocketsocketsocketsocketsocketsocketsocketsocket----')
           if (data.uid) {
-        this.xiaoxilist.push(data);
+          this.isHav = false
+          this.xiaoxilist.map(item => {
+             if(data.content == item.content) {
+            console.log('bbbbbbbbbbbbbbbbbbbbbbbb')
+               this.isHav = true
+               return
+             }
+          })            
+            console.log('ccccccccccccccccccccc')
+          if (!this.isHav) {
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+ 
+            this.xiaoxilistShow.push(data)
+            this.xiaoxilist =  this.xiaoxilistShow
+          }
         this.barrageList.push({
               id: data.uid,
               avatar: data.user.avatar,
@@ -3131,7 +3162,7 @@ export default {
           }
 
           >div:nth-child(2n-1) {
-            background: #ededed;
+            // background: #ededed;
           }
 
           .van-image {
