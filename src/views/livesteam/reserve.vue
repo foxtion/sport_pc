@@ -4,238 +4,100 @@
       <span></span>
       <h3 class="fonth3">我的预约</h3>
     </div>
-    <p class="yytime">5月15日</p>
-    <div class="yycontent" v-for="(item, index) in datalist" :key="index">
-      <div class="yyicon">
-        <div class="yyleft">
-          <div>
-            <img
-              src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg"
-              alt=""
-            /><span>莱斯特城</span><span>0</span>
-          </div>
-          <div>
-            <img
-              src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg"
-              alt=""
-            /><span>莱斯特城</span><span>0</span>
-          </div>
-        </div>
-        <div class="yycenter">
-          <div class="duiwu">
-            <p>英格兰足球超级联赛</p>
-            <span> 22:00 </span>
-          </div>
-          <div class="yybtn">预约</div>
-        </div>
-      </div>
-
-      <div class="yyright">
-        <public-swiper
-          :option="item.info"
-          :name="'top_game_' + index"
-          view="6"
-          :loop="false"
-          :autoplay="0"
-          height="74px"
-          width="480px"
-          className="egameTop_swiper"
-          swiperPage="egameTop_swiper"
-          v-if="datalist"
-        >
-          <template slot-scope="options">
-            <div
-              class="game_topList"
-              :key="options.options.game_id"
-              :class="{ changs_maintain: options.options.state == 3 }"
-            >
-              <div class="xxx1">
-                <img :src="options.options.img_cn" class="game_logo" alt="" />
-                <p class="p_title">{{ options.options.name_cn }}</p>
-              </div>
+    <div v-for="(item, index) in datalist" :key="index">
+      <p class="yytime">{{ item.addtime }}</p>
+      <div class="yycontent">
+        <div class="yyicon">
+          <div class="yyleft">
+            <div>
+              <img :src="item.game_details.main_logo" alt="" /><span>{{
+                item.game_details.main_name
+              }}</span
+              ><span>{{ item.game_details.main_fraction }}</span>
             </div>
-          </template>
-          <div class="prevButton" slot="prevButton" v-if="item.info.length > 6">
-            <img class="nextIcon" src="../../assets/img/xiayiyean.png" alt="" />
+            <div>
+              <img :src="item.game_details.events_logo" alt="" /><span>{{
+                item.game_details.deputy_name
+              }}</span
+              ><span>{{ item.game_details.deputy_fraction }}</span>
+            </div>
           </div>
-          <div class="nextButton" slot="nextButton" v-if="item.info.length > 6">
-            <img
-              class="prevIcon"
-              src="../../assets/img/shangyiyean.png"
-              alt=""
-            />
+          <div class="yycenter">
+            <div class="duiwu">
+              <p>{{ item.game_details.name_zh }}</p>
+              <span> {{ item.game_details.competition_time_text }} </span>
+            </div>
+            <div
+              v-if="item.game_details.is_make === 0"
+              class="yybtn"
+              @click="appointclick(item, index)"
+            >
+              预约
+            </div>
+            <div v-else class="nyybtn" @click="cancelclick(item,index)">取消预约</div>
           </div>
-        </public-swiper>
+        </div>
+
+        <div class="yyright">
+          <public-swiper
+            :option="item.info"
+            :name="'top_game_' + index"
+            view="6"
+            :loop="false"
+            :autoplay="0"
+            height="74px"
+            width="480px"
+            className="egameTop_swiper"
+            swiperPage="egameTop_swiper"
+            v-if="datalist"
+          >
+            <template slot-scope="options">
+              <div
+                class="game_topList"
+                :key="options.options.game_id"
+                :class="{ changs_maintain: options.options.state == 3 }"
+              >
+                <div class="xxx1">
+                  <img :src="options.options.img_cn" class="game_logo" alt="" />
+                  <p class="p_title">{{ options.options.name_cn }}</p>
+                </div>
+              </div>
+            </template>
+            <div
+              class="prevButton"
+              slot="prevButton"
+              v-if="item.game_details.length > 6"
+            >
+              <img
+                class="nextIcon"
+                src="../../assets/img/xiayiyean.png"
+                alt=""
+              />
+            </div>
+            <div
+              class="nextButton"
+              slot="nextButton"
+              v-if="item.game_details.length > 6"
+            >
+              <img
+                class="prevIcon"
+                src="../../assets/img/shangyiyean.png"
+                alt=""
+              />
+            </div>
+          </public-swiper>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { AppointmentList } from "@/api";
+import { AppointmentList, cancelAppointment, appointment } from "@/api";
 export default {
   data() {
     return {
-      datalist: [
-        {
-          info: [
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-          ],
-        },
-        {
-          info: [
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1194131577,2954769920&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-            {
-              img_cn:
-                "https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2306696130,3636777462&fm=26&gp=0.jpg",
-              name_cn: "11111",
-            },
-          ],
-        },
-      ],
+      datalist: [],
       clickNum: 0,
       user: {},
       token: "",
@@ -244,17 +106,105 @@ export default {
   mounted() {
     this.user = JSON.parse(window.localStorage.getItem("user"));
     this.token = window.localStorage.token;
-    this.getmentList()
+    this.getmentList();
   },
   methods: {
+    appointclick(item, index) {
+      //预约
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        game_status: item.game_status,
+        game_id: item.game_id,
+        game_type: item.game_type,
+        gametime: item.gametime,
+        game_details: item.game_details,
+        source: "pc",
+      };
+      appointment(params).then((res) => {
+        if (res.code === 0) {
+          this.$message({
+            type: "success",
+            message: res,
+          });
+
+          console.log(res);
+          this.getmentList();
+        } else {
+          this.$message({
+            type: "erro",
+            message: res,
+          });
+        }
+      });
+    },
+    cancelclick(item,index){
+      //取消预约
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        game_id: item.game_id,
+        game_type: item.game_type,
+        source: "pc",
+      };
+      cancelAppointment(params).then((res) => {
+        if (res.code === 0) {
+          this.$message({
+            type: "success",
+            message: res,
+          });
+
+          console.log(res);
+          this.getmentList();
+        } else {
+          this.$message({
+            type: "erro",
+            message: res,
+          });
+        }
+      });
+    },
     getmentList() {
       const params = {
         uid: this.user.id,
         token: this.token,
       };
       AppointmentList(params).then((res) => {
-        console.log(res)
+        this.datalist = [];
+        console.log(res);
+        res.info.map((item) => {
+          console.log(item, "-----------------");
+          // var date = new Date(item.addtime * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+          // var Y = date.getFullYear() + "年";
+          // var M =
+          //   (date.getMonth() + 1 < 10
+          //     ? "0" + (date.getMonth() + 1)
+          //     : date.getMonth() + 1) + "月";
+          // var D = date.getDate() + "日";
+          // var h = date.getHours() + ":";
+          // var m = date.getMinutes() + ":";
+          // var s = date.getSeconds();
+          item.addtime = this.timestampToTime(item.addtime).slice(5, 11);
+          item.game_details.competition_time = this.timestampToTime(
+            item.game_details.competition_time
+          ).slice(11);
+
+          this.datalist.push(item);
+        });
       });
+    },
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "年";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "月";
+      var D = date.getDate() + "日";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     },
   },
 };
@@ -336,10 +286,13 @@ export default {
             font-weight: 400;
             text-align: RIGHT;
             color: #333333;
+            display: inline-block;
+            width: 175px;
+            text-align: left;
           }
 
           span:nth-of-type(2) {
-            margin: 0 0 0 110px;
+            // margin: 0 0 0 110px;
             font-size: 24px;
             font-family: PingFang SC, PingFang SC-Medium;
             font-weight: 500;
@@ -401,6 +354,21 @@ export default {
           border-radius: 2px;
           font-size: 13px;
           font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
+          color: #7e3a18;
+          cursor: pointer;
+        }
+
+        .nyybtn {
+          width: 68px;
+          height: 26px;
+          text-align: center;
+          line-height: 26px;
+          // background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
+          border: 1px solid #777;
+          border-radius: 2px;
+          font-size: 13px;
+          // font-family: PingFang SC, PingFang SC-Regular;
           font-weight: 400;
           color: #7e3a18;
           cursor: pointer;

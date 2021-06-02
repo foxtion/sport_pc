@@ -40,7 +40,10 @@ export const HotAnchor = (params) => post({ url: 'Live.hotAnchor', params})
 export const HotEvent = (params) => post({ url: 'Football.hotEvent', params})
 
 // 用户预约
-export const appointment = (params) => post({ url: 'User.appointment', params})
+export const appointment = (params) => post({ url: 'Make.appointment', params})
+
+// 用户取消预约
+export const cancelAppointment = (params) => post({ url: 'Make.cancelAppointment', params})
 
 // 站内消息
 export const MessageNoticeList = (params) => post({ url: 'Message.noticeList', params})

@@ -15,19 +15,20 @@
         >
       </div>
       <div class="top-t">
-        <div class="top1">
+        <div v-for="(item, index) in anchorlist13" :key="index" class="top1">
           <div class="toppic">
             <div class="pic">
-              <img src="../../assets/img/tv.png" alt="" />
+              <img :src="item.live_user.avatar" alt="" />
               <i class="huangguan"></i>
               <i class="paiming"></i>
             </div>
           </div>
-          <p class="topname">美女战士<i></i></p>
-          <p class="hotpeo"><i></i>4.50w</p>
-          <div class="guanzhu">+关注</div>
+          <p class="topname">{{item.live_user.nick_name}} <img :src="item.live_user.noble_icon" alt="" /></p>
+          <p class="hotpeo"><i></i>{{ item.total}}</p>
+          <div v-if="item.is_follow === 0" class="guanzhu"  @click="gzckick(item, index)">+关注</div>
+          <div v-else class="noguangzhu"  @click="gzckick(item, index)">取消关注</div>
         </div>
-        <div class="top2">
+        <!-- <div class="top2">
           <div class="toppic">
             <div class="pic">
               <img src="../../assets/img/tv.png" alt="" />
@@ -50,9 +51,9 @@
           <p class="topname">美女修车<i></i></p>
           <p class="hotpeo"><i></i>4.50w</p>
           <div class="guanzhu">+关注</div>
-        </div>
+        </div> -->
       </div>
-      <div class="listval" v-for="(item,index) in anchorlist" :key="index">
+      <div class="listval" v-for="(item, index) in anchorlist" :key="index">
         <ul>
           <li>
             <div class="list-l">
@@ -60,11 +61,26 @@
                 <img :src="item.live_user.avatar" alt="" />
               </div>
               <div class="oldsj">
-                <p class="oldname">{{item.live_user.nick_name}}<i></i></p>
-                <p class="renqinum">人气值<span>12.5w</span></p>
+                <p class="oldname">
+                  {{ item.live_user.nick_name }}
+                  <img :src="item.live_user.noble_icon" alt="" />
+                  <!-- <i></i> -->
+                </p>
+                <p class="renqinum">
+                  人气值<span>{{ item.total }}</span>
+                </p>
               </div>
             </div>
-            <div class="guangzhu">+关注</div>
+            <div
+              v-if="item.is_follow === 0"
+              class="guangzhu"
+              @click="gzckick(item, index)"
+            >
+              {{ "+关注" }}
+            </div>
+            <div v-else class="noguangzhu" @click="qxclick(item, index)">
+              {{ "取消关注" }}
+            </div>
           </li>
         </ul>
       </div>
@@ -77,26 +93,27 @@
       <div class="toplist">
         <span
           v-for="(item, index) in list"
-          :key="item.id"
+          :key="index"
           :class="{ active: goldIndex === index }"
           @click="goldclick(item, index)"
           >{{ item.name }}</span
         >
       </div>
       <div class="top-t">
-        <div class="top1">
-          <div class="toppic">
+        <div v-for="(item, index) in goldlist13" :key="index" class="top1">
+         <div class="toppic">
             <div class="pic">
-              <img src="../../assets/img/tv.png" alt="" />
+              <img :src="item.live_user.avatar" alt="" />
               <i class="huangguan"></i>
               <i class="paiming"></i>
             </div>
           </div>
-          <p class="topname">美女战士<i></i></p>
-          <p class="hotpeo"><i></i>4.50w</p>
-          <div class="guanzhu">+关注</div>
+          <p class="topname">{{item.live_user.nick_name}} <img :src="item.live_user.noble_icon" alt="" /></p>
+          <p class="hotpeo"><i></i>{{ item.total}}</p>
+        <div v-if="item.is_follow === 0" class="guanzhu"  @click="gzckick(item, index)" >+关注</div>
+          <div v-else class="noguangzhu"  @click="gzckick(item, index)">取消关注</div>
         </div>
-        <div class="top2">
+        <!-- <div class="top2">
           <div class="toppic">
             <div class="pic">
               <img src="../../assets/img/tv.png" alt="" />
@@ -119,21 +136,36 @@
           <p class="topname">美女修车<i></i></p>
           <p class="hotpeo"><i></i>4.50w</p>
           <div class="guanzhu">+关注</div>
-        </div>
+        </div> -->
       </div>
-      <div class="listval" v-for="(item,index) in goldlist" :key="index">
+      <div class="listval" v-for="(item, index) in goldlist" :key="index">
         <ul>
           <li>
             <div class="list-l">
               <div class="touxiang">
-                <img src="../../assets/img/tv.png" alt="" />
+                <img :src="item.live_user.avatar" alt="" />
               </div>
               <div class="oldsj">
-                <p class="oldname">老司机 <i></i></p>
-                <p class="renqinum">人气值<span>12.5w</span></p>
+                <p class="oldname">
+                  {{ item.live_user.nick_name }}
+                  <img :src="item.live_user.noble_icon" alt="" />
+                  <!-- <i></i> -->
+                </p>
+                <p class="renqinum">
+                  人气值<span>{{ item.total }}</span>
+                </p>
               </div>
             </div>
-            <div class="guangzhu">+关注</div>
+            <div
+              v-if="item.is_follow === 0"
+              class="guangzhu"
+              @click="gzckick(item, index)"
+            >
+              {{ "+关注" }}
+            </div>
+            <div v-else class="noguangzhu" @click="qxclick(item, index)">
+              {{ "取消关注" }}
+            </div>
           </li>
         </ul>
       </div>
@@ -142,7 +174,7 @@
 </template>
 
 <script>
-import { anchorlist, goldmaster } from "@/api";
+import { anchorlist, goldmaster, FollowAnchor } from "@/api";
 export default {
   name: "myList",
   data() {
@@ -158,8 +190,10 @@ export default {
           name: "总榜",
         },
       ],
-      anchorlist:[],
-      goldlist:[],
+      anchorlist: [],
+      anchorlist13: [],
+      goldlist: [],
+      goldlist13: [],
       anchorIndex: 0,
       goldIndex: 0,
       user: {},
@@ -197,12 +231,17 @@ export default {
         sourcee: "pc",
         type: type, // day:日榜,week:周榜:month:月榜
       };
-        this.anchorlist= []
+      this.anchorlist = [];
+
       anchorlist(params).then((res) => {
+        this.anchorlist13 = [];
         console.log(res, "主播榜--------------");
-        if(res.code===0){
-          this.anchorlist = res.info
-          console.log(this.anchorlist)
+        if (res.code === 0) {
+          this.anchorlist = res.info.slice(4);
+          this.anchorlist13 =res.info.slice(0,3);
+           
+
+          console.log(this.anchorlist13);
         }
       });
     },
@@ -214,13 +253,37 @@ export default {
         sourcee: "pc",
         type: type, // day:日榜,week:周榜:month:月榜
       };
-      this.goldlist = []
+      this.goldlist = [];
+      this.goldlist13 = [];
       goldmaster(params).then((res) => {
         console.log(res, "豪气榜--------------");
-        if(res.code===0){
-          this.goldlist = res.info
-          console.log(this.goldlist)
+        if (res.code === 0) {
+          this.goldlist = res.info.slice(4);
+          this.goldlist13 =res.info.slice(0,3);
+
+          console.log(this.goldlist);
         }
+      });
+      console.log(
+        this.goldlist13,
+        "this.goldlist13this.goldlist13this.goldlist13this.goldlist13"
+      );
+    },
+    gzckick(item, index) {
+      console.log(item, index);
+      this.getfollowAnchor(item.live_uid);
+    },
+    qxclick(item, iindex) {
+      console.log(item, iindex);
+    },
+    getfollowAnchor(live_uid) {
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        live_uid: live_uid,
+      };
+      FollowAnchor().then((res) => {
+        console.log(res);
       });
     },
   },
@@ -318,7 +381,9 @@ export default {
 
     >div {
       text-align: center;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
       .topname {
         font-size: 14px;
         font-family: PingFang SC, PingFang SC-Regular;
@@ -327,6 +392,14 @@ export default {
         color: #434a66;
         text-align: center;
         margin: 16px 0 7px 0px;
+        img{
+           display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-left: 3px;
+          position: relative;
+          top: 3px;
+        }
 
         i {
           display: inline-block;
@@ -370,6 +443,20 @@ export default {
         color: #ffffff;
         margin: 13px auto 0;
       }
+      .noguangzhu {
+          width: 66px;
+          height: 26px;
+          // background: linear-gradient(90deg, #f27a2e, #f15b43 100%);
+          border-radius: 4px;
+          border: 1px solid #777;
+          line-height: 26px;
+          font-size: 13px;
+          font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
+          text-align: CENTER;
+          color: #777;
+          margin 13px 0 0 0; 
+        }
     }
 
     div:nth-of-type(1) {
@@ -537,6 +624,13 @@ export default {
               text-align: LEFT;
               color: #434a66;
 
+              img {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                margin-left: 2px;
+              }
+
               i {
                 display: inline-block;
                 width: 14px;
@@ -569,6 +663,21 @@ export default {
           font-weight: 400;
           text-align: CENTER;
           color: #ffffff;
+          margin: 0px 0 0 0;
+        }
+
+        .noguangzhu {
+          width: 66px;
+          height: 26px;
+          // background: linear-gradient(90deg, #f27a2e, #f15b43 100%);
+          border-radius: 4px;
+          border: 1px solid #777;
+          line-height: 26px;
+          font-size: 13px;
+          font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
+          text-align: CENTER;
+          color: #777;
           margin: 0px 0 0 0;
         }
       }
