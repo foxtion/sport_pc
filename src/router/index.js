@@ -90,7 +90,7 @@ const routes = [
                     title: '直播间'
                 }
             }
-           
+
         ]
 
     },
@@ -287,6 +287,18 @@ const routes = [
             },
 
             {
+                path: 'anchor',
+                name: 'anchor',
+                component: function () {
+                    return import('../views/anchor.vue')
+                },
+                meta: {
+                    myCenterIndex: 0,
+                    title: '申请主播'
+                }
+            },
+
+            {
                 path: 'recharge',
                 name: 'recharge',
                 component: function () {
@@ -369,7 +381,7 @@ const routes = [
                     title:'站内信息'
                 }
             },
-            
+
             {
                 path: 'myMoney',
                 name: 'myMoney',
