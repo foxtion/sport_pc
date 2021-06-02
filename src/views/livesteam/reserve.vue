@@ -118,7 +118,7 @@ export default {
         game_id: item.game_id,
         game_type: item.game_type,
         gametime: item.gametime,
-        game_details: item.game_details,
+        game_details:JSON.stringify(item.game_details) ,
         source: "pc",
       };
       appointment(params).then((res) => {

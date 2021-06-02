@@ -787,7 +787,7 @@
       </div>
     </div>
     <mytuijian />
-    <liveylist />
+    <liveylist :datadetail="liveDetailInfo" />
     <liveNoble ref="livenoble" :nick_name="nick_name"/>
     <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge" />
   </div>
@@ -1570,7 +1570,7 @@ export default {
               stream: query.stream,
               gift_id: value.id,
               count: this.giftNum,
-              ispack: value.type,
+              ispack: '0',
               source: "pc",
               showid: this.liveDetailInfo.showid,
             };

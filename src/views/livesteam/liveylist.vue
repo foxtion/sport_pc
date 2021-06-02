@@ -11,7 +11,7 @@
         ></span>
       </div>
     </div>
-    <div class="livebody" v-if="activeIndex === 1">
+    <div class="livebody" v-if="activeIndex === 0">
       <ul v-for="(item, index) in listbody" :key="index">
         <div class="livedate">
           <i></i><span>{{ item.date }}</span>
@@ -42,36 +42,15 @@
         </li>
       </ul>
     </div>
-    <div class="livebody" v-if="activeIndex === 0">
-      <ul v-for="(item, index) in listbody" :key="index">
-        <div class="livedate">
-          <i></i><span>{{ item.date }}</span>
-        </div>
-        <li v-for="(elem, i) in item.info" :key="i">
-          <span class="span1">{{ elem.time }}</span>
-          <span class="span2">{{ elem.live }}</span>
-          <span
-            class="span3"
-            :class="elem.start === '0' ? 'c_green' : 'c_red'"
-            >{{ elem.start === "0" ? "未开始" : "开始" }}</span
-          >
-          <span class="span4">{{ elem.nameone }}</span>
-          <img :src="elem.iconone" alt="" />
-          <span class="span5">{{ elem.playone }}-</span>
-          <span class="span6">{{ elem.playtwo }}</span>
-          <img :src="elem.icontwo" alt="" />
-          <span class="span7">{{ elem.nametwo }}</span>
-          <span
-            class="span8"
-            :class="elem.isnow === '0' ? 'isshow' : 'noshow'"
-            >{{ elem.isnow === "0" ? "预约" : "已预约" }}</span
-          >
-        </li>
-      </ul>
+    <div class="livebody1" v-if="activeIndex === 1">
+      <img src="../../assets/none2.png" alt="" />
+      <span>暂无数据！</span>
     </div>
   </div>
 </template>
 <script>
+import { noticelive } from "@/api";
+
 export default {
   data() {
     return {
@@ -154,12 +133,27 @@ export default {
       activeIndex: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    this.getnoticelive()
+  },
   methods: {
     listactive(item, index) {
       this.activeIndex = index;
       console.log(item, index);
     },
+    getnoticelive(){
+      const param = {
+        live_uid:'',
+        stream:'',
+        live_class_id:'',
+        source:'pc'
+      }
+      noticelive(param).then(res=>{
+        if(res.code===0){
+          console.log(res)
+        }
+      })
+    }
   },
 };
 </script>
@@ -373,6 +367,22 @@ export default {
       li:nth-of-type(2n) {
         background: #ffffff;
       }
+    }
+  }
+
+  .livebody1 {
+    display: flex;
+    padding: 30px 0;
+    margin: 0 auto;
+    flex-direction: column;
+    text-align: center;
+
+    img {
+      margin: 0 auto;
+    }
+
+    span {
+      color: #777;
     }
   }
 }
