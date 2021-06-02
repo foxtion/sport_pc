@@ -1,5 +1,5 @@
 <template>
-  <div style="margin:24px 0 24px 15px;">
+  <div style="margin:24px 0 24px 0px;">
     <div class="content-top">
       <span></span>
       <h3 class="fonth3">直播推荐</h3>

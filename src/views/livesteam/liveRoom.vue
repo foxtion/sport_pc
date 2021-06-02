@@ -2586,7 +2586,7 @@ export default {
       margin: 0 auto;
       display: flex;
       padding: 10px 0;
-      justify-content: center;
+      // justify-content: center;
 
       >div {
         background: #fff;
@@ -2780,6 +2780,8 @@ export default {
       }
 
       .chat {
+        position:fixed;
+        left:1380px;
         .popper-main {
           min-width: 50px !important;
         }

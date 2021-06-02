@@ -163,7 +163,7 @@ export default {
   opacity: 1;
   background: #ffffff;
   border: 1px solid #e6eaf3;
-  margin: 0 0 0 13px;
+  margin: 0 0 0 0px;
 
   .liveyytop {
     width: 1200px;
