@@ -1392,16 +1392,6 @@ export default {
           this.xiaoxilistShow.push(data);
           this.xiaoxilist = this.xiaoxilistShow;
         }
-        if (this.barrageList.length > 10) {
-          // this.timer1 = setInterval(() => {
-          //   this.barrageList.shift();
-          //   if(this.barrageList.length===0 ){
-          //       clearInterval(this.timer1)
-          //   }
-          // }, 7000);
-          this.barrageList.shift();
-        }
-
         this.barrageList.push({
           id: data.uid,
           avatar: data.user.avatar,
@@ -1420,7 +1410,8 @@ export default {
               ? "qishi"
               : "mianfei",
         });
-
+          
+ console.log(this.barrageList)
         console.log(
           this.xiaoxilist,
           "wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww"
