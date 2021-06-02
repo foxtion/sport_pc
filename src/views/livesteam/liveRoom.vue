@@ -1121,7 +1121,6 @@ export default {
   },
 
   mounted() {
-    this.addToList()
     let _this = this;
     let bfUrl = "http://ivi.bupt.edu.cn/hls/xjtv.m3u8";
     this.player = new TcPlayer("id_test_video", {
@@ -1273,22 +1272,6 @@ export default {
     this.goLiveDetail(), this.getGiftListParams();
   },
   methods: {
-    addToList() {
-      console.log('11111111111111111111111111111')
-  let list = [
-
-  ];
-  list.forEach((v) => {
-  this.barrageList.push({
-   id: v.id,
-   avatar: v.avatar,
-   msg: v.msg,
-   time: v.time,
-  //  type: MESSAGE_TYPE.NORMAL,
-   barrageStyle: v.barrageStyle
-  });
-  });
- },
     getanchorlist(type) {
       this.currentContribution = type;
       //主播榜  :日榜,week:
@@ -3174,9 +3157,14 @@ export default {
 .shielding-box {
   background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
 }
+.baberrage-item {
+  height:30px
+  line-height:30px;
+}
 .baberrage-item .normal{
     position:relative !important;
   background:rgba(255,255,255,0) !important;
+  height:100%
   
 }
 .baberrage-item .normal img{
@@ -3184,9 +3172,12 @@ export default {
   width: 40px !important;
    height: 40px !important;
    border-radius:50% !important;
-   top:0 !important;
+   top:-5px !important;
    left:-10px !important;
   
+}
+.baberrage-msg{
+  margin-top:-5px;
 }
 .gift-popover {
   padding: 0 !important;
@@ -3214,35 +3205,35 @@ export default {
  }
   .huangdi {
     border-radius: 10px;
-            background: rgba(255,183,28,0.5);
+            background: rgba(255,183,28,0.7);
             padding: 0 30px 0 0;
           }
           .gongjue {
             border-radius: 10px;
-            background: rgba(160,81,235,0.5);
+            background: rgba(160,81,235,0.7);
             padding: 0 30px 0 0;
           }
           .houjue {
             border-radius: 10px;
-            background: rgba(92,141,255,0.5);
+            background: rgba(92,141,255,0.7);
             padding: 0 30px 0 0;
             
           }
           .zijue {
             border-radius: 10px;
-            background: rgba(71,204,108,0.5);
+            background: rgba(71,204,108,0.7);
                         padding: 0 30px 0 0;
 
           }
           .qishi {
             border-radius: 10px;
-            background: rgba(145,147,180,0.5);
+            background: rgba(145,147,180,0.7);
             padding: 0 30px 0 0;
 
           }
           .mianfei {
             border-radius: 10px;
-            background: #DBB16F;
+            background: rgba(219,177,111,0.7);
                         padding: 0 30px 0 0;
 
           }
@@ -3253,7 +3244,7 @@ export default {
  z-index:1000
  overflow: hidden;
  top: 0;
- margin-top: 130px;
+ margin-top: 30px;
  }
 }
 </style>
