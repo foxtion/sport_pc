@@ -421,7 +421,7 @@
               </p>
               <p></p>
               <p class="contribution-text">
-                <span style="color: #dbb16f">{{
+                <span style="color: #333333">{{
                   rankList1.live_user.coin
                 }}</span
                 >贡献值
@@ -488,95 +488,52 @@
             <img :src="gitfUrl" class="gift-show"  v-if="giftShow" />
             <img src="@/assets/chat-new.png" class="chat-new" @click="getNewChatNew" v-if="xiaoxilistShow.length >= 15 && !inshwogundtiao" />
             <div
-              style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex"
               v-for="(item, i) in xiaoxilistShow"
-              :key="i"
-              :class="item.user.noble_name == '皇帝'? 'huangdi' : item.user.noble_name == '公爵' ? 'gongjue' : item.user.noble_name == '侯爵' ? 'houjue' : item.user.noble_name == '子爵' ? 'zijue' : item.user.noble_name == '骑士' ? 'qishi' : 'mianfei'"
-            >
-              <van-image
-                width="18px"
-                height="18px"
-                fit="contain"
-                :src="sysnotic2"
-                v-if="item._method_ == 'SystemNot'"
-              />
-              <van-image
-                width="18px"
-                height="18px"
-                fit="contain"
-                :src="hi"
-                v-if="item.msgtype == '0' && item._method_ == 'SendMsg'"
-              />
-              <van-image
-                width="18px"
-                height="18px"
-                fit="contain"
-                :src="gifticon"
-                v-if="item._method_ == 'SendGift'"
-              />
-              <span
-                class="xitongxiaoxi"
-                v-if="item._method_ == 'SystemNot'"
-                style="margin-left: 5px; font-weight: bold"
-              >
-                系统消息
-              </span>
-              <el-tag
-                type="danger"
-                size="mini"
-                style="margin-left: 5px"
-                v-if="iszb == '1'"
-                >主播</el-tag
-              >
-              <!-- <el-tag
-                type="info"
-                size="mini"
-                style="margin-left: 5px"
-              >
-                 Lv.{{ item.user.level}} 
-                
-               
-              </el-tag> -->
-              <div>
-              <img :src="item.user.noble_icon" width="20px" style="margin:5px 3px 5px 2px"/>
+              :key="i"> 
+              <div style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex" v-if="item.type == 'longya_chat'" :class="item.user.noble_name == '皇帝'? 'huangdi' : item.user.noble_name == '公爵' ? 'gongjue' : item.user.noble_name == '侯爵' ? 'houjue' : item.user.noble_name == '子爵' ? 'zijue' : item.user.noble_name == '骑士' ? 'qishi' : 'mianfei'">
+
+                  <div>
+                  <img :src="item.user.noble_icon" width="20px" style="margin:5px 3px 5px 2px"/>
+                  </div>
+                  <span
+                    style="margin-left: 5px; color: #4171e3"
+                    @click="userInfoBtn(item)"
+                  >
+                    {{ item.user.nick_name }} :
+                  </span>
+                  <span
+                    style="margin-left: 5px;"
+                    @click="userMsgBtn(item)"
+                  >
+                    {{ item.content }}
+                  </span>
               </div>
-              <span
-                style="margin-left: 5px; color: #4171e3"
-                @click="userInfoBtn(item)"
-              >
-                {{ item.user.nick_name }} :
-              </span>
-              <span
-                style="margin-left: 5px;"
-                @click="userMsgBtn(item)"
-              >
-                {{ item.content }}
-              </span>
-              <span v-if="item._method_ == 'SendGift'" style="margin-left: 5px"
-                >赠送给主播</span
-              >
-              <span
-                v-if="item._method_ == 'SendGift'"
-                style="margin-left: 5px; color: red"
-              >
-                {{ item.ct.giftname }} X {{ item.ct.giftcount }}
-              </span>
-              <span
-                v-if="item._method_ == 'SystemNot'"
-                style="line-height: 26px; margin-left: 5px"
-                >{{ item.ct }}</span
-              >
-              <span
-                v-if="item.msgtype == '0' && item._method_ == 'SendMsg'"
-                style="margin-left: 5px"
-                >进入直播间</span
-              >
-              <span
-                v-if="item.msgtype == '2' && item._method_ == 'SendMsg'"
-                style="margin-left: 5px"
-                >{{ item.ct }}</span
-              >
-            </div>
+              <div style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex" v-if="item.type == 'longya_get_into'" :class="item.noble_id == '1'? 'huangdi' : item.noble_id == '2' ? 'gongjue' : item.noble_id == '3' ? 'houjue' : item.noble_id == '4' ? 'zijue' : item.noble_id == '5' ? 'qishi' : 'mianfei'">
+                <span
+                  style="margin-left: 5px; color: #4171e3"
+                >
+                  {{ item.msg }}
+                </span>
+              </div>
+              <div style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex" v-if="item.type == 'longya_gift'" :class="item.user.noble_id == '1'? 'huangdi' : item.user.noble_id == '2' ? 'gongjue' : item.user.noble_id == '3' ? 'houjue' : item.user.noble_id == '4' ? 'zijue' : item.user.noble_id == '5' ? 'qishi' : 'mianfei'">
+                <span
+                  style="margin-left: 5px; color: #4171e3"
+                >
+                  {{ item.user.nick_name }}
+                </span>
+                <span
+                  style="margin-left: 5px;"
+                >
+                  送给主播
+                </span>
+                <img :src="item.gift.icon" width="20px" style="margin:5px 3px 5px 2px"/>
+                <span
+                  style="margin-left: 5px; color: #FF7714"
+                >
+                  {{ item.gift.name }}
+                </span>
+              </div>
+          </div>
             <div class="bounced" v-if="isShowBounced">
               <img
                 :src="userInfo.avatar"
@@ -1346,44 +1303,53 @@ export default {
         },
         onMessage(event){
           const data = JSON.parse(event.data)
+          console.log(data, '进入进入进入进入进入进入进入进入')
           if (data.uid) {
-          this.isHav = false
-          this.xiaoxilist.map(item => {
-             if(data.content == item.content) {
-            console.log('bbbbbbbbbbbbbbbbbbbbbbbb')
-               this.isHav = true
-               return
-             }
-          })            
-            console.log('ccccccccccccccccccccc')
-          if (!this.isHav) {
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
- 
-            this.xiaoxilistShow.push(data)
-            this.xiaoxilist =  this.xiaoxilistShow
-          }
-        this.barrageList.push({
-              id: data.uid,
-              avatar: data.user.avatar,
-              msg: data.content,
-              time: 10,
-              barrageStyle: data.user.noble_name == '皇帝'? 'huangdi' : data.user.noble_name == '公爵' ? 'gongjue' : data.user.noble_name == '侯爵' ? 'houjue' : data.user.noble_name == '子爵' ? 'zijue' : data.user.noble_name == '骑士' ? 'qishi' : 'mianfei'
-              });
-             console.log(this.xiaoxilist, 'wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww')
+            if (data.type == 'longya_get_into') {
+              this.xiaoxilistShow.push(data)
+              console.log(this.xiaoxilistShow, 'xiaoxilistShowxiaoxilistShowxiaoxilistShowxiaoxilistShowxiaoxilistShow')
+            } else {
+              this.isHav = false
+              this.xiaoxilist.map(item => {
+                if(data.content == item.content) {
+                  this.isHav = true
+                  return
+                }
+              })            
+              if (!this.isHav) {
+    
+                this.xiaoxilistShow.push(data)
+                this.xiaoxilist =  this.xiaoxilistShow
+
+                this.barrageList.push({
+                  id: data.uid,
+                  avatar: data.user.avatar,
+                  msg: data.content,
+                  time: 10,
+                  barrageStyle: data.user.noble_name == '皇帝'? 'huangdi' : data.user.noble_name == '公爵' ? 'gongjue' : data.user.noble_name == '侯爵' ? 'houjue' : data.user.noble_name == '子爵' ? 'zijue' : data.user.noble_name == '骑士' ? 'qishi' : 'mianfei'
+                });
+              }
+            }
           }
           if (data.gift) {
+            console.log('0000000000000000000000000000')
+            this.xiaoxilistShow.push(data)
             this.gitfUrl = data.gift.swf
             this.giftShow = true
-            const that = this
-            const countTime = function() {
-              that.giftShow = false
-              that.setIntervalNum ++
-              console.log(that.setIntervalNum, 'setIntervalNum')
-              if (that.setIntervalNum == 4) {
-                clearTimeout(that.giftImg)
+            this.giftImg = setInterval(() => {
+              if (this.setIntervalNum == 4) {
+                clearInterval(this.giftImg)
+                this.giftShow = false
+                this.setIntervalNum =0
+                return
               }
-19          }
-           this.giftImg = window.setInterval(countTime,4000);
+              this.setIntervalNum ++
+            }, 1000)
+
+
+
+
+  
           }
         },
         onclose () {
@@ -1451,8 +1417,11 @@ export default {
         stream: this.liveDetailInfo.id,
       };
       enterChat(params).then((res) => {
-        this.chatINfo = res.info;
-        console.log(res, "res=进入聊天室===========");
+        if (res.code == '0') {
+          this.urlInfo = res.info;
+          this.linkSocket()
+          console.log(res, "res=进入聊天室===========");
+        }
       });
     },
     toLive(val) {
@@ -1944,6 +1913,8 @@ export default {
           source: "pc",
         };
         setHouseManage(params).then((res) => {
+            this.linkSocket()
+          this.urlInfo = res.info
           console.log(res, "res---设为房管");
         });
       }
@@ -3150,10 +3121,11 @@ export default {
           padding: 5px 14px;
           position: relative;
           .gift-show {
-            position:absolute;
+            position: absolute;
             top: 200px;
-            left: 70px;
-            width: 210px
+            right: 70px;
+            width: 210px;
+            z-index: 9999
           }
           .chat-new {
             position: absolute;
