@@ -1417,6 +1417,7 @@ export default {
           this.urlInfo = res.info
           this.msgListDataQuery()
           this.linkSocket()
+          this.sendContent=''
         });
       } else {
         this.$emit("denglu");
