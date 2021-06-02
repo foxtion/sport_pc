@@ -1126,7 +1126,6 @@ export default {
   },
 
   mounted() {
-    this.addToList()
     let _this = this;
     let bfUrl = "http://ivi.bupt.edu.cn/hls/xjtv.m3u8";
     this.player = new TcPlayer("id_test_video", {
@@ -1367,8 +1366,8 @@ export default {
               id: data.uid,
               avatar: data.user.avatar,
               msg: data.content,
-              time: 6,
-              barrageStyle: 'red'
+              time: 10,
+              barrageStyle: data.user.noble_name == '皇帝'? 'huangdi' : data.user.noble_name == '公爵' ? 'gongjue' : data.user.noble_name == '侯爵' ? 'houjue' : data.user.noble_name == '子爵' ? 'zijue' : data.user.noble_name == '骑士' ? 'qishi' : 'mianfei'
               });
              console.log(this.xiaoxilist, 'wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww')
           }
@@ -3205,31 +3204,86 @@ export default {
 .shielding-box {
   background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
 }
-
+.baberrage-item {
+  height:30px
+  line-height:30px;
+}
+.baberrage-item .normal{
+    position:relative !important;
+  background:rgba(255,255,255,0) !important;
+  height:100%
+  
+}
+.baberrage-item .normal img{
+  position:absolute !important;
+  width: 40px !important;
+   height: 40px !important;
+   border-radius:50% !important;
+   top:-5px !important;
+   left:-10px !important;
+  
+}
+.baberrage-msg{
+  margin-top:-5px;
+}
 .gift-popover {
   padding: 0 !important;
 }
 .barrages-drop {
  .blue {
- border-radius: 100px;
+ border-radius: 10px;
  background: #e6ff75;
  color: #fff;
  }
  .green {
- border-radius: 100px;
+ border-radius: 10px;
  background: #75ffcd;
  color: #fff;
  }
  .red {
- border-radius: 100px;
+ border-radius: 10px;
  background: #e68fba;
  color: #fff;
  }
  .yellow {
- border-radius: 100px;
+ border-radius: 10px;
  background: #dfc795;
  color: #fff;
  }
+  .huangdi {
+    border-radius: 10px;
+            background: rgba(255,183,28,0.7);
+            padding: 0 30px 0 0;
+          }
+          .gongjue {
+            border-radius: 10px;
+            background: rgba(160,81,235,0.7);
+            padding: 0 30px 0 0;
+          }
+          .houjue {
+            border-radius: 10px;
+            background: rgba(92,141,255,0.7);
+            padding: 0 30px 0 0;
+            
+          }
+          .zijue {
+            border-radius: 10px;
+            background: rgba(71,204,108,0.7);
+                        padding: 0 30px 0 0;
+
+          }
+          .qishi {
+            border-radius: 10px;
+            background: rgba(145,147,180,0.7);
+            padding: 0 30px 0 0;
+
+          }
+          .mianfei {
+            border-radius: 10px;
+            background: rgba(219,177,111,0.7);
+                        padding: 0 30px 0 0;
+
+          }
  .baberrage-stage {
  position: absolute;
  width: 100%;
@@ -3237,7 +3291,7 @@ export default {
  z-index:1000
  overflow: hidden;
  top: 0;
- margin-top: 130px;
+ margin-top: 30px;
  }
 }
 </style>
