@@ -486,7 +486,7 @@
                         <el-tab-pane label="聊天室" name="0"> -->
           <div class="scoller chatroom" id="xiaoxi">
             <img :src="gitfUrl" class="gift-show"  v-if="giftShow" />
-            <!-- <img src="@/assets/chat-new.png" class="chat-new" @click="getNewChatNew" v-if="xiaoxilistShow.length >= 14 && !inshwogundtiao" /> -->
+            <img src="@/assets/chat-new.png" class="chat-new" @click="getNewChatNew" v-if="xiaoxilistShow.length >= 15 && !inshwogundtiao" />
             <div
               style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex"
               v-for="(item, i) in xiaoxilistShow"
@@ -1575,6 +1575,7 @@ export default {
 
     // 发送弹幕
     sendXiaoXi(val) {
+      if (!this.sendContent) return
       console.log(this.sendContent, "sendContent==========");
       console.log(JSON.parse(window.localStorage.getItem("user")), "11111111111111111111111111111111111111==========");
       if (window.localStorage.getItem("token")) {
