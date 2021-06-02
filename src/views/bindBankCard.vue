@@ -1,4 +1,5 @@
 <template>
+<div id="myBank">
   <el-dialog
     title="绑定银行卡"
     :center="true"
@@ -7,7 +8,6 @@
     :close-on-click-modal="false"
     :before-close="handleClose"
   >
-    <div id="myBank">
       <el-form
         :model="loginForm"
         :rules="loginRule"
@@ -91,8 +91,8 @@
           >
         </el-form-item>
       </el-form>
-    </div>
   </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -302,11 +302,20 @@ export default {
 <style lang="stylus">
 #myBank {
   padding: 0;
-
-  >.el-dialog--center .el-dialog__body {
+  /deep/.el-dialog .el-dialog__header {
+    background: #E6EAF3 !important;
+    border-radius: 9px 9px 0 0;
+    font-weight: 800;
+    padding: 12px 10px;
+  }
+  /deep/.el-dialog--center .el-dialog__body {
     padding: 30px 25px 4px;
   }
-
+  /deep/.el-dialog--center{
+    text-align: center;
+    border: 1px solid #e6eaf3;
+    border-radius: 9px;
+  }
   h4 {
     font-size: 18px;
     font-weight: 600;
@@ -323,7 +332,7 @@ export default {
     }
   }
 
-  .el-form-item {
+  /deep/.el-form-item {
     display: flex;
     justify-content: center;
     color: #434A66;
@@ -337,10 +346,6 @@ export default {
   .baseInput {
     margin-bottom: 30px;
   }
-}
-
-.el-dialog .el-dialog__header {
-  background: #E6EAF3 !important;
 }
 
 .el-input-group__append {

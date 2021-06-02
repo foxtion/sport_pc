@@ -249,7 +249,7 @@ export default {
     }
   }
 
-  .el-form-item {
+  /deep/.el-form-item {
     display: flex;
     justify-content: center;
     color: #434A66;

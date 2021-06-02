@@ -7,7 +7,7 @@
     :close-on-click-modal="false"
     :before-close="handleClose"
   >
-    <div id="myProfile">
+    <div id="securitypass">
       <el-form
         :model="registerForm"
         :rules="registerRule"
@@ -240,7 +240,7 @@ export default {
 </script>
 
 <style lang="stylus">
-#myProfile {
+#securitypass {
   .el-dialog--center .el-dialog__body {
     padding: 0px 25px 4px;
   }
@@ -261,7 +261,7 @@ export default {
     }
   }
 
-  .el-form-item {
+  /deep/.el-form-item {
     display: flex;
     justify-content: center;
     color: #434A66;

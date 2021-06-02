@@ -308,11 +308,12 @@ export default {
     width: 90%;
   }
 
-  .el-form-item {
+  /deep/.el-form-item {
     display: flex;
     justify-content: center;
     color: #434A66;
     font-weight: 400;
+    margin-bottom: 16px;
 
     .xing {
       color: #FF5D5D;
@@ -354,9 +355,6 @@ export default {
   }
 }
 
-.el-form-item {
-  margin-bottom: 16px;
-}
 
 .el-button--info {
   border: 0;
