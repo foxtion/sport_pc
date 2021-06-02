@@ -485,10 +485,21 @@
           <!-- <el-tabs v-model="activeName">
                         <el-tab-pane label="聊天室" name="0"> -->
           <div class="scoller chatroom" id="xiaoxi">
-            <img :src="gitfUrl" class="gift-show"  v-if="giftShow" />
-            <img src="@/assets/chat-new.png" class="chat-new" @click="getNewChatNew" v-if="xiaoxilistShow.length >= 15 && !inshwogundtiao" />
+            <img :src="gitfUrl" class="gift-show" v-if="giftShow" />
+            <img
+              src="@/assets/chat-new.png"
+              class="chat-new"
+              @click="getNewChatNew"
+              v-if="xiaoxilistShow.length >= 15 && !inshwogundtiao"
+            />
             <div
-              style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex"
+              style="
+                margin-bottom: 8px;
+                font-size: 14px;
+                height: 30px;
+                line-height: 30px;
+                display: flex;
+              "
               v-for="(item, i) in xiaoxilistShow"
               :key="i"
               :class="
@@ -913,6 +924,7 @@ export default {
   components: { VBarrage, liveNoble, Liveylist, fullMoney, mytuijian },
   data() {
     return {
+      timer1:null,
       msg: "马优晨就是个辣鸡~",
       barrageIsShow: true,
       messageHeight: 3,
@@ -1134,7 +1146,7 @@ export default {
       setIntervalNum: 0,
       gundong: null,
       gundongNum: 0,
-      inshwogundtiao: false
+      inshwogundtiao: false,
     };
   },
 
@@ -1299,34 +1311,32 @@ export default {
   },
   methods: {
     getNewChatNew() {
-      this.inshwogundtiao = true
+      this.inshwogundtiao = true;
       // var gotop = document.getElementById('xiaoxi')
 
       this.gundong = setInterval(() => {
-        const preScrollTop =  5000
+        const preScrollTop = 5000;
         // 34*this.xiaoxilistShow.length
-        document.getElementById('xiaoxi').scrollTop += 5
-        if (document.getElementById('xiaoxi').scrollTop >= preScrollTop) {
-          clearInterval(this.gundong)
+        document.getElementById("xiaoxi").scrollTop += 5;
+        if (document.getElementById("xiaoxi").scrollTop >= preScrollTop) {
+          clearInterval(this.gundong);
         }
-      })
+      });
     },
     addToList() {
-      console.log('11111111111111111111111111111')
-  let list = [
-
-  ];
-  list.forEach((v) => {
-  this.barrageList.push({
-   id: v.id,
-   avatar: v.avatar,
-   msg: v.msg,
-   time: v.time,
-  //  type: MESSAGE_TYPE.NORMAL,
-   barrageStyle: v.barrageStyle
-  });
-  });
- },
+      console.log("11111111111111111111111111111");
+      let list = [];
+      list.forEach((v) => {
+        this.barrageList.push({
+          id: v.id,
+          avatar: v.avatar,
+          msg: v.msg,
+          time: v.time,
+          //  type: MESSAGE_TYPE.NORMAL,
+          barrageStyle: v.barrageStyle,
+        });
+      });
+    },
     getanchorlist(type) {
       this.currentContribution = type;
       //主播榜  :日榜,week:
@@ -1353,41 +1363,40 @@ export default {
       });
     },
 
- 
-        linkSocket(){
-            this.websock = new WebSocket("ws://107.148.224.65:9293");
-            this.websock.onopen = this.onOpen
-            this.websock.onmessage = this.onMessage;
-            this.websock.onclose = this.onclose;                       
-        },
-        
-        onOpen(e){
-            this.websock.send(this.urlInfo)
-            console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功")
-        },
-        onMessage(event){
-          const data = JSON.parse(event.data)
-          if (data.uid) {
-          this.isHav = false
-          this.xiaoxilist.map(item => {
-             if(data.content == item.content) {
-            console.log('bbbbbbbbbbbbbbbbbbbbbbbb')
-               this.isHav = true
-               return
-             }
-          })            
-            console.log('ccccccccccccccccccccc')
-          if (!this.isHav) {
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
- 
-            this.xiaoxilistShow.push(data)
-            this.xiaoxilist =  this.xiaoxilistShow
+    linkSocket() {
+      this.websock = new WebSocket("ws://107.148.224.65:9293");
+      this.websock.onopen = this.onOpen;
+      this.websock.onmessage = this.onMessage;
+      this.websock.onclose = this.onclose;
+    },
+
+    onOpen(e) {
+      this.websock.send(this.urlInfo);
+      console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功");
+    },
+    onMessage(event) {
+      const data = JSON.parse(event.data);
+      if (data.uid) {
+        this.isHav = false;
+        this.xiaoxilist.map((item) => {
+          if (data.content == item.content) {
+            console.log("bbbbbbbbbbbbbbbbbbbbbbbb");
+            this.isHav = true;
+            return;
           }
+        });
+        console.log("ccccccccccccccccccccc");
+        if (!this.isHav) {
+          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+          this.xiaoxilistShow.push(data);
+          this.xiaoxilist = this.xiaoxilistShow;
+        }
         this.barrageList.push({
           id: data.uid,
           avatar: data.user.avatar,
           msg: data.content,
-          time: 10,
+          time: Math.floor(Math.random() * 10 + 3),
           barrageStyle:
             data.user.noble_name == "皇帝"
               ? "huangdi"
@@ -1401,6 +1410,8 @@ export default {
               ? "qishi"
               : "mianfei",
         });
+          
+ console.log(this.barrageList)
         console.log(
           this.xiaoxilist,
           "wwwwwwwwwwwwwwwwwwwlioadjdsjfwwwwwwwwwwwwwwwwwwwwwwwwww"
@@ -1602,7 +1613,7 @@ export default {
     },
     // 发送弹幕
     sendXiaoXi(val) {
-      if (!this.sendContent) return
+      if (!this.sendContent) return;
       console.log(this.sendContent, "sendContent==========");
       console.log(
         JSON.parse(window.localStorage.getItem("user")),
