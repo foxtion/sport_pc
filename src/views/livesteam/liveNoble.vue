@@ -280,35 +280,35 @@
           <div class="LiveNoble-bottom" v-if="currentNav == 'emperor'">
             <div class="bottom-left">
               <p>开通骑士：<span style="color: #DBB16F">368</span>龙钻/月续费皇帝：<span style="color: #DBB16F">199</span>龙钻/月</p>
-              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: {{ $store.state.user.info.coin }}</span>龙由主播“{{ nick_name }}”为您开通</p></div>
             </div>
             <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('皇帝')" />
           </div>
           <div class="LiveNoble-bottom" v-if="currentNav == 'duke'">
             <div class="bottom-left">
               <p>开通骑士：<span style="color: #DBB16F">99</span>龙钻/月续费公爵：<span style="color: #DBB16F">69</span>龙钻/月</p>
-              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: {{ $store.state.user.info.coin }}</span>龙由主播“{{ nick_name }}”为您开通</p></div>
             </div>
             <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('公爵')" />
           </div>
           <div class="LiveNoble-bottom" v-if="currentNav == 'marquis'">
             <div class="bottom-left">
               <p>开通骑士：<span style="color: #DBB16F">59</span>龙钻/月 续费侯爵：<span style="color: #DBB16F">39</span>龙钻/月</p>
-              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: {{ $store.state.user.info.coin }}</span>龙由主播“{{ nick_name }}”为您开通</p></div>
             </div>
             <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('侯爵')" />
           </div>
           <div class="LiveNoble-bottom" v-if="currentNav == 'viscount'">
             <div class="bottom-left">
               <p>开通骑士：<span style="color: #DBB16F">29</span>龙钻/月 续费子爵：<span style="color: #DBB16F">13</span>龙钻/月</p>
-              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: {{ $store.state.user.info.coin }}</span>龙由主播“{{ nick_name }}”为您开通</p></div>
             </div>
             <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('子爵')" />
           </div>
           <div class="LiveNoble-bottom" v-if="currentNav == 'knight'">
             <div class="bottom-left">
               <p>开通骑士：<span style="color: #DBB16F">12</span>龙钻/月续费 子爵：<span style="color: #DBB16F">6</span>龙钻/月</p>
-              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: 20</span>龙由主播“XXX的赵云”为您开通</p></div>
+              <div style="display: flex;margin-top: 5px"><img src="@/assets/liveNoble/balance.png" /><p style="width: 300px; line-height: 22px;margin-left:3px"><span style="color: #DBB16F">龙钻余额: {{ $store.state.user.info.coin }}</span>龙由主播“{{ nick_name }}”为您开通</p></div>
             </div>
             <img src="@/assets/liveNoble/open.png" style="cursor: pointer;" @click="openNobleBtn('骑士')"/>
           </div>
@@ -322,6 +322,10 @@
 import { nobleList, openNoble, GetUserinfo } from "@/api";
 export default {
     name: "LiveNoble",
+    props: {
+      nick_name: String,
+      required: '',
+    },
     data() {
       return {
         dialogVisible: false,
