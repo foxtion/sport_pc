@@ -133,3 +133,8 @@ export const liveBanUser = (params) => post({ url: 'Chat.Chat.live_ban_user', pa
 // 禁言
 export const withdrawMsg = (params) => post({ url: 'Chat.withdraw_msg', params})
 
+// 直播预告
+export const noticelive = (params) => post({ url: 'Live.noticelive', params})
+
+
+

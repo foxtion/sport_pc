@@ -794,7 +794,7 @@
       </div>
     </div>
     <mytuijian />
-    <liveylist />
+    <liveylist :datadetail="liveDetailInfo" />
     <liveNoble ref="livenoble" :nick_name="nick_name"/>
     <fullMoney :rechargeShow="rechargeShow" @closeRecharge="closeRecharge" />
   </div>
@@ -1462,6 +1462,7 @@ export default {
           // if (this.flagNUm == 1) {
             this.linkSocket()
           // }
+          this.sendContent=''
         });
       } else {
         this.$emit("denglu");
