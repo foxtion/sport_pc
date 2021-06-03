@@ -514,7 +514,7 @@ export default {
     padding: 30px 0 0 0;
     left: 120px;
     top: 80px;
-    // width: 1730px;
+    min-width: 1730px;
     height: 960px;
     overflow-y: auto;
     margin-left 30px
