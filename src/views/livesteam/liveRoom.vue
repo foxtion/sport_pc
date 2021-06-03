@@ -924,7 +924,7 @@ export default {
       barrageIsShow: true,
       messageHeight: 3,
       boxHeight: 150,
-      barrageLoop: true,
+      barrageLoop: false,
       maxWordCount: 3,
       throttleGap: 5000,
       barrageList: [],
