@@ -514,7 +514,7 @@ export default {
     padding: 30px 0 0 0;
     left: 120px;
     top: 80px;
-    width: 1600px;
+    // width: 1730px;
     height: 960px;
     overflow-y: auto;
     margin-left 30px
@@ -522,7 +522,7 @@ export default {
     .categoryinnercontent {
       li {
         width: 272px;
-        margin: 0 20px 20px 0;
+        margin: 0 16px 16px 0;
         background-color: #fff;
         display: inline-block;
         border-radius: 4px;

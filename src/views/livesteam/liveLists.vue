@@ -80,7 +80,7 @@
         layout="prev, pager, next"
         :total="total"
         :current-page="currentpage"
-        :page-size="20"
+        :page-size="24"
         @prev-click="prev"
         @next-click="next"
         @current-change="currentchange"
@@ -213,7 +213,7 @@ export default {
 
   .categoryinnercontent {
     li {
-      width: 285px;
+      width: 280px;
       height: 226px;
       opacity: 1;
       background: #ffffff;
@@ -225,7 +225,7 @@ export default {
         position: relative;
         cursor: pointer;
         width: 100%;
-        width: 285px;
+        width: 278px;
         height: 160px;
         transition: color 0.2s ease-out;
 
