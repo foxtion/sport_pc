@@ -593,7 +593,7 @@
                   style="margin: 5px 3px 5px 2px"
                 />
                 <span style="margin-left: 5px; color: #ff7714">
-                  {{ item.gift.name }}
+                  {{ item.gift.name }} X {{ item.count }}
                 </span>
               </div>
             </div>
@@ -1613,10 +1613,6 @@ export default {
     sendXiaoXi(val) {
       if (!this.sendContent) return;
       console.log(this.sendContent, "sendContent==========");
-      console.log(
-        JSON.parse(window.localStorage.getItem("user")),
-        "11111111111111111111111111111111111111=========="
-      );
       if (window.localStorage.getItem("token")) {
         const params = {
           uid: JSON.parse(window.localStorage.getItem("user")).id,
@@ -1625,6 +1621,7 @@ export default {
           token: window.localStorage.getItem("token"),
           type: this.liveDetailInfo.type,
           content: this.sendContent,
+          stream: this.$route.query.stream
         };
         sendMsg(params).then((res) => {
           this.sendContent = "";
@@ -2780,8 +2777,8 @@ export default {
       }
 
       .chat {
-        position: fixed;
-        left: 1380px;
+        // position: fixed;
+        // left: 1380px;
 
         .popper-main {
           min-width: 50px !important;
@@ -3177,27 +3174,27 @@ export default {
 
         .chatroom {
           .huangdi {
-            background: #FFB71C;
+            background: rgba(255, 183, 28, 0.5);
           }
 
           .gongjue {
-            background: #A051EB;
+             background: rgba(160, 81, 235, 0.5);
           }
 
           .houjue {
-            background: #5C8DFF;
+    background: rgba(92, 141, 255, 0.5);
           }
 
           .zijue {
-            background: #47CC6C;
+    background: rgba(71, 204, 108, 0.5);
           }
 
           .qishi {
-            background: #9193B4;
+    background: rgba(145, 147, 180, 0.5);
           }
 
           .mianfei {
-            background: #DBB16F;
+    background: rgba(219, 177, 111, 0.5);
           }
 
           border: 1px solid #E6EAF3;

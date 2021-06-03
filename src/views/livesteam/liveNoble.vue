@@ -10,7 +10,7 @@
           <div style="display: flex">
             <div class="my-level">
               <p style="margin-bottom: 8px">您的贵族身份为: 子爵</p>
-              <p>截止日期: {{ user.noble_endtimes }}</p>
+              <p>截止日期: {{ endtime }}</p>
             </div>
             <div class="become">成为贵族，万众瞩目</div>
           </div>
@@ -332,14 +332,15 @@ export default {
         user:{},
         token: '',
         currentNav: 'emperor',
-        nobleListData: []
+        nobleListData: [],
+        endtime: ''
       }
     },
     mounted() {
-      this.user = JSON.parse(window.localStorage.getItem("user"))
-      this.token = window.localStorage.getItem("token")
     },
     created() {
+      this.user = JSON.parse(window.localStorage.getItem("user"))
+      this.token = window.localStorage.getItem("token")
       this.getnobleListData()
     },
     methods: {
@@ -351,6 +352,12 @@ export default {
         },
       // 获取贵族列表
       getnobleListData() {
+        const time = Number(JSON.parse(window.localStorage.getItem("user")).noble_endtimes)
+        const myDate = new Date(time)
+        const month = myDate.getMonth() + 1
+        const date = myDate.getDate()
+        const year = myDate.getFullYear()
+      this.endtime = year + "/" + month + "/" + date
         const params = {
           source: "pc",
         };
@@ -359,11 +366,14 @@ export default {
         });
       },
       openNobleBtn(type) {
+        const query = this.$route.query;  
         const nobleInfo = this.nobleListData.filter(item => item.name == type)
+      // this.user = JSON.parse(window.localStorage.getItem("user"))
+      console.log(this.user, '======11====')
         const params = {
-          uid: this.user.id,
+          uid: JSON.parse(window.localStorage.getItem("user")).id,
           token: this.token,
-          live_uid: 4,
+          live_uid: query.liveuid,
           source: "pc",
           noble_id: nobleInfo[0].id
         };
@@ -375,6 +385,8 @@ export default {
             });
             this.getUserinfoList()
             this.dialogVisible = false
+          } else {
+            this.$message.error(res.msg);
           }
         });
       },
@@ -386,9 +398,11 @@ export default {
           source: "pc",
         };
         GetUserinfo(params).then((res) => {
-          this.$store.commit("userinfo", res.info);
-          window.localStorage.setItem("user",JSON.stringify(res.info));
-          console.log(res.info, 'info--------------8888--------------');
+          const uerINfo =this.user
+          uerINfo.noble_id = res.info.noble_id
+          uerINfo.noble_endtimes = res.info.noble_endtimes
+          this.$store.commit("userinfo", uerINfo);
+          window.localStorage.setItem("user",JSON.stringify(uerINfo));
         });
       },
     } 
