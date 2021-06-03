@@ -8,7 +8,7 @@
               <img src="../../assets/img/foot.png" class="icons"/>
               <div class="title">足球</div>
             </div>
-            <div class="header-right">今日<span class="number">{{ football.length}}</span>场比赛</div>
+            <div class="header-right">今日<span class="number">{{ football.length? football.length : 0}}</span>场比赛</div>
           </div>
           <div class="nav-item-content" :style="open? 'overflow: hidden;height: 106px;' : 'overflow: inherit'">
             <div v-for="(item, index) in football"
@@ -25,7 +25,7 @@
               <img src="../../assets/img/basketball.png" class="icons"/>
               <div class="title">篮球</div>
             </div>
-            <div class="header-right">今日<span class="number">{{ basketball.length}}</span>场比赛</div>
+            <div class="header-right">今日<span class="number">{{ basketball.length? basketball.length : 0}}</span>场比赛</div>
           </div>
           <div class="nav-item-content" :style="open2? 'overflow: hidden;height: 106px;' : 'overflow: inherit'">
             <div v-for="(item, index) in basketball"
@@ -46,10 +46,10 @@
             {{ date }}
           </div>
           <div v-if="active == 1" class="match">
-            ({{ match.length}}场比赛)
+            ({{ match.length? match.length : 0}}场比赛)
           </div>
           <div v-else class="match">
-            ({{ list.length}}场比赛)
+            ({{ list.length? list.length : 0}}场比赛)
           </div>
         </div>
         <div class="live">
@@ -76,8 +76,9 @@
             <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
               <div v-if="item.is_live == 1" class="playing">去观看</div>
-              <div v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="playover">预约</div>
-              <a v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="playover">未开始</a>
+              <div v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="yuyue" @click="appointclick(item, index)">预约</div>
+              <div v-if="item.is_make == 1 && item.is_live == 0 && item.status == 1" class="playover" @click="appointclick(item, index)">已预约</div>
+              <a v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="noplay">未开始</a>
               <div v-if="item.status == 8" class="playover">已结束</div>
               <a v-if="item.is_live == 1">直播中...</a>
             </div>
@@ -109,7 +110,7 @@
               <div
                 class="prevButton"
                 slot="prevButton"
-                v-if="item.game_details.length > 6"
+                v-if="item.anchor.length > 6"
               >
                 <img
                   class="nextIcon"
@@ -120,7 +121,7 @@
               <div
                 class="nextButton"
                 slot="nextButton"
-                v-if="item.game_details.length > 6"
+                v-if="item.anchor.length > 6"
               >
                 <img
                   class="prevIcon"
@@ -159,12 +160,52 @@
             </div>
           </div>
           <div class="right_game">
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
+           <public-swiper
+              :option="item.anchor"
+              :name="'top_game_' + index"
+              view="6"
+              :loop="false"
+              :autoplay="0"
+              height="74px"
+              width="480px"
+              className="egameTop_swiper"
+              swiperPage="egameTop_swiper"
+            >
+              <template slot-scope="options">
+                <div
+                  class="game_topList"
+                  :key="options.options.uid"
+                  :class="{ changs_maintain: options.options.state == 3 }"
+                >
+                  <div class="xxx1">
+                    <img :src="options.options.avatar" class="game_logo" alt="" />
+                    <p class="p_title">{{ options.options.nick_name }}</p>
+                  </div>
+                </div>
+              </template>
+              <div
+                class="prevButton"
+                slot="prevButton"
+                v-if="item.anchor.length > 6"
+              >
+                <img
+                  class="nextIcon"
+                  src="../../assets/img/xiayiyean.png"
+                  alt=""
+                />
+              </div>
+              <div
+                class="nextButton"
+                slot="nextButton"
+                v-if="item.anchor.length > 6"
+              >
+                <img
+                  class="prevIcon"
+                  src="../../assets/img/shangyiyean.png"
+                  alt=""
+                />
+              </div>
+            </public-swiper>
           </div>
         </div>
       </div>
@@ -197,10 +238,7 @@ import DateWeek from '../dateWeek'
     },
     created() {
       this.getbasketball()
-      const datas= {
-        year: ''
-      }
-      this.searchCompetitionData(datas)
+      var year = ''
       const data = {
         source: 'pc',
         time: year
