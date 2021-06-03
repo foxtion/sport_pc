@@ -83,12 +83,52 @@
             </div>
           </div>
           <div class="right_game">
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
-            <div class="bunko"></div>
+           <public-swiper
+              :option="item.anchor"
+              :name="'top_game_' + index"
+              view="6"
+              :loop="false"
+              :autoplay="0"
+              height="74px"
+              width="480px"
+              className="egameTop_swiper"
+              swiperPage="egameTop_swiper"
+            >
+              <template slot-scope="options">
+                <div
+                  class="game_topList"
+                  :key="options.options.uid"
+                  :class="{ changs_maintain: options.options.state == 3 }"
+                >
+                  <div class="xxx1">
+                    <img :src="options.options.avatar" class="game_logo" alt="" />
+                    <p class="p_title">{{ options.options.nick_name }}</p>
+                  </div>
+                </div>
+              </template>
+              <div
+                class="prevButton"
+                slot="prevButton"
+                v-if="item.game_details.length > 6"
+              >
+                <img
+                  class="nextIcon"
+                  src="../../assets/img/xiayiyean.png"
+                  alt=""
+                />
+              </div>
+              <div
+                class="nextButton"
+                slot="nextButton"
+                v-if="item.game_details.length > 6"
+              >
+                <img
+                  class="prevIcon"
+                  src="../../assets/img/shangyiyean.png"
+                  alt=""
+                />
+              </div>
+            </public-swiper>
           </div>
         </div>
       </div>
@@ -157,7 +197,10 @@ import DateWeek from '../dateWeek'
     },
     created() {
       this.getbasketball()
-      this.searchCompetitionData()
+      const datas= {
+        year: ''
+      }
+      this.searchCompetitionData(datas)
       const data = {
         source: 'pc',
         time: year
@@ -249,6 +292,7 @@ import DateWeek from '../dateWeek'
         this.match = this.football[index].game
       },
       searchCompetitionData(val){
+        console.log(val)
         var year = ''
         if (val !== undefined) {
           this.date = val.date
@@ -648,5 +692,42 @@ import DateWeek from '../dateWeek'
       }
     }
   }
+}
+</style>
+<style>
+.prevButton {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  width: 25px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fff;
+}
+.prevButton img {
+  width: 25px;
+}
+.nextButton img {
+  width: 25px;
+}
+.nextButton {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  z-index: 999;
+  height: 100%;
+  width: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fff;
+}
+.swiper-container {
+  padding: 0 20px;
 }
 </style>
