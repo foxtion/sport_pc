@@ -70,7 +70,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <div style="width: 108px">
+          <div style="width: 108px;margin-left: 255px;">
             <el-button
               type="primary"
               style="
@@ -354,7 +354,7 @@ export default {
   border: 1px solid #e6eaf3;
   border-radius: 9px;
   width: 588px;
-  margin: 10px 0 5px -54px;
+  margin: 10px 0 5px -26px;
 }
 
 .code {

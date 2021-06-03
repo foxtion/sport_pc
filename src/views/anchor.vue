@@ -253,6 +253,7 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    height: 140px;
   }
 
   .avatar-uploader .el-upload:hover {
