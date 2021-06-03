@@ -1303,6 +1303,7 @@ export default {
         return false;
       }
     };
+    this.$store.commit("footsshow", false);
   },
   methods: {
     getNewChatNew() {
@@ -2041,6 +2042,7 @@ export default {
     },
   },
   destroyed() {
+     this.$store.commit("footsshow", true);
     document.removeEventListener("scroll", this.handleScroll);
   },
 };

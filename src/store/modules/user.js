@@ -3,7 +3,8 @@ const state = {
     tabnav:0,
     isauth:false,
     login:false,
-    liveDetail:{}
+    liveDetail:{},
+    footer:true
 }
 const mutations = {
     userinfo(state,param){
@@ -28,6 +29,10 @@ const mutations = {
     liveDetailinfo(state,param){
         state.liveDetail =param
         sessionStorage.setItem('liveDetail', JSON.stringify(param))
+    },
+    footsshow(state,param){
+        state.footer =param
+        sessionStorage.setItem('footsshow', JSON.stringify(param))
     },
 
 }
