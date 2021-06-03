@@ -518,6 +518,7 @@
               >
                 <div>
                   <img
+                    v-if="item.user.is_anchor == 0"
                     :src="item.user.noble_icon"
                     width="20px"
                     style="margin: 5px 3px 5px 2px"
@@ -526,8 +527,15 @@
                 <span
                   style="margin-left: 5px; color: #4171e3"
                   @click="userInfoBtn(item)"
+                  v-if="item.user.is_anchor == 0"
                 >
                   {{ item.user.nick_name }} :
+                </span>
+                <span
+                  style="margin-left: 5px; color: #4171e3"
+                  v-if="item.user.is_anchor == 1"
+                >
+                  主播:
                 </span>
                 <span style="margin-left: 5px" @click="userMsgBtn(item)">
                   {{ item.content }}
@@ -1142,6 +1150,7 @@ export default {
       gundong: null,
       gundongNum: 0,
       inshwogundtiao: false,
+      giftList: []
     };
   },
 
@@ -1400,18 +1409,28 @@ export default {
         }
       }
       if (data.gift) {
-        this.xiaoxilistShow.push(data);
-        this.gitfUrl = data.gift.swf;
-        this.giftShow = true;
-        this.giftImg = setInterval(() => {
-          if (this.setIntervalNum == 4) {
-            clearInterval(this.giftImg);
-            this.giftShow = false;
-            this.setIntervalNum = 0;
+        this.isHav = false;
+        this.giftList.map((item) => {
+          if (data.count == item.count && data.gift.id == item.gift.id) {
+            this.isHav = true;
             return;
           }
-          this.setIntervalNum++;
-        }, 1000);
+        });
+        if (!this.isHav) {
+          this.xiaoxilistShow.push(data);
+          this.giftList = this.xiaoxilistShow.filter(item => item.gift)
+          this.gitfUrl = data.gift.swf;
+          this.giftShow = true;
+          this.giftImg = setInterval(() => {
+            if (this.setIntervalNum == 4) {
+              clearInterval(this.giftImg);
+              this.giftShow = false;
+              this.setIntervalNum = 0;
+              return;
+            }
+            this.setIntervalNum++;
+          }, 1000);
+        }
       }
     },
     onclose() {
