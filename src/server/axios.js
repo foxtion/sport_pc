@@ -33,12 +33,12 @@ axios.interceptors.request.use(
         let url = config.url.split("?service=")
         if (LOADINGQUEUE[url[1]]) {
             if (LOADINGQUEUE[url[1]] === 'c') {
-                Toast.loading({
-                    mask: true,
-                    loadingType: 'spinner',
-                    duration: 0,
-                    message: '请求中...'
-                })
+                // Toast.loading({
+                //     mask: true,
+                //     loadingType: 'spinner',
+                //     duration: 0,
+                //     message: '请求中...'
+                // })
             } 
         }
 
@@ -86,16 +86,16 @@ axios.interceptors.response.use(
                     window.localStorage.removeItem("token");
                     window.localStorage.removeItem("user"); 
                     window.localStorage.setItem("isLogin", false);
-                    Toast.fail({
-                        mask: true,
-                        message: '请重新登陆',
-                        duration: 1000,
-                        onClose: () => {
-                            router.push({
-                                path: '/'
-                            })
-                        }
-                    })
+                    // Toast.fail({
+                    //     mask: true,
+                    //     message: '请重新登陆',
+                    //     duration: 1000,
+                    //     onClose: () => {
+                    //         router.push({
+                    //             path: '/'
+                    //         })
+                    //     }
+                    // })
                 }else{
                     Toast.clear()
                     return res;

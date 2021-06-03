@@ -28,6 +28,12 @@ export const italitable = (params) => get({ url: 'New.italitable', params})
 //获取西甲积分榜
 export const spaintable = (params) => get({ url: 'New.spaintable', params})
 
+//正在直播
+export const liveRecommendList = (params) => get({ url: 'Live.progress_live', params})
+//推荐赛程
+export const Schedulerecommend = (params) => get({ url: 'Schedule.recommend', params})
+//热门直播
+export const LivehotLive = (params) => get({ url: 'Live.hotLive', params})
 
 
 //获取法甲积分榜

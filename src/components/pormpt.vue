@@ -3,7 +3,7 @@
     <div>
         <audio :src="paly_url" controls autoplay="autoplay" ref="audio" hidden="true"></audio>
         <el-dropdown @command="pormptType">
-            <span class="el-dropdown-link" style = "width:100px;left:30px; background: linear-gradient(180deg, rgba(87, 238, 255, 1) 0%, rgba(129, 211, 248, 1) 49%, rgba(37, 149, 230, 1) 94%);;font-size: 14px">
+            <span class="el-dropdown-link" style = "width:100px; background:#dbb16f;font-size: 14px">
             <i class = "el-icon-turn-off-microphone" style="color: white;"></i>
             <strong style="margin:0px 5px 0px 10px; color:#fff; font-weight: 500;">{{pormpt_default.name}}</strong>
             <i class="el-icon-caret-bottom"></i>

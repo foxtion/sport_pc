@@ -16,6 +16,7 @@ const SOCKET="ws://172.16.127.58:9293"
     api = 'https://api.daoyunxiang.com'
 }*/
 
-  api = 'http://107.148.224.65:84'
+  // api = 'http://107.148.224.65:84'
    // api ="http://107.148.224.65:3306"
+    api = 'http://107.148.224.65:84' //正式
 export default {api,VERSION,SOURCE,SUFFIX,CODE_SALT,SOCKET}

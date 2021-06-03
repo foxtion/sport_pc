@@ -61,7 +61,6 @@
                 height: 40px;
                 font-size: 16px;
                 font-weight: 400;
-                margin-left:255px
               "
               @click="xiayibu('loginForm')"
             >

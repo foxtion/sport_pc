@@ -193,7 +193,7 @@ export default {
     position: absolute;
     top: 76px;
     height: 61px;
-    width: 1200px;
+    width: 100%;
     background: #fff;
 
     .contentval {

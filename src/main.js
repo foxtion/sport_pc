@@ -32,6 +32,7 @@ Vue.use(Vant);
 Vue.prototype.$SERVER = API;
 Vue.prototype.$REGEXUTIL = regexUtil;
 Vue.prototype.$md5 = md5;
+Vue.prototype.bus = new Vue()
 
 /*Vue.use(new VueSocketIO({
     debug: true,

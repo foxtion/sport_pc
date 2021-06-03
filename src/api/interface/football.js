@@ -41,3 +41,9 @@ export const loadoddsonerer=(params) => get({ url: 'Footballtasks.oddsone', para
 
 //获取单场技术统计
 export const getincidentser=(params) => get({ url: 'Footballtasks.getincident', params})
+
+//获取足球比分盘口列表
+export const getcompany=(params) => get({ url: 'Football.company'})
+
+//获取收藏列表
+export const get_follow_event=(params) => get({ url: 'Football.get_follow_event', params})

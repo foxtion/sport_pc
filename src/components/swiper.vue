@@ -237,4 +237,7 @@ export default {
   justify-content: center;
  }
 }
+  .swiper-slide{
+    width 220px !important
+  }
 </style>
