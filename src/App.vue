@@ -2,7 +2,7 @@
   <div id="app">
     <navbar @denglu="denglu" @zhuce="zhuce" :isLogin="isLogin" @tcdl="tcdl" :active="navactive"></navbar>
     <router-view v-if="isRouterAlive" @denglu="denglu" />
-    <footerbar></footerbar>
+    <footerbar v-if="this.$store.state.user.footer"></footerbar>
 
     <!-- 密碼登录 -->
     <el-dialog title="密码登录" :visible.sync="showLogin" width="400px" :close-on-click-modal="false" :close-on-press-escape="false">
@@ -201,7 +201,7 @@ export default {
     },
   },
   created() {
-
+    console.log(this.$route,'路由-------------------------------------------------------------')
   },
   mounted() {
     window.addEventListener("scroll", this.getScroll);
