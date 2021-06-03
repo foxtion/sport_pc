@@ -76,7 +76,9 @@
             <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
               <div v-if="item.is_live == 1" class="playing">去观看</div>
-              <div v-else class="playover">已结束</div>
+              <div v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="playover">预约</div>
+              <a v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="playover">未开始</a>
+              <div v-if="item.status == 8" class="playover">已结束</div>
               <a v-if="item.is_live == 1">直播中...</a>
             </div>
           </div>
@@ -109,7 +111,9 @@
             <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
               <div v-if="item.is_live == 1" class="playing">去观看</div>
-              <div v-else class="playover">已结束</div>
+              <div v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="playover">预约</div>
+              <a v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" >未开始</a>
+              <div v-if="item.status == 8" class="playover">已结束</div>
               <a v-if="item.is_live == 1">直播中...</a>
             </div>
           </div>
@@ -140,7 +144,7 @@ import DateWeek from '../dateWeek'
         open: true,
         open2: true,
         token: "",
-        active:1,
+        active:2,
         balls:[],
         football: [],
         match:[],
@@ -153,6 +157,16 @@ import DateWeek from '../dateWeek'
     created() {
       this.getbasketball()
       this.searchCompetitionData()
+      const data = {
+        source: 'pc',
+        time: year
+      }
+      football(data).then(res => {
+        if (res.code == 200 ) {
+          this.football = res.info.filter
+          this.list = res.info.list
+        }
+        })
     },
     mounted() {
       this.uid = JSON.parse(window.localStorage.getItem("user"));
@@ -289,6 +303,8 @@ import DateWeek from '../dateWeek'
         text-align: center;
         line-height: 28px;
         color: #434a66;
+        font-size: 13px;
+        font-family: PingFang SC, PingFang SC-Regular;
         cursor:pointer;
         margin-bottom:6px;
         margin-right:6px;
@@ -309,6 +325,10 @@ import DateWeek from '../dateWeek'
         text-align: center;
         position:relative;
         cursor: pointer;
+        font-size: 12px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        line-height: 20px;
         .arrows{
           width: 0;
           height: 0;
@@ -329,6 +349,10 @@ import DateWeek from '../dateWeek'
         text-align: center;
         position:relative;
         cursor: pointer;
+        font-size: 12px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        line-height: 20px;
         .noarrows{
           width: 0;
           height: 0;
@@ -343,7 +367,7 @@ import DateWeek from '../dateWeek'
 .top__fixturelist{
   float:left;
   width: 946px;
-  height: 52px;
+  height: 56px;
   opacity: 1;
   background: #ffffff;
   border: 1px solid #e6eaf3;
@@ -351,6 +375,12 @@ import DateWeek from '../dateWeek'
   margin-left:20px;
   .time-week .time-week-item {
     width: 100px;
+    .time{
+      padding-top: 12px;
+    }
+    .lable{
+      padding-bottom: 11px;
+    }
   }
   .time-week .time-week-main {
     width: 904px;
@@ -368,9 +398,11 @@ import DateWeek from '../dateWeek'
     height:32px;
     .times{
       line-height:32px;
-      font-size:24px;
       color:#333;
       float:left;
+      font-size: 24px;
+      font-family: PingFang SC, PingFang SC-Heavy;
+      font-weight: 800;
     }
     .match{
       float:left;
@@ -378,6 +410,8 @@ import DateWeek from '../dateWeek'
       font-size:14px;
       padding-top: 12px;
       margin-left: 10px;
+      font-family: PingFang SC, PingFang SC-Regular;
+      font-weight: 400;
     }
   }
   .live{
@@ -393,6 +427,7 @@ import DateWeek from '../dateWeek'
       color:#76809C;
       background: #fff;
       cursor: pointer;
+      border: 1px solid rgba(118,128,156,0.50);
     }
     .active{
       background: linear-gradient(90deg,#eccbab, #dbb16f 100%) !important;
@@ -409,6 +444,7 @@ import DateWeek from '../dateWeek'
       line-height: 32px;
       color:#76809C;
       cursor: pointer;
+      border: 1px solid rgba(118,128,156,0.50);
     }
   }
 }
@@ -427,6 +463,7 @@ import DateWeek from '../dateWeek'
     border: 1px solid #e6eaf3;
     border-radius: 5px;
     margin-left:20px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     .left_game{
@@ -463,7 +500,10 @@ import DateWeek from '../dateWeek'
         .teams{
           line-height:32px;
           float:left;
-          font-size: 16px;
+          color:#333;
+          font-size: 14px;
+          font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
           padding-left: 10px;
           width: 130px;
           overflow: hidden;
