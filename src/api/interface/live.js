@@ -120,7 +120,7 @@ export const enterChat = (params) => post({ url: 'Chat.LiveEnterChat', params})
 export const msgList = (params) => post({ url: 'Chat.LivemsgList', params})
 
 // 直播间发送消息
-export const sendMsg = (params) => post({ url: 'Chat.sendMsg', params})
+export const sendMsg = (params) => post({ url: 'Chat.LiveSendMsg', params})
 // 设房管
 export const setHouseManage = (params) => post({ url: 'Chat.set_house_manage', params})
 

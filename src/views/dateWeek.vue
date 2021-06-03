@@ -111,10 +111,14 @@
         .time {
           padding-top: 10px
           font-size: 16px;
+          font-family: PingFang SC, PingFang SC-Heavy;
+          font-weight: 800;
         }
         .lable {
           padding-bottom: 10px;
           font-size: 12px;
+          font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
         }
         .current-date {
           background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
