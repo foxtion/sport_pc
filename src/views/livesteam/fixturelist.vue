@@ -111,8 +111,9 @@
             <div class="playingtime">{{ item.competition_time_text }}</div>
             <div class="playto">
               <div v-if="item.is_live == 1" class="playing">去观看</div>
-              <div v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="playover">预约</div>
-              <a v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" >未开始</a>
+              <div v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="yuyue" @click="appointclick(item, index)">预约</div>
+              <div v-if="item.is_make == 1 && item.is_live == 0 && item.status == 1" class="playover" @click="appointclick(item, index)">已预约</div>
+              <a v-if="item.is_make == 0 && item.is_live == 0 && item.status == 1" class="noplay">未开始</a>
               <div v-if="item.status == 8" class="playover">已结束</div>
               <a v-if="item.is_live == 1">直播中...</a>
             </div>
@@ -131,7 +132,7 @@
 </template>
 
 <script>
-import { GetLiveListByType,football,basketball } from "@/api";
+import { GetLiveListByType,football,basketball,appointment } from "@/api";
 import DateWeek from '../dateWeek'
 
   export default {
@@ -169,7 +170,7 @@ import DateWeek from '../dateWeek'
         })
     },
     mounted() {
-      this.uid = JSON.parse(window.localStorage.getItem("user"));
+      this.user = JSON.parse(window.localStorage.getItem("user"));
       this.token = window.localStorage.token;
       this.getLiveListByType();
       this.date = this.$children[0].currentDate.date
@@ -178,9 +179,64 @@ import DateWeek from '../dateWeek'
       to(e){
         this.active = e
       },
+      cancelclick(item,index){
+      //取消预约
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        game_id: item.game_id,
+        game_type: item.game_type,
+        source: "pc",
+      };
+      cancelAppointment(params).then((res) => {
+        if (res.code === 0) {
+          this.$message({
+            type: "success",
+            message: res,
+          });
+
+          console.log(res);
+          this.getmentList();
+        } else {
+          this.$message({
+            type: "erro",
+            message: res,
+          });
+        }
+      });
+    },
+    appointclick(item, index) {
+      //预约
+      const params = {
+        uid: this.user.id,
+        token: this.token,
+        game_status: item.game_status,
+        game_id: item.id,
+        game_type: 1,
+        gametime: item.competition_time,
+        game_details:JSON.stringify(item) ,
+        game_status: item.status,
+        source: "pc",
+      };
+      appointment(params).then((res) => {
+        if (res.code === 300) {
+          this.$message({
+            type: "success",
+            message: res.msg,
+          });
+
+          this.getmentList();
+        } else {
+          this.$message({
+            type: "erro",
+            message: res.msg,
+          });
+        }
+      });
+    },
       getLiveListByType() {
         const params = {
-          uid: this.uid, //登录的uid
+          uuid: this.user.id,//登录的uid
           token: this.token, //登录的token
           type: 1, //直播分类 1足球、2篮球、3网球、4电球、5其他
           p: "1", //页数
@@ -536,6 +592,12 @@ import DateWeek from '../dateWeek'
           color:#F15C43;
           font-size:14px;
         }
+        .noplay{
+          line-height:26px;
+          padding-left: 7px;
+          color: #ccc;
+          font-size:14px;
+        }
       }
       .playover{
         width: 66px;
@@ -546,6 +608,17 @@ import DateWeek from '../dateWeek'
         text-align: center;
         line-height: 26px;
         color:#76809C;
+      }
+      .yuyue{
+        width: 66px;
+        height: 26px;
+        opacity: 1;
+        background: linear-gradient(90deg,#eccbab, #dbb16f 100%);
+        border-radius: 4px;
+        text-align: center;
+        line-height: 26px;
+        color:#fff;
+        cursor: pointer;
       }
       .playing{
         width: 66px;
