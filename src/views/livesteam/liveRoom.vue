@@ -69,18 +69,18 @@
           <!---视频播放-->
           <div style="position: relative">
             <!-- 弹幕 -->
-              <div class="barrages-drop" style="z-index:1000">
-                <vue-baberrage
-                  :isShow="barrageIsShow"
-                  :barrageList="barrageList"
-                  :maxWordCount="maxWordCount"
-                  :throttleGap="throttleGap"
-                  :loop="barrageLoop"
-                  :boxHeight="boxHeight"
-                  :messageHeight="messageHeight"
-                >
-                </vue-baberrage>
-              </div>
+            <div class="barrages-drop" style="z-index: 1000">
+              <vue-baberrage
+                :isShow="barrageIsShow"
+                :barrageList="barrageList"
+                :maxWordCount="maxWordCount"
+                :throttleGap="throttleGap"
+                :loop="barrageLoop"
+                :boxHeight="boxHeight"
+                :messageHeight="messageHeight"
+              >
+              </vue-baberrage>
+            </div>
             <div id="id_test_video">
               <!--                            <el-switch v-model="dmisShow"  inactive-text="弹幕开关" active-color="#f8c21b" style="position: absolute; top: 4px; right: 10px; z-index: 999">-->
               <!--                            </el-switch>-->
@@ -485,55 +485,118 @@
           <!-- <el-tabs v-model="activeName">
                         <el-tab-pane label="聊天室" name="0"> -->
           <div class="scoller chatroom" id="xiaoxi">
-            <img :src="gitfUrl" class="gift-show"  v-if="giftShow" />
-            <img src="@/assets/chat-new.png" class="chat-new" @click="getNewChatNew" v-if="xiaoxilistShow.length >= 15 && !inshwogundtiao" />
-            <div
-              v-for="(item, i) in xiaoxilistShow"
-              :key="i"> 
-              <div style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex" v-if="item.type == 'longya_chat'" :class="item.user.noble_name == '皇帝'? 'huangdi' : item.user.noble_name == '公爵' ? 'gongjue' : item.user.noble_name == '侯爵' ? 'houjue' : item.user.noble_name == '子爵' ? 'zijue' : item.user.noble_name == '骑士' ? 'qishi' : 'mianfei'">
-
-                  <div>
-                  <img :src="item.user.noble_icon" width="20px" style="margin:5px 3px 5px 2px"/>
-                  </div>
-                  <span
-                    style="margin-left: 5px; color: #4171e3"
-                    @click="userInfoBtn(item)"
-                  >
-                    {{ item.user.nick_name }} :
-                  </span>
-                  <span
-                    style="margin-left: 5px;"
-                    @click="userMsgBtn(item)"
-                  >
-                    {{ item.content }}
-                  </span>
-              </div>
-              <div style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex" v-if="item.type == 'longya_get_into'" :class="item.noble_id == '1'? 'huangdi' : item.noble_id == '2' ? 'gongjue' : item.noble_id == '3' ? 'houjue' : item.noble_id == '4' ? 'zijue' : item.noble_id == '5' ? 'qishi' : 'mianfei'">
+            <img :src="gitfUrl" class="gift-show" v-if="giftShow" />
+            <img
+              src="@/assets/chat-new.png"
+              class="chat-new"
+              @click="getNewChatNew"
+              v-if="xiaoxilistShow.length >= 15 && !inshwogundtiao"
+            />
+            <div v-for="(item, i) in xiaoxilistShow" :key="i">
+              <div
+                style="
+                  margin-bottom: 8px;
+                  font-size: 14px;
+                  height: 30px;
+                  line-height: 30px;
+                  display: flex;
+                "
+                v-if="item.type == 'longya_chat'"
+                :class="
+                  item.user.noble_name == '皇帝'
+                    ? 'huangdi'
+                    : item.user.noble_name == '公爵'
+                    ? 'gongjue'
+                    : item.user.noble_name == '侯爵'
+                    ? 'houjue'
+                    : item.user.noble_name == '子爵'
+                    ? 'zijue'
+                    : item.user.noble_name == '骑士'
+                    ? 'qishi'
+                    : 'mianfei'
+                "
+              >
+                <div>
+                  <img
+                    :src="item.user.noble_icon"
+                    width="20px"
+                    style="margin: 5px 3px 5px 2px"
+                  />
+                </div>
                 <span
                   style="margin-left: 5px; color: #4171e3"
+                  @click="userInfoBtn(item)"
                 >
+                  {{ item.user.nick_name }} :
+                </span>
+                <span style="margin-left: 5px" @click="userMsgBtn(item)">
+                  {{ item.content }}
+                </span>
+              </div>
+              <div
+                style="
+                  margin-bottom: 8px;
+                  font-size: 14px;
+                  height: 30px;
+                  line-height: 30px;
+                  display: flex;
+                "
+                v-if="item.type == 'longya_get_into'"
+                :class="
+                  item.noble_id == '1'
+                    ? 'huangdi'
+                    : item.noble_id == '2'
+                    ? 'gongjue'
+                    : item.noble_id == '3'
+                    ? 'houjue'
+                    : item.noble_id == '4'
+                    ? 'zijue'
+                    : item.noble_id == '5'
+                    ? 'qishi'
+                    : 'mianfei'
+                "
+              >
+                <span style="margin-left: 5px; color: #4171e3">
                   {{ item.msg }}
                 </span>
               </div>
-              <div style="margin-bottom: 8px; font-size: 14px; height:30px;line-height:30px;display: flex" v-if="item.type == 'longya_gift'" :class="item.user.noble_id == '1'? 'huangdi' : item.user.noble_id == '2' ? 'gongjue' : item.user.noble_id == '3' ? 'houjue' : item.user.noble_id == '4' ? 'zijue' : item.user.noble_id == '5' ? 'qishi' : 'mianfei'">
-                <span
-                  style="margin-left: 5px; color: #4171e3"
-                >
+              <div
+                style="
+                  margin-bottom: 8px;
+                  font-size: 14px;
+                  height: 30px;
+                  line-height: 30px;
+                  display: flex;
+                "
+                v-if="item.type == 'longya_gift'"
+                :class="
+                  item.user.noble_id == '1'
+                    ? 'huangdi'
+                    : item.user.noble_id == '2'
+                    ? 'gongjue'
+                    : item.user.noble_id == '3'
+                    ? 'houjue'
+                    : item.user.noble_id == '4'
+                    ? 'zijue'
+                    : item.user.noble_id == '5'
+                    ? 'qishi'
+                    : 'mianfei'
+                "
+              >
+                <span style="margin-left: 5px; color: #4171e3">
                   {{ item.user.nick_name }}
                 </span>
-                <span
-                  style="margin-left: 5px;"
-                >
-                  送给主播
-                </span>
-                <img :src="item.gift.icon" width="20px" style="margin:5px 3px 5px 2px"/>
-                <span
-                  style="margin-left: 5px; color: #FF7714"
-                >
+                <span style="margin-left: 5px"> 送给主播 </span>
+                <img
+                  :src="item.gift.icon"
+                  width="20px"
+                  style="margin: 5px 3px 5px 2px"
+                />
+                <span style="margin-left: 5px; color: #ff7714">
                   {{ item.gift.name }}
                 </span>
               </div>
-          </div>
+            </div>
             <div class="bounced" v-if="isShowBounced">
               <img
                 :src="userInfo.avatar"
@@ -857,14 +920,14 @@ export default {
   components: { VBarrage, liveNoble, Liveylist, fullMoney, mytuijian },
   data() {
     return {
-      msg: '马优晨就是个辣鸡~',
-  barrageIsShow: true,
-  messageHeight: 3,
-  boxHeight: 150,
-  barrageLoop: true,
-  maxWordCount: 3,
-  throttleGap: 5000,
-  barrageList: [],
+      msg: "马优晨就是个辣鸡~",
+      barrageIsShow: true,
+      messageHeight: 3,
+      boxHeight: 150,
+      barrageLoop: true,
+      maxWordCount: 3,
+      throttleGap: 5000,
+      barrageList: [],
       follow_num: "",
       notice: "",
       active_users: "",
@@ -1067,18 +1130,18 @@ export default {
       isShowLaba: false,
       flagNUm: 0,
       getGiftInfo: {
-        icon: '',
-        name: '', 
-        price: '', 
-        description: ''
+        icon: "",
+        name: "",
+        price: "",
+        description: "",
       },
-      gitfUrl:'',
+      gitfUrl: "",
       giftShow: false,
       giftImg: null,
       setIntervalNum: 0,
       gundong: null,
       gundongNum: 0,
-      inshwogundtiao: false
+      inshwogundtiao: false,
     };
   },
 
@@ -1232,37 +1295,43 @@ export default {
   created() {
     this.getanchorlist();
     this.goLiveDetail(), this.getGiftListParams();
+    let that = this;
+    document.onkeypress = function (e) {
+      var keycode = document.all ? event.keyCode : e.which;
+      if (keycode == 13) {
+        that.sendXiaoXi(); // 登录方法名
+        return false;
+      }
+    };
   },
   methods: {
     getNewChatNew() {
-      this.inshwogundtiao = true
+      this.inshwogundtiao = true;
       // var gotop = document.getElementById('xiaoxi')
 
       this.gundong = setInterval(() => {
-        const preScrollTop =  5000
+        const preScrollTop = 5000;
         // 34*this.xiaoxilistShow.length
-        document.getElementById('xiaoxi').scrollTop += 5
-        if (document.getElementById('xiaoxi').scrollTop >= preScrollTop) {
-          clearInterval(this.gundong)
+        document.getElementById("xiaoxi").scrollTop += 5;
+        if (document.getElementById("xiaoxi").scrollTop >= preScrollTop) {
+          clearInterval(this.gundong);
         }
-      })
+      });
     },
     addToList() {
-      console.log('11111111111111111111111111111')
-  let list = [
-
-  ];
-  list.forEach((v) => {
-  this.barrageList.push({
-   id: v.id,
-   avatar: v.avatar,
-   msg: v.msg,
-   time: v.time,
-  //  type: MESSAGE_TYPE.NORMAL,
-   barrageStyle: v.barrageStyle
-  });
-  });
- },
+      console.log("11111111111111111111111111111");
+      let list = [];
+      list.forEach((v) => {
+        this.barrageList.push({
+          id: v.id,
+          avatar: v.avatar,
+          msg: v.msg,
+          time: v.time,
+          //  type: MESSAGE_TYPE.NORMAL,
+          barrageStyle: v.barrageStyle,
+        });
+      });
+    },
     getanchorlist(type) {
       this.currentContribution = type;
       //主播榜  :日榜,week:
@@ -1289,86 +1358,85 @@ export default {
       });
     },
 
- 
-        linkSocket(){
-            this.websock = new WebSocket("ws://107.148.224.65:9293");
-            this.websock.onopen = this.onOpen
-            this.websock.onmessage = this.onMessage;
-            this.websock.onclose = this.onclose;                       
-        },
-        
-        onOpen(e){
-            this.websock.send(this.urlInfo)
-            console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功")
-        },
-        onMessage(event){
-          const data = JSON.parse(event.data)
-          console.log(data, '进入进入进入进入进入进入进入进入')
-          if (data.uid) {
-            if (data.type == 'longya_get_into') {
-              this.xiaoxilistShow.push(data)
-              console.log(this.xiaoxilistShow, 'xiaoxilistShowxiaoxilistShowxiaoxilistShowxiaoxilistShowxiaoxilistShow')
-            } else {
-              this.isHav = false
-              this.xiaoxilist.map(item => {
-                if(data.content == item.content) {
-                  this.isHav = true
-                  return
-                }
-              })            
-              if (!this.isHav) {
-    
-                this.xiaoxilistShow.push(data)
-                this.xiaoxilist =  this.xiaoxilistShow
+    linkSocket() {
+      this.websock = new WebSocket("ws://107.148.224.65:9293");
+      this.websock.onopen = this.onOpen;
+      this.websock.onmessage = this.onMessage;
+      this.websock.onclose = this.onclose;
+    },
 
-                this.barrageList.push({
-                  id: data.uid,
-                  avatar: data.user.avatar,
-                  msg: data.content,
-                  time: 10,
-                  barrageStyle: data.user.noble_name == '皇帝'? 'huangdi' : data.user.noble_name == '公爵' ? 'gongjue' : data.user.noble_name == '侯爵' ? 'houjue' : data.user.noble_name == '子爵' ? 'zijue' : data.user.noble_name == '骑士' ? 'qishi' : 'mianfei'
-                });
-              }
+    onOpen(e) {
+      this.websock.send(this.urlInfo);
+      console.log(e, "连接成功连接成功连接成功连接成功连接成功连接成功");
+    },
+    onMessage(event) {
+      const data = JSON.parse(event.data);
+      console.log(data, "进入进入进入进入进入进入进入进入");
+      if (data.uid) {
+        if (data.type == "longya_get_into") {
+          this.xiaoxilistShow.push(data);
+          console.log(
+            this.xiaoxilistShow,
+            "xiaoxilistShowxiaoxilistShowxiaoxilistShowxiaoxilistShowxiaoxilistShow"
+          );
+        } else {
+          this.isHav = false;
+          this.xiaoxilist.map((item) => {
+            if (data.content == item.content) {
+              this.isHav = true;
+              return;
             }
+          });
+          if (!this.isHav) {
+            this.xiaoxilistShow.push(data);
+            this.xiaoxilist = this.xiaoxilistShow;
+
+            this.barrageList.push({
+              id: data.uid,
+              avatar: data.user.avatar,
+              msg: data.content,
+              time: 10,
+              barrageStyle:
+                data.user.noble_name == "皇帝"
+                  ? "huangdi"
+                  : data.user.noble_name == "公爵"
+                  ? "gongjue"
+                  : data.user.noble_name == "侯爵"
+                  ? "houjue"
+                  : data.user.noble_name == "子爵"
+                  ? "zijue"
+                  : data.user.noble_name == "骑士"
+                  ? "qishi"
+                  : "mianfei",
+            });
           }
-          if (data.gift) {
-            this.xiaoxilistShow.push(data)
-            this.gitfUrl = data.gift.swf
-            this.giftShow = true
-            this.giftImg = setInterval(() => {
-              if (this.setIntervalNum == 4) {
-                clearInterval(this.giftImg)
-                this.giftShow = false
-                this.setIntervalNum =0
-                return
-              }
-              this.setIntervalNum ++
-            }, 1000)
-
-
-
-
-  
+        }
+      }
+      if (data.gift) {
+        this.xiaoxilistShow.push(data);
+        this.gitfUrl = data.gift.swf;
+        this.giftShow = true;
+        this.giftImg = setInterval(() => {
+          if (this.setIntervalNum == 4) {
+            clearInterval(this.giftImg);
+            this.giftShow = false;
+            this.setIntervalNum = 0;
+            return;
           }
-        },
-        onclose () {
-          console.log('断开断开断开断开断开断开断开断开断开断开断开断开断开断开断开断开')
-          this.websock.send(this.urlInfo)
-        },
+          this.setIntervalNum++;
+        }, 1000);
+      }
+    },
+    onclose() {
+      console.log(
+        "断开断开断开断开断开断开断开断开断开断开断开断开断开断开断开断开"
+      );
+      this.websock.send(this.urlInfo);
+    },
 
-
-
-
-
-
-
-
-
-
-
-    getCurrentGift(val){
-      console.log(val, 'valoooooooooooooooooooooooo')
-      this.getGiftInfo = val
+    getCurrentGift(val) {
+      console.log(val, "valoooooooooooooooooooooooo");
+      this.getGiftInfo = val;
     },
     goRecharge() {
       console.log("234567876543");
@@ -1416,9 +1484,9 @@ export default {
         stream: this.liveDetailInfo.id,
       };
       enterChat(params).then((res) => {
-        if (res.code == '0') {
+        if (res.code == "0") {
           this.urlInfo = res.info;
-          this.linkSocket()
+          this.linkSocket();
           console.log(res, "res=进入聊天室===========");
         }
       });
@@ -1543,9 +1611,12 @@ export default {
 
     // 发送弹幕
     sendXiaoXi(val) {
-      if (!this.sendContent) return
+      if (!this.sendContent) return;
       console.log(this.sendContent, "sendContent==========");
-      console.log(JSON.parse(window.localStorage.getItem("user")), "11111111111111111111111111111111111111==========");
+      console.log(
+        JSON.parse(window.localStorage.getItem("user")),
+        "11111111111111111111111111111111111111=========="
+      );
       if (window.localStorage.getItem("token")) {
         const params = {
           uid: JSON.parse(window.localStorage.getItem("user")).id,
@@ -1556,15 +1627,15 @@ export default {
           content: this.sendContent,
         };
         sendMsg(params).then((res) => {
-          this.sendContent = ''
-          console.log(res, '发送消息成功')
-          this.urlInfo = res.info
-          this.msgListDataQuery()
-          this.flagNUm ++
+          this.sendContent = "";
+          console.log(res, "发送消息成功");
+          this.urlInfo = res.info;
+          this.msgListDataQuery();
+          this.flagNUm++;
           // if (this.flagNUm == 1) {
-            this.linkSocket()
+          this.linkSocket();
           // }
-          this.sendContent=''
+          this.sendContent = "";
         });
       } else {
         this.$emit("denglu");
@@ -1723,11 +1794,11 @@ export default {
               showid: this.liveDetailInfo.showid,
             };
             sendGift(params).then((res) => {
-              console.log(res,'--------------------------------')
+              console.log(res, "--------------------------------");
               if (res.code == 0) {
-                this.urlInfo = res.info
-                this.linkSocket()
-                this.giftNum = ''
+                this.urlInfo = res.info;
+                this.linkSocket();
+                this.giftNum = "";
                 // 发送礼物
                 let broadcastObj = {};
                 broadcastObj.msg = [];
@@ -1882,15 +1953,21 @@ export default {
     },
     // 点击名称显示弹框
     userInfoBtn(item) {
-       if (this.liveDetailInfo.uid == JSON.parse(window.localStorage.getItem("user")).uid) {
-        this.currentUserInfo = item
+      if (
+        this.liveDetailInfo.uid ==
+        JSON.parse(window.localStorage.getItem("user")).uid
+      ) {
+        this.currentUserInfo = item;
         this.isShowBounced = true;
-       }
+      }
     },
 
     userMsgBtn(item) {
-      if (this.liveDetailInfo.uid == JSON.parse(window.localStorage.getItem("user")).uid) {
-        this.currentUserInfo = item
+      if (
+        this.liveDetailInfo.uid ==
+        JSON.parse(window.localStorage.getItem("user")).uid
+      ) {
+        this.currentUserInfo = item;
         this.isSserMsgBtn = true;
       }
     },
@@ -1912,8 +1989,8 @@ export default {
           source: "pc",
         };
         setHouseManage(params).then((res) => {
-            this.linkSocket()
-          this.urlInfo = res.info
+          this.linkSocket();
+          this.urlInfo = res.info;
           console.log(res, "res---设为房管");
         });
       }
@@ -1927,15 +2004,15 @@ export default {
       };
       if (this.setUserType == "2") {
         outUser(data).then((res) => {
-          this.urlInfo = res.info
-          this.linkSocket()  
+          this.urlInfo = res.info;
+          this.linkSocket();
           console.log(res, "res---踢出房间");
         });
       }
       if (this.setUserType == "3") {
         liveBanUser(data).then((res) => {
-          this.urlInfo = res.info
-          this.linkSocket()  
+          this.urlInfo = res.info;
+          this.linkSocket();
           console.log(res, "res---禁言");
         });
       }
@@ -1959,8 +2036,8 @@ export default {
         source: "pc",
       };
       withdrawMsg(data).then((res) => {
-        this.urlInfo = res.info
-        this.linkSocket()  
+        this.urlInfo = res.info;
+        this.linkSocket();
         console.log(res, "cehui消息");
       });
       this.isSserMsgBtn = false;
@@ -2509,8 +2586,8 @@ export default {
       margin: 0 auto;
       display: flex;
       padding: 10px 0;
-      // justify-content: center;
 
+      // justify-content: center;
       >div {
         background: #fff;
         border-radius: 4px;
@@ -2703,8 +2780,9 @@ export default {
       }
 
       .chat {
-        position:fixed;
-        left:1380px;
+        position: fixed;
+        left: 1380px;
+
         .popper-main {
           min-width: 50px !important;
         }
@@ -3101,33 +3179,41 @@ export default {
           .huangdi {
             background: #FFB71C;
           }
+
           .gongjue {
             background: #A051EB;
           }
+
           .houjue {
             background: #5C8DFF;
           }
+
           .zijue {
             background: #47CC6C;
           }
+
           .qishi {
             background: #9193B4;
           }
+
           .mianfei {
             background: #DBB16F;
           }
+
           border: 1px solid #E6EAF3;
           border-top: 0;
           background: #fff;
           padding: 5px 14px;
           position: relative;
+
           .gift-show {
             position: absolute;
             top: 200px;
             right: 70px;
             width: 210px;
-            z-index: 9999
+            z-index: 9999;
           }
+
           .chat-new {
             position: absolute;
             bottom: 70px;
@@ -3178,94 +3264,104 @@ export default {
 .shielding-box {
   background: linear-gradient(90deg, #eccbab, #dbb16f 100%);
 }
+
 .baberrage-item {
-  height:30px
-  line-height:30px;
+  height: 30px;
+  line-height: 30px;
 }
-.baberrage-item .normal{
-    position:relative !important;
-  background:rgba(255,255,255,0) !important;
-  height:100%
-  
+
+.baberrage-item .normal {
+  position: relative !important;
+  background: rgba(255, 255, 255, 0) !important;
+  height: 100%;
 }
-.baberrage-item .normal img{
-  position:absolute !important;
+
+.baberrage-item .normal img {
+  position: absolute !important;
   width: 40px !important;
-   height: 40px !important;
-   border-radius:50% !important;
-   top:-5px !important;
-   left:-10px !important;
-  
+  height: 40px !important;
+  border-radius: 50% !important;
+  top: -5px !important;
+  left: -10px !important;
 }
-.baberrage-msg{
-  margin-top:-5px;
+
+.baberrage-msg {
+  margin-top: -5px;
 }
+
 .gift-popover {
   padding: 0 !important;
 }
+
 .barrages-drop {
- .blue {
- border-radius: 10px;
- background: #e6ff75;
- color: #fff;
- }
- .green {
- border-radius: 10px;
- background: #75ffcd;
- color: #fff;
- }
- .red {
- border-radius: 10px;
- background: #e68fba;
- color: #fff;
- }
- .yellow {
- border-radius: 10px;
- background: #dfc795;
- color: #fff;
- }
+  .blue {
+    border-radius: 10px;
+    background: #e6ff75;
+    color: #fff;
+  }
+
+  .green {
+    border-radius: 10px;
+    background: #75ffcd;
+    color: #fff;
+  }
+
+  .red {
+    border-radius: 10px;
+    background: #e68fba;
+    color: #fff;
+  }
+
+  .yellow {
+    border-radius: 10px;
+    background: #dfc795;
+    color: #fff;
+  }
+
   .huangdi {
     border-radius: 10px;
-            background: rgba(255,183,28,0.7);
-            padding: 0 30px 0 0;
-          }
-          .gongjue {
-            border-radius: 10px;
-            background: rgba(160,81,235,0.7);
-            padding: 0 30px 0 0;
-          }
-          .houjue {
-            border-radius: 10px;
-            background: rgba(92,141,255,0.7);
-            padding: 0 30px 0 0;
-            
-          }
-          .zijue {
-            border-radius: 10px;
-            background: rgba(71,204,108,0.7);
-                        padding: 0 30px 0 0;
+    background: rgba(255, 183, 28, 0.7);
+    padding: 0 30px 0 0;
+  }
 
-          }
-          .qishi {
-            border-radius: 10px;
-            background: rgba(145,147,180,0.7);
-            padding: 0 30px 0 0;
+  .gongjue {
+    border-radius: 10px;
+    background: rgba(160, 81, 235, 0.7);
+    padding: 0 30px 0 0;
+  }
 
-          }
-          .mianfei {
-            border-radius: 10px;
-            background: rgba(219,177,111,0.7);
-                        padding: 0 30px 0 0;
+  .houjue {
+    border-radius: 10px;
+    background: rgba(92, 141, 255, 0.7);
+    padding: 0 30px 0 0;
+  }
 
-          }
- .baberrage-stage {
- position: absolute;
- width: 100%;
- height: 212px;
- z-index:1000
- overflow: hidden;
- top: 0;
- margin-top: 30px;
- }
+  .zijue {
+    border-radius: 10px;
+    background: rgba(71, 204, 108, 0.7);
+    padding: 0 30px 0 0;
+  }
+
+  .qishi {
+    border-radius: 10px;
+    background: rgba(145, 147, 180, 0.7);
+    padding: 0 30px 0 0;
+  }
+
+  .mianfei {
+    border-radius: 10px;
+    background: rgba(219, 177, 111, 0.7);
+    padding: 0 30px 0 0;
+  }
+
+  .baberrage-stage {
+    position: absolute;
+    width: 100%;
+    height: 212px;
+    z-index: 1000;
+    overflow: hidden;
+    top: 0;
+    margin-top: 30px;
+  }
 }
 </style>

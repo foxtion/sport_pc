@@ -136,5 +136,24 @@ export const withdrawMsg = (params) => post({ url: 'Chat.withdraw_msg', params})
 // 直播预告
 export const noticelive = (params) => post({ url: 'Live.noticelive', params})
 
+// 解除踢出用户
+export const relieveoutuser = (params) => post({ url: 'Chat.relieve_out_user', params})
+
+// 撤回消息
+export const withdrawmsg = (params) => post({ url: 'Chat.withdraw_msg', params})
+
+// 聊天室成员
+export const chatmember = (params) => post({ url: 'Chat.chat_member', params})
+
+// 弹幕
+export const bulletchat = (params) => post({ url: 'Chat.bullet_chat', params})
+
+// 喇叭
+export const chathorn = (params) => post({ url: 'Chat.chat_horn', params})
+
+// 退出
+export const chatlogout = (params) => post({ url: 'Chat.chat_logout', params})
+
+
 
 
