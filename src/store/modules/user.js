@@ -2,8 +2,8 @@ const state = {
     info:JSON.parse(sessionStorage.getItem('info'))||[],
     tabnav:0,
     isauth:false,
-    login:false
-
+    login:false,
+    liveDetail:{}
 }
 const mutations = {
     userinfo(state,param){
@@ -24,7 +24,10 @@ const mutations = {
     islogin(state,param){
         state.login =param
         sessionStorage.setItem('islogin', JSON.stringify(param))
-
+    },
+    liveDetailinfo(state,param){
+        state.liveDetail =param
+        sessionStorage.setItem('liveDetail', JSON.stringify(param))
     },
 
 }

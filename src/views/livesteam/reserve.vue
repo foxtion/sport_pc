@@ -4,97 +4,104 @@
       <span></span>
       <h3 class="fonth3">我的预约</h3>
     </div>
-    <div v-for="(item, index) in datalist" :key="index">
-      <p class="yytime">{{ item.addtime }}</p>
-      <div class="yycontent">
-        <div class="yyicon">
-          <div class="yyleft">
-            <div>
-              <img :src="item.game_details.main_logo" alt="" /><span>{{
-                item.game_details.main_name
-              }}</span
-              ><span>{{ item.game_details.main_fraction }}</span>
-            </div>
-            <div>
-              <img :src="item.game_details.events_logo" alt="" /><span>{{
-                item.game_details.deputy_name
-              }}</span
-              ><span>{{ item.game_details.deputy_fraction }}</span>
-            </div>
-          </div>
-          <div class="yycenter">
-            <div class="duiwu">
-              <p>{{ item.game_details.name_zh }}</p>
-              <span> {{ item.game_details.competition_time_text }} </span>
-            </div>
-            <div
-              v-if="item.game_details.is_make === 0"
-              class="yybtn"
-              @click="appointclick(item, index)"
-            >
-              预约
-            </div>
-            <div v-else class="nyybtn" @click="cancelclick(item,index)">取消预约</div>
-          </div>
-        </div>
-
-        <div class="yyright">
-          <public-swiper
-            :option="item.info"
-            :name="'top_game_' + index"
-            view="6"
-            :loop="false"
-            :autoplay="0"
-            height="74px"
-            width="480px"
-            className="egameTop_swiper"
-            swiperPage="egameTop_swiper"
-            v-if="datalist"
-          >
-            <template slot-scope="options">
-              <div
-                class="game_topList"
-                :key="options.options.game_id"
-                :class="{ changs_maintain: options.options.state == 3 }"
-              >
-                <div class="xxx1">
-                  <img :src="options.options.img_cn" class="game_logo" alt="" />
-                  <p class="p_title">{{ options.options.name_cn }}</p>
-                </div>
+    <div v-if="datalist.length>0">
+      <div v-for="(item, index) in datalist" :key="index">
+        <p class="yytime">{{ item.addtime }}</p>
+        <div class="yycontent">
+          <div class="yyicon">
+            <div class="yyleft">
+              <div>
+                <img :src="item.game_details.main_logo" alt="" /><span>{{
+                  item.game_details.main_name
+                }}</span
+                ><span>{{ item.game_details.main_fraction }}</span>
               </div>
-            </template>
-            <div
-              class="prevButton"
-              slot="prevButton"
-              v-if="item.game_details.length > 6"
-            >
-              <img
-                class="nextIcon"
-                src="../../assets/img/xiayiyean.png"
-                alt=""
-              />
+              <div>
+                <img :src="item.game_details.events_logo" alt="" /><span>{{
+                  item.game_details.deputy_name
+                }}</span
+                ><span>{{ item.game_details.deputy_fraction }}</span>
+              </div>
             </div>
-            <div
-              class="nextButton"
-              slot="nextButton"
-              v-if="item.game_details.length > 6"
-            >
-              <img
-                class="prevIcon"
-                src="../../assets/img/shangyiyean.png"
-                alt=""
-              />
+            <div class="yycenter">
+              <div class="duiwu">
+                <p>{{ item.game_details.name_zh }}</p>
+                <span> {{ item.game_details.competition_time_text }} </span>
+              </div>
+              <div
+                v-if="item.game_details.is_make === 0"
+                class="yybtn"
+                @click="appointclick(item, index)"
+              >
+                预约
+              </div>
+              <div v-else class="nyybtn" @click="cancelclick(item,index)">取消预约</div>
             </div>
-          </public-swiper>
+          </div>
+
+          <div class="yyright">
+            <public-swiper
+              :option="item.anchor"
+              :name="'top_game_' + index"
+              view="6"
+              :loop="false"
+              :autoplay="0"
+              height="74px"
+              width="480px"
+              className="egameTop_swiper"
+              swiperPage="egameTop_swiper"
+              v-if="datalist"
+            >
+              <template slot-scope="options">
+                <div
+                  class="game_topList"
+                  :key="options.options.uid"
+                  :class="{ changs_maintain: options.options.state == 3 }"
+                >
+                  <div class="xxx1">
+                    <img :src="options.options.avatar" class="game_logo" alt="" />
+                    <p class="p_title">{{ options.options.nick_name }}</p>
+                  </div>
+                </div>
+              </template>
+              <div
+                class="prevButton"
+                slot="prevButton"
+                v-if="item.game_details.length > 6"
+              >
+                <img
+                  class="nextIcon"
+                  src="../../assets/img/xiayiyean.png"
+                  alt=""
+                />
+              </div>
+              <div
+                class="nextButton"
+                slot="nextButton"
+                v-if="item.game_details.length > 6"
+              >
+                <img
+                  class="prevIcon"
+                  src="../../assets/img/shangyiyean.png"
+                  alt=""
+                />
+              </div>
+            </public-swiper>
+          </div>
         </div>
-      </div>
+      </div>  
     </div>
+     <no-data v-else></no-data>
   </div>
 </template>
 
 <script>
+import noData from "@/components/noData.vue";
 import { AppointmentList, cancelAppointment, appointment } from "@/api";
 export default {
+  components: {
+    noData,
+  },
   data() {
     return {
       datalist: [],
@@ -122,10 +129,10 @@ export default {
         source: "pc",
       };
       appointment(params).then((res) => {
-        if (res.code === 0) {
+        if (res.code === 300) {
           this.$message({
             type: "success",
-            message: res,
+            message: res.msg,
           });
 
           console.log(res);
@@ -133,7 +140,7 @@ export default {
         } else {
           this.$message({
             type: "erro",
-            message: res,
+            message: res.msg,
           });
         }
       });

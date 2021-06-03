@@ -1456,6 +1456,7 @@ export default {
       };
       liveDetail(params).then((res) => {
         this.liveDetailInfo = res.info;
+        this.$store.commit("liveDetailinfo", res.info);
         this.name_zh = res.info.game_details.name_zh;
         this.main_name = res.info.game_details.main_name;
         this.deputy_name = res.info.game_details.deputy_name;
