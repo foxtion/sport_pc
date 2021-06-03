@@ -146,7 +146,7 @@ export const withdrawmsg = (params) => post({ url: 'Chat.withdraw_msg', params})
 export const chatmember = (params) => post({ url: 'Chat.chat_member', params})
 
 // 弹幕
-export const chatmember = (params) => post({ url: 'Chat.chat_member', params})
+export const bulletchat = (params) => post({ url: 'Chat.bullet_chat', params})
 
 // 喇叭
 export const chathorn = (params) => post({ url: 'Chat.chat_horn', params})
