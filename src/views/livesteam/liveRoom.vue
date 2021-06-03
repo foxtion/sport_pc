@@ -518,7 +518,7 @@
               >
                 <div>
                   <img
-                    v-if="item.user.is_anchor == 0"
+                  v-if="item.uid != $route.query.liveuid"
                     :src="item.user.noble_icon"
                     width="20px"
                     style="margin: 5px 3px 5px 2px"
@@ -527,13 +527,13 @@
                 <span
                   style="margin-left: 5px; color: #4171e3"
                   @click="userInfoBtn(item)"
-                  v-if="item.user.is_anchor == 0"
+                  v-if="item.uid != $route.query.liveuid"
                 >
                   {{ item.user.nick_name }} :
                 </span>
                 <span
                   style="margin-left: 5px; color: #4171e3"
-                  v-if="item.user.is_anchor == 1"
+                  v-if="item.uid == $route.query.liveuid"
                 >
                   主播:
                 </span>
