@@ -1318,20 +1318,6 @@ export default {
         }
       });
     },
-    addToList() {
-      console.log("11111111111111111111111111111");
-      let list = [];
-      list.forEach((v) => {
-        this.barrageList.push({
-          id: v.id,
-          avatar: v.avatar,
-          msg: v.msg,
-          time: v.time,
-          //  type: MESSAGE_TYPE.NORMAL,
-          barrageStyle: v.barrageStyle,
-        });
-      });
-    },
     getanchorlist(type) {
       this.currentContribution = type;
       //主播榜  :日榜,week:
@@ -1395,7 +1381,7 @@ export default {
               id: data.uid,
               avatar: data.user.avatar,
               msg: data.content,
-              time: 10,
+              time: Math.ceil(Math.random()*10+3),
               barrageStyle:
                 data.user.noble_name == "皇帝"
                   ? "huangdi"
