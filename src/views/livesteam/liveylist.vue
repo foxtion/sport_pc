@@ -37,7 +37,7 @@
           <span
             class="span8"
             :class="elem.isnow === '0' ? 'isshow' : 'noshow'"
-            >{{ elem.isnow === "0" ? "预约" : "已预约" }}</span
+            @click="appointmentcliclk(elem,index)">{{ elem.isnow === "0" ? "预约" : "已预约" }}</span
           >
         </li>
       </ul>
@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import { noticelive } from "@/api";
+import { noticelive, cancelAppointment, appointment } from "@/api";
 
 export default {
   data() {
@@ -134,7 +134,10 @@ export default {
     };
   },
   mounted() {
+    this.user = JSON.parse(window.localStorage.getItem("user"));
+    this.token = window.localStorage.token;
     this.getnoticelive()
+
   },
   methods: {
     listactive(item, index) {
@@ -143,16 +146,75 @@ export default {
     },
     getnoticelive(){
       const param = {
-        live_uid:'',
-        stream:'',
-        live_class_id:'',
+        live_uid:this.$store.state.user.liveDetail.id,
+        stream:this.$store.state.user.liveDetail.stream,
+        live_class_id:this.$store.state.user.liveDetail.live_class_id,
         source:'pc'
       }
+      console.log(this.$store.state.user,'预约--------------------------------------------')
       noticelive(param).then(res=>{
         if(res.code===0){
-          console.log(res)
+          console.log(res,'预约详情-----------------------------------------')
         }
       })
+    },
+    appointmentcliclk(elem,index){
+      console.log(elem)
+      return
+      if(elem.isnow==='0'){
+         const params = {
+        uid: this.user.id,
+        token: this.token,
+        game_status: elem.game_status,
+        game_id: elem.game_id,
+        game_type: elem.game_type,
+        gametime: elem.gametime,
+        game_details:JSON.stringify(elem.game_details) ,
+        source: "pc",
+      };
+      appointment(params).then((res) => {
+        if (res.code === 300) {
+          this.$message({
+            type: "success",
+            message: res.msg,
+          });
+
+          console.log(res);
+          this.getmentList();
+        } else {
+          this.$message({
+            type: "erro",
+            message: res.msg,
+          });
+        }
+      });
+
+      }
+      if(elem.isnow==='1'){
+        const params = {
+        uid: this.user.id,
+        token: this.token,
+        game_id: elem.game_id,
+        game_type: elem.game_type,
+        source: "pc",
+      };
+      cancelAppointment(params).then((res) => {
+        if (res.code === 0) {
+          this.$message({
+            type: "success",
+            message: res,
+          });
+
+          console.log(res);
+          this.getmentList();
+        } else {
+          this.$message({
+            type: "erro",
+            message: res,
+          });
+        }
+      });
+      }
     }
   },
 };

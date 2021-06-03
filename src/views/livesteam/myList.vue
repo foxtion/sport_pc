@@ -14,7 +14,7 @@
           >{{ item.name }}</span
         >
       </div>
-      <div class="top-t">
+      <div class="top-t" v-if="anchorlist.length > 0">
         <div v-for="(item, index) in anchorlist13" :key="index" class="top1">
           <div class="toppic">
             <div class="pic">
@@ -23,35 +23,37 @@
               <i class="paiming"></i>
             </div>
           </div>
-          <p class="topname">{{item.live_user.nick_name}} <img :src="item.live_user.noble_icon" alt="" /></p>
-          <p class="hotpeo"><i></i>{{ item.total}}</p>
-          <div v-if="item.is_follow === 0" class="guanzhu"  @click="gzckick(item, index)">+关注</div>
-          <div v-else class="noguangzhu"  @click="gzckick(item, index)">取消关注</div>
-        </div>
-        <!-- <div class="top2">
-          <div class="toppic">
-            <div class="pic">
-              <img src="../../assets/img/tv.png" alt="" />
-              <i class="huangguan"></i>
-              <i class="paiming"></i>
-            </div>
+          <p class="topname">
+            {{ item.live_user.nick_name }}
+            <img :src="item.live_user.noble_icon" alt="" />
+          </p>
+          <p class="hotpeo"><i></i>{{ item.total }}</p>
+          <div
+            v-if="item.is_follow === 0"
+            class="guanzhu"
+            @click="gzckick(item, index)"
+          >
+            +关注
           </div>
-          <p class="topname">美女修车<i></i></p>
-          <p class="hotpeo"><i></i>4.50w</p>
-          <div class="guanzhu">+关注</div>
-        </div>
-        <div class="top3">
-          <div class="toppic">
-            <div class="pic">
-              <img src="../../assets/img/tv.png" alt="" />
-              <i class="huangguan"></i>
-              <i class="paiming"></i>
-            </div>
+          <div v-else class="noguangzhu" @click="gzckick(item, index)">
+            取消关注
           </div>
-          <p class="topname">美女修车<i></i></p>
-          <p class="hotpeo"><i></i>4.50w</p>
-          <div class="guanzhu">+关注</div>
-        </div> -->
+        </div>
+        <div></div>
+      </div>
+      <div
+        style="
+          display: flex;
+          width: 100%;
+          height: 300px;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        "
+        v-else
+      >
+        <img src="../../assets/none2.png" alt="" />
+        <span style="color: #777">暂无数据</span>
       </div>
       <div class="listval" v-for="(item, index) in anchorlist" :key="index">
         <ul>
@@ -99,20 +101,32 @@
           >{{ item.name }}</span
         >
       </div>
-      <div class="top-t">
+      <div class="top-t" v-if="goldlist.length>0">
         <div v-for="(item, index) in goldlist13" :key="index" class="top1">
-         <div class="toppic">
+          <div class="toppic">
             <div class="pic">
               <img :src="item.live_user.avatar" alt="" />
               <i class="huangguan"></i>
               <i class="paiming"></i>
             </div>
           </div>
-          <p class="topname">{{item.live_user.nick_name}} <img :src="item.live_user.noble_icon" alt="" /></p>
-          <p class="hotpeo"><i></i>{{ item.total}}</p>
-        <div v-if="item.is_follow === 0" class="guanzhu"  @click="gzckick(item, index)" >+关注</div>
-          <div v-else class="noguangzhu"  @click="gzckick(item, index)">取消关注</div>
+          <p class="topname">
+            {{ item.live_user.nick_name }}
+            <img :src="item.live_user.noble_icon" alt="" />
+          </p>
+          <p class="hotpeo"><i></i>{{ item.total }}</p>
+          <div
+            v-if="item.is_follow === 0"
+            class="guanzhu"
+            @click="gzckick(item, index)"
+          >
+            +关注
+          </div>
+          <div v-else class="noguangzhu" @click="gzckick(item, index)">
+            取消关注
+          </div>
         </div>
+        
         <!-- <div class="top2">
           <div class="toppic">
             <div class="pic">
@@ -137,6 +151,20 @@
           <p class="hotpeo"><i></i>4.50w</p>
           <div class="guanzhu">+关注</div>
         </div> -->
+      </div>
+       <div
+        style="
+          display: flex;
+          width: 100%;
+          height: 300px;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        "
+        v-else
+      >
+        <img src="../../assets/none2.png" alt="" />
+        <span style="color: #777">暂无数据</span>
       </div>
       <div class="listval" v-for="(item, index) in goldlist" :key="index">
         <ul>
@@ -238,8 +266,7 @@ export default {
         console.log(res, "主播榜--------------");
         if (res.code === 0) {
           this.anchorlist = res.info.slice(4);
-          this.anchorlist13 =res.info.slice(0,3);
-           
+          this.anchorlist13 = res.info.slice(0, 3);
 
           console.log(this.anchorlist13);
         }
@@ -259,7 +286,7 @@ export default {
         console.log(res, "豪气榜--------------");
         if (res.code === 0) {
           this.goldlist = res.info.slice(4);
-          this.goldlist13 =res.info.slice(0,3);
+          this.goldlist13 = res.info.slice(0, 3);
 
           console.log(this.goldlist);
         }
@@ -381,9 +408,10 @@ export default {
 
     >div {
       text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
       .topname {
         font-size: 14px;
         font-family: PingFang SC, PingFang SC-Regular;
@@ -392,8 +420,9 @@ export default {
         color: #434a66;
         text-align: center;
         margin: 16px 0 7px 0px;
-        img{
-           display: inline-block;
+
+        img {
+          display: inline-block;
           width: 16px;
           height: 16px;
           margin-left: 3px;
@@ -443,20 +472,21 @@ export default {
         color: #ffffff;
         margin: 13px auto 0;
       }
+
       .noguangzhu {
-          width: 66px;
-          height: 26px;
-          // background: linear-gradient(90deg, #f27a2e, #f15b43 100%);
-          border-radius: 4px;
-          border: 1px solid #777;
-          line-height: 26px;
-          font-size: 13px;
-          font-family: PingFang SC, PingFang SC-Regular;
-          font-weight: 400;
-          text-align: CENTER;
-          color: #777;
-          margin 13px 0 0 0; 
-        }
+        width: 66px;
+        height: 26px;
+        // background: linear-gradient(90deg, #f27a2e, #f15b43 100%);
+        border-radius: 4px;
+        border: 1px solid #777;
+        line-height: 26px;
+        font-size: 13px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: CENTER;
+        color: #777;
+        margin: 13px 0 0 0;
+      }
     }
 
     div:nth-of-type(1) {
